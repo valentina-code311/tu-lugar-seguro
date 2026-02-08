@@ -32,15 +32,13 @@ const Header = () => {
               {link.label}
             </Link>
           ))}
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/agendar"
             className="ml-2 inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-cta text-cta-foreground hover:opacity-90 transition-opacity"
           >
             <MessageCircle className="w-4 h-4" />
             Agendar
-          </a>
+          </Link>
         </nav>
 
         {/* Mobile toggle */}
@@ -70,15 +68,14 @@ const Header = () => {
             </Link>
           ))}
           <div className="px-6 pt-2">
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/agendar"
+              onClick={() => setOpen(false)}
               className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-cta text-cta-foreground"
             >
               <MessageCircle className="w-4 h-4" />
-              Agendar por WhatsApp
-            </a>
+              Agendar
+            </Link>
           </div>
         </nav>
       )}

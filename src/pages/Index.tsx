@@ -59,18 +59,22 @@ const Index = () => {
               Acompaño a jóvenes y personas LGBTIQ+ desde un enfoque humanista y feminista para ver, nombrar y cambiar patrones sin compararte.
             </p>
             <div className="flex flex-wrap gap-4 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/agendar"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-cta text-cta-foreground font-semibold hover:opacity-90 transition-opacity text-base"
               >
                 <MessageCircle className="w-5 h-5" />
-                Agendar por WhatsApp
-              </a>
+                Agendar sesión
+              </Link>
+              <Link
+                to="/agendar#directo"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-accent text-accent font-medium hover:bg-accent/10 transition-colors text-sm"
+              >
+                ¿Ya me conoces? Agenda directo
+              </Link>
               <Link
                 to="/servicios"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-primary-foreground transition-colors text-base"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-primary-foreground transition-colors text-sm"
               >
                 Ver servicios
                 <ArrowRight className="w-4 h-4" />
