@@ -11,14 +11,11 @@ export const SOCIAL = {
   youtube: "https://www.youtube.com/@MaryenChamorroPsicologa",
 };
 
-export const CALENDLY_URL = "https://calendly.com/TU_CALENDLY_URL";
-
 export const NAV_LINKS = [
   { label: "Inicio", href: "/" },
   { label: "Sobre mí", href: "/sobre-mi" },
   { label: "Servicios", href: "/servicios" },
   { label: "Agenda", href: "/agenda" },
-  { label: "Agendar", href: "/agendar" },
   { label: "Talleres", href: "/talleres" },
   { label: "Escritos", href: "/blog" },
   { label: "Contacto", href: "/contacto" },
