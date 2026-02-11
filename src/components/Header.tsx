@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { Menu, X, MessageCircle } from "lucide-react";
+import { Menu, X, CalendarIcon } from "lucide-react";
 import { NAV_LINKS, WHATSAPP_URL } from "@/lib/constants";
 import logo from "@/assets/logo-maryen.png";
 
@@ -33,10 +33,10 @@ const Header = () => {
             </Link>
           ))}
           <Link
-            to="/agendar"
+            to="/agenda"
             className="ml-2 inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-cta text-cta-foreground hover:opacity-90 transition-opacity"
           >
-            <MessageCircle className="w-4 h-4" />
+            <CalendarIcon className="w-4 h-4" />
             Agendar
           </Link>
         </nav>
@@ -69,11 +69,11 @@ const Header = () => {
           ))}
           <div className="px-6 pt-2">
             <Link
-              to="/agendar"
+              to="/agenda"
               onClick={() => setOpen(false)}
               className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-cta text-cta-foreground"
             >
-              <MessageCircle className="w-4 h-4" />
+              <CalendarIcon className="w-4 h-4" />
               Agendar
             </Link>
           </div>

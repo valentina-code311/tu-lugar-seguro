@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { MessageCircle, Heart, Users, Calendar, ArrowRight } from "lucide-react";
-import { WHATSAPP_URL } from "@/lib/constants";
+import { Heart, Users, Calendar, ArrowRight } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 import metodo from "@/assets/metodo-4-pasos.png";
 
@@ -60,17 +59,11 @@ const Index = () => {
             </p>
             <div className="flex flex-wrap gap-4 animate-fade-in" style={{ animationDelay: "0.3s" }}>
               <Link
-                to="/agendar"
+                to="/agenda"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-cta text-cta-foreground font-semibold hover:opacity-90 transition-opacity text-base"
               >
-                <MessageCircle className="w-5 h-5" />
+                <Calendar className="w-5 h-5" />
                 Agendar sesión
-              </Link>
-              <Link
-                to="/agendar#directo"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-accent text-accent font-medium hover:bg-accent/10 transition-colors text-sm"
-              >
-                ¿Ya me conoces? Agenda directo
               </Link>
               <Link
                 to="/servicios"
@@ -167,15 +160,13 @@ const Index = () => {
           <p className="text-lg opacity-90 mb-8 text-primary-foreground">
             Cuidarte también es político. Da el primer paso hoy.
           </p>
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/agenda"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-card text-primary font-bold text-lg hover:opacity-90 transition-opacity"
           >
-            <MessageCircle className="w-5 h-5" />
-            Agendar por WhatsApp
-          </a>
+            <Calendar className="w-5 h-5" />
+            Agendar sesión
+          </Link>
         </div>
       </section>
     </>
