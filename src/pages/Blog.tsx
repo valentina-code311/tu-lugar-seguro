@@ -59,7 +59,7 @@ const Blog = () => {
           )}
           {filtered.map((post) => (
             <article key={post.slug} className="rounded-xl border border-border bg-card p-6 hover:shadow-lg transition-shadow">
-              <div className="flex items-center gap-3 mb-3 text-sm text-muted-foreground">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3 text-sm text-muted-foreground">
                 <span className="px-2 py-0.5 rounded-full bg-secondary text-xs font-medium">{post.category}</span>
                 <span>{new Date(post.date).toLocaleDateString("es-CO", { year: "numeric", month: "long", day: "numeric" })}</span>
                 <span>· {post.readTime} de lectura</span>

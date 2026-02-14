@@ -175,7 +175,7 @@ const Agenda = () => {
                       <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold">2</span>
                       Fecha
                     </h2>
-                    <div className="rounded-xl border border-border bg-card p-2 inline-block">
+                    <div className="rounded-xl border border-border bg-card p-2 w-full sm:w-auto sm:inline-block overflow-x-auto">
                       <Calendar
                         mode="single"
                         selected={selectedDate}
