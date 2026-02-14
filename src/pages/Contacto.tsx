@@ -37,15 +37,15 @@ const Contacto = () => (
 
       <div>
         <h2 className="text-xl font-bold mb-4">Redes sociales</h2>
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-3">
           <a href={SOCIAL.instagram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-lg bg-secondary hover:bg-muted transition-colors text-sm font-medium">
-            <Instagram className="w-5 h-5 text-accent" /> @maryenchamorro.psico
+            <Instagram className="w-5 h-5 text-accent shrink-0" /> @maryenchamorro.psico
           </a>
           <a href={SOCIAL.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-lg bg-secondary hover:bg-muted transition-colors text-sm font-medium">
-            <Linkedin className="w-5 h-5 text-accent" /> LinkedIn
+            <Linkedin className="w-5 h-5 text-accent shrink-0" /> LinkedIn
           </a>
           <a href={SOCIAL.youtube} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-lg bg-secondary hover:bg-muted transition-colors text-sm font-medium">
-            <Youtube className="w-5 h-5 text-accent" /> YouTube
+            <Youtube className="w-5 h-5 text-accent shrink-0" /> YouTube
           </a>
         </div>
       </div>

@@ -1,73 +1,107 @@
-# Welcome to your Lovable project
+# Tu Lugar Seguro - Maryen Chamorro Psicologia
 
-## Project info
+Sitio web profesional para la consulta de psicologia de **Maryen Chamorro**, psiciologa humanista y feminista especializada en jovenes y personas LGBTIQ+, ubicada en Cali, Colombia.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Descripcion
 
-## How can I edit this code?
+Tu Lugar Seguro es una aplicacion web que sirve como plataforma digital para la practica de psicologia de Maryen Chamorro. Ofrece informacion sobre servicios terapeuticos, un sistema de agendamiento de citas en linea, un blog con articulos sobre salud mental, y recursos eticos y de privacidad.
 
-There are several ways of editing your application.
+### Funcionalidades principales
 
-**Use Lovable**
+- **Agendamiento de citas**: Sistema interactivo con seleccion de servicio, calendario con disponibilidad en tiempo real, y formulario de datos del paciente. Integrado con Supabase y con opcion de contacto por WhatsApp.
+- **Catalogo de servicios**: Terapia individual, terapia de pareja/familia, y talleres bimensuales, con precios y descripcion detallada.
+- **Blog**: Articulos sobre salud mental organizados por categorias (limites, relaciones, LGBTIQ+, autoestima), con busqueda y filtrado.
+- **Informacion profesional**: Paginas sobre la psicologa, metodologia de 4 pasos, codigo de etica, y politica de privacidad.
+- **Contacto directo**: Boton flotante de WhatsApp y enlaces a redes sociales (Instagram, LinkedIn, YouTube).
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Stack tecnologico
 
-Changes made via Lovable will be committed automatically to this repo.
+| Categoria | Tecnologias |
+|-----------|------------|
+| Framework | React 18 + TypeScript |
+| Build | Vite |
+| Estilos | Tailwind CSS + shadcn/ui (Radix UI) |
+| Backend | Supabase (PostgreSQL) |
+| Formularios | React Hook Form + Zod |
+| Estado del servidor | TanStack React Query |
+| Rutas | React Router |
+| Iconos | Lucide React |
+| Testing | Vitest + Testing Library |
+| Linting | ESLint + TypeScript ESLint |
 
-**Use your preferred IDE**
+## Requisitos previos
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- [Node.js](https://nodejs.org/) (v18 o superior)
+- npm
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Instalacion
 
-Follow these steps:
+```bash
+# Clonar el repositorio
+git clone <URL_DEL_REPOSITORIO>
+cd tu-lugar-seguro
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+# Instalar dependencias
+npm install
 ```
 
-**Edit a file directly in GitHub**
+## Variables de entorno
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Crear un archivo `.env` en la raiz del proyecto con las siguientes variables:
 
-**Use GitHub Codespaces**
+```env
+VITE_SUPABASE_PROJECT_ID="tu_project_id"
+VITE_SUPABASE_PUBLISHABLE_KEY="tu_anon_key"
+VITE_SUPABASE_URL="https://tu_proyecto.supabase.co"
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Scripts disponibles
 
-## What technologies are used for this project?
+| Comando | Descripcion |
+|---------|------------|
+| `npm run dev` | Inicia el servidor de desarrollo (puerto 8080) |
+| `npm run build` | Genera el build de produccion |
+| `npm run build:dev` | Genera el build en modo desarrollo |
+| `npm run preview` | Previsualiza el build de produccion localmente |
+| `npm run lint` | Ejecuta ESLint sobre el codigo fuente |
+| `npm test` | Ejecuta las pruebas con Vitest |
+| `npm run test:watch` | Ejecuta las pruebas en modo watch |
 
-This project is built with:
+## Estructura del proyecto
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+src/
+  components/       # Componentes reutilizables (Header, Footer, Layout, WhatsAppButton)
+    ui/             # Componentes de shadcn/ui
+  pages/            # Paginas de la aplicacion
+    Index.tsx         # Inicio
+    SobreMi.tsx       # Sobre la psicologa
+    Servicios.tsx     # Servicios y precios
+    Agenda.tsx        # Agendamiento de citas
+    Talleres.tsx      # Talleres
+    Blog.tsx          # Listado del blog
+    BlogPost.tsx      # Articulo individual
+    Etica.tsx         # Codigo de etica
+    Privacidad.tsx    # Politica de privacidad
+    Contacto.tsx      # Contacto
+  hooks/            # Custom hooks (disponibilidad, toast, mobile)
+  integrations/     # Configuracion de Supabase (cliente y tipos)
+  data/             # Datos estaticos (posts del blog)
+  lib/              # Utilidades y constantes
+  assets/           # Imagenes y recursos estaticos
+supabase/
+  migrations/       # Migraciones de la base de datos
+```
 
-## How can I deploy this project?
+## Base de datos
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+El proyecto utiliza Supabase con las siguientes tablas:
 
-## Can I connect a custom domain to my Lovable project?
+- **services**: Servicios terapeuticos disponibles con precios y duracion
+- **weekly_availability**: Horarios semanales de atencion
+- **blocked_dates**: Fechas bloqueadas (vacaciones, festivos)
+- **appointments**: Citas agendadas por pacientes
 
-Yes, you can!
+## Despliegue
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+El proyecto puede desplegarse a traves de [Lovable](https://lovable.dev) usando la opcion Share > Publish, o mediante cualquier servicio compatible con aplicaciones Vite/React (Vercel, Netlify, etc.).
