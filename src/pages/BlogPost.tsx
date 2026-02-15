@@ -1,11 +1,36 @@
 import { useParams, Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, MessageCircle } from "lucide-react";
-import { blogPosts } from "@/data/blog-posts";
 import { WHATSAPP_URL } from "@/lib/constants";
+import ShareButtons from "@/components/ShareButtons";
+import ImageWithPlaceholder from "@/components/ImageWithPlaceholder";
+
+type Post = {
+  id: string; title: string; slug: string; excerpt: string | null;
+  content: string; tags: string[] | null; published_at: string | null;
+  reading_time_minutes: number | null; cover_image_url: string | null;
+};
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
-  const post = blogPosts.find((p) => p.slug === slug);
+
+  const { data: post, isLoading } = useQuery({
+    queryKey: ["post", slug],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("posts")
+        .select("*")
+        .eq("slug", slug!)
+        .eq("status", "published")
+        .maybeSingle();
+      if (error) throw error;
+      return data as Post | null;
+    },
+    enabled: !!slug,
+  });
+
+  if (isLoading) return <div className="py-20 text-center text-muted-foreground">Cargando…</div>;
 
   if (!post) {
     return (
@@ -16,11 +41,9 @@ const BlogPost = () => {
     );
   }
 
-  // Simple markdown-to-html: headings, blockquotes, bold, lists, hr
   const renderContent = (content: string) => {
     const lines = content.split("\n");
     const elements: JSX.Element[] = [];
-    let inList = false;
     let listItems: string[] = [];
 
     const flushList = () => {
@@ -35,7 +58,6 @@ const BlogPost = () => {
           </Tag>
         );
         listItems = [];
-        inList = false;
       }
     };
 
@@ -44,7 +66,6 @@ const BlogPost = () => {
 
     lines.forEach((line, i) => {
       const trimmed = line.trim();
-
       if (trimmed.startsWith("## ")) {
         flushList();
         elements.push(<h2 key={i} className="text-2xl font-bold mt-8 mb-3" id={trimmed.slice(3).toLowerCase().replace(/[^a-záéíóúñü\s]/g, "").replace(/\s+/g, "-")}>{trimmed.slice(3)}</h2>);
@@ -62,11 +83,7 @@ const BlogPost = () => {
         flushList();
         elements.push(<hr key={i} className="my-8 border-border" />);
       } else if (trimmed.startsWith("- ") || trimmed.match(/^\d+\.\s/)) {
-        inList = true;
         listItems.push(trimmed);
-      } else if (trimmed.startsWith("*") && trimmed.endsWith("*") && !trimmed.startsWith("**")) {
-        flushList();
-        elements.push(<p key={i} className="text-muted-foreground italic mb-4" dangerouslySetInnerHTML={{ __html: formatInline(trimmed.slice(1, -1)) }} />);
       } else if (trimmed) {
         flushList();
         elements.push(<p key={i} className="text-muted-foreground leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: formatInline(trimmed) }} />);
@@ -75,18 +92,18 @@ const BlogPost = () => {
       }
     });
     flushList();
-
     return elements;
   };
 
-  // Generate TOC
-  const headings = post.content.split("\n").filter((l) => l.trim().startsWith("## ") || l.trim().startsWith("### "));
-  const toc = headings.map((h) => {
+  const headings = post.content.split("\n").filter(l => l.trim().startsWith("## ") || l.trim().startsWith("### "));
+  const toc = headings.map(h => {
     const level = h.trim().startsWith("### ") ? 3 : 2;
     const text = h.trim().replace(/^#{2,3}\s/, "");
     const id = text.toLowerCase().replace(/[^a-záéíóúñü\s]/g, "").replace(/\s+/g, "-");
     return { level, text, id };
   });
+
+  const postUrl = `${window.location.origin}/blog/${post.slug}`;
 
   return (
     <section className="py-16 md:py-24 bg-card" aria-labelledby="post-title">
@@ -95,20 +112,27 @@ const BlogPost = () => {
           <ArrowLeft className="w-4 h-4" /> Volver a escritos
         </Link>
 
+        {post.cover_image_url && (
+          <ImageWithPlaceholder src={post.cover_image_url} alt={post.title} className="w-full h-56 md:h-72 object-cover rounded-xl mb-6" />
+        )}
+
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 text-sm text-muted-foreground">
-          <span className="px-2 py-0.5 rounded-full bg-secondary text-xs font-medium">{post.category}</span>
-          <span>{new Date(post.date).toLocaleDateString("es-CO", { year: "numeric", month: "long", day: "numeric" })}</span>
-          <span>· {post.readTime} de lectura</span>
+          {post.tags?.map(t => <span key={t} className="px-2 py-0.5 rounded-full bg-secondary text-xs font-medium">{t}</span>)}
+          {post.published_at && <span>{new Date(post.published_at).toLocaleDateString("es-CO", { year: "numeric", month: "long", day: "numeric" })}</span>}
+          {post.reading_time_minutes && <span>· {post.reading_time_minutes} min de lectura</span>}
         </div>
 
-        <h1 id="post-title" className="text-3xl md:text-4xl font-bold mb-8">{post.title}</h1>
+        <h1 id="post-title" className="text-3xl md:text-4xl font-bold mb-6">{post.title}</h1>
 
-        {/* TOC */}
+        <div className="mb-8">
+          <ShareButtons url={postUrl} title={post.title} text={post.excerpt || undefined} />
+        </div>
+
         {toc.length > 2 && (
           <nav className="mb-10 p-4 rounded-lg bg-secondary border border-border" aria-label="Índice del artículo">
             <h2 className="font-semibold text-sm mb-2">En este artículo</h2>
             <ul className="space-y-1">
-              {toc.map((h) => (
+              {toc.map(h => (
                 <li key={h.id} className={h.level === 3 ? "ml-4" : ""}>
                   <a href={`#${h.id}`} className="text-sm text-muted-foreground hover:text-primary transition-colors">{h.text}</a>
                 </li>
@@ -119,17 +143,14 @@ const BlogPost = () => {
 
         <article className="prose-custom">{renderContent(post.content)}</article>
 
-        {/* CTA */}
+        <div className="mt-8 pt-6 border-t border-border">
+          <ShareButtons url={postUrl} title={post.title} text={post.excerpt || undefined} />
+        </div>
+
         <div className="mt-12 p-6 rounded-xl gradient-primary text-center">
           <p className="text-lg font-semibold mb-3 text-primary-foreground">¿Te acompaño?</p>
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-card text-primary font-bold hover:opacity-90 transition-opacity"
-          >
-            <MessageCircle className="w-5 h-5" />
-            Agendar por WhatsApp
+          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-card text-primary font-bold hover:opacity-90 transition-opacity">
+            <MessageCircle className="w-5 h-5" /> Agendar por WhatsApp
           </a>
         </div>
       </div>
