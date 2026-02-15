@@ -1,0 +1,10 @@
+services:
+  c311-front:
+    container_name: c311-front
+    build:
+      context: .
+      dockerfile: ./docker/front.Dockerfile
+    ports:
+      - "8081:80"
+    environment:
+      - VITE_API_URL=http://localhost:8080
