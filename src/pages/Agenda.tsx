@@ -1,361 +1,154 @@
+import Layout from "@/components/layout/Layout";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
-import { MessageCircle, Clock, CheckCircle, AlertTriangle, CalendarIcon, ArrowRight, Info } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
-import { WHATSAPP_URL, WHATSAPP_NUMBER, EMAIL } from "@/lib/constants";
-import { useServices, useAvailableSlots, useBlockedDates, useWeeklyAvailability } from "@/hooks/use-availability";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
-import type { TimeSlot } from "@/hooks/use-availability";
+import { services } from "@/data/mockData";
+
+const daysOfWeek = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+const timeSlots = ["9:00 AM", "10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"];
 
 const Agenda = () => {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
-  const [selectedService, setSelectedService] = useState<string>("");
-  const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
-  const [step, setStep] = useState<"select" | "form" | "success">("select");
-  const [submitting, setSubmitting] = useState(false);
+  const [selectedService, setSelectedService] = useState("");
+  const [selectedDate, setSelectedDate] = useState<number | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
-  const [form, setForm] = useState({
-    nombre: "",
-    pronombres: "",
-    correo: "",
-    telefono: "",
-    mensaje: "",
-    modalidad: "online",
-    consentimiento: false,
-  });
-
-  const { data: services = [] } = useServices();
-  const selectedSvc = services.find((s) => s.id === selectedService);
-  const duration = selectedSvc?.duration_minutes || 60;
-
-  const { data: slots = [], isLoading: slotsLoading } = useAvailableSlots(selectedDate, duration);
-  const { data: blockedDates = [] } = useBlockedDates();
-  const { data: availableDays = [] } = useWeeklyAvailability();
-
-  const isDateDisabled = (date: Date) => {
-    if (date < new Date(new Date().toDateString())) return true;
-    if (!availableDays.includes(date.getDay())) return true;
-    if (blockedDates.some((d) => d.toDateString() === date.toDateString())) return true;
-    return false;
-  };
-
-  const handleSlotSelect = (slot: TimeSlot) => {
-    setSelectedSlot(slot);
-    setStep("form");
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedDate || !selectedSlot || !selectedService) return;
-
-    setSubmitting(true);
-    try {
-      const { error } = await supabase.from("appointments").insert({
-        service_id: selectedService,
-        appointment_date: format(selectedDate, "yyyy-MM-dd"),
-        start_time: selectedSlot.start,
-        end_time: selectedSlot.end,
-        client_name: form.nombre.trim(),
-        client_pronouns: form.pronombres.trim() || null,
-        client_email: form.correo.trim(),
-        client_phone: form.telefono.trim() || null,
-        client_message: form.mensaje.trim() || null,
-        modality: form.modalidad,
-        consent_accepted: form.consentimiento,
-      });
-
-      if (error) throw error;
-      setStep("success");
-      toast({ title: "¡Reserva enviada!", description: "Recibirás confirmación pronto." });
-    } catch {
-      toast({ title: "Error al reservar", description: "Inténtalo de nuevo o escríbenos por WhatsApp.", variant: "destructive" });
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const handleWhatsApp = () => {
-    const svcName = selectedSvc?.name || "";
-    const dateStr = selectedDate ? format(selectedDate, "EEEE d 'de' MMMM", { locale: es }) : "";
-    const timeStr = selectedSlot ? `${selectedSlot.start} – ${selectedSlot.end}` : "";
-    const msg = `Hola Maryen, me gustaría agendar una sesión.\n\nServicio: ${svcName}\nFecha: ${dateStr}\nHorario: ${timeStr}\nNombre: ${form.nombre}\nPronombres: ${form.pronombres}\nModalidad: ${form.modalidad}`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
-  };
-
-  const resetAll = () => {
-    setStep("select");
-    setSelectedDate(undefined);
-    setSelectedSlot(null);
-    setSelectedService("");
-    setForm({ nombre: "", pronombres: "", correo: "", telefono: "", mensaje: "", modalidad: "online", consentimiento: false });
-  };
-
-  const formatPrice = (price: number) =>
-    new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(price);
+  const today = new Date();
+  const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1).getDay();
+  const monthName = today.toLocaleDateString("es-ES", { month: "long", year: "numeric" });
 
   return (
-    <>
-      <section className="py-16 md:py-24 bg-card" aria-labelledby="agenda-title">
-        <div className="container max-w-4xl">
-          <h1 id="agenda-title" className="text-4xl md:text-5xl font-bold mb-4">
-            Agenda tu sesión
-          </h1>
-          <p className="text-lg text-muted-foreground mb-10 max-w-xl">
-            Elige el servicio, fecha y horario que prefieras. También puedes escribirme directamente por WhatsApp.
-          </p>
+    <Layout>
+      <section className="bg-surface py-16 lg:py-20">
+        <div className="container mx-auto px-4">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-3xl text-center">
+            <span className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">Agenda</span>
+            <h1 className="mt-3 font-display text-4xl font-bold text-foreground lg:text-5xl">Reserva tu cita</h1>
+            <p className="mt-4 text-muted-foreground">Selecciona el servicio, fecha y hora que mejor se adapte a ti.</p>
+          </motion.div>
+        </div>
+      </section>
 
-          {/* Success state */}
-          {step === "success" && (
-            <div className="rounded-xl border border-accent bg-accent/10 p-8 text-center">
-              <CheckCircle className="w-12 h-12 text-accent mx-auto mb-4" />
-              <h2 className="text-2xl font-bold mb-2">¡Solicitud recibida!</h2>
-              <p className="text-muted-foreground mb-2">
-                Tu solicitud de sesión de <strong>{selectedSvc?.name}</strong> para el{" "}
-                <strong>{selectedDate && format(selectedDate, "EEEE d 'de' MMMM", { locale: es })}</strong> a las{" "}
-                <strong>{selectedSlot?.start}</strong> ha sido registrada.
-              </p>
-              <p className="text-muted-foreground mb-6">
-                Confirmaré tu cita por correo o WhatsApp en las próximas 24h hábiles. Recuerda que la reserva se confirma con el 50% de anticipo.
-              </p>
-              <div className="flex flex-wrap justify-center gap-3">
-                <button onClick={resetAll} className="px-6 py-3 rounded-lg border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-primary-foreground transition-colors">
-                  Agendar otra sesión
-                </button>
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-cta text-cta-foreground font-semibold hover:opacity-90 transition-opacity">
-                  <MessageCircle className="w-4 h-4" /> Confirmar por WhatsApp
-                </a>
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-2">
+            {/* Calendar */}
+            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="rounded-2xl border border-border bg-surface p-6 shadow-soft">
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="font-display text-lg font-semibold capitalize text-foreground">{monthName}</h3>
+                <div className="flex gap-1">
+                  <Button variant="ghost" size="icon" className="h-8 w-8"><ChevronLeft className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8"><ChevronRight className="h-4 w-4" /></Button>
+                </div>
               </div>
-            </div>
-          )}
+              <div className="grid grid-cols-7 gap-1 text-center">
+                {daysOfWeek.map((d) => (
+                  <div key={d} className="py-2 text-xs font-medium text-muted-foreground">{d}</div>
+                ))}
+                {Array.from({ length: (firstDay + 6) % 7 }).map((_, i) => (
+                  <div key={`empty-${i}`} />
+                ))}
+                {Array.from({ length: daysInMonth }).map((_, i) => {
+                  const day = i + 1;
+                  const isPast = day < today.getDate();
+                  const isWeekend = new Date(today.getFullYear(), today.getMonth(), day).getDay() % 6 === 0;
+                  return (
+                    <button
+                      key={day}
+                      disabled={isPast || isWeekend}
+                      onClick={() => setSelectedDate(day)}
+                      className={`rounded-lg py-2 text-sm transition-colors ${
+                        selectedDate === day
+                          ? "bg-primary text-primary-foreground"
+                          : isPast || isWeekend
+                          ? "text-muted-foreground/40"
+                          : "text-foreground hover:bg-cream"
+                      }`}
+                    >
+                      {day}
+                    </button>
+                  );
+                })}
+              </div>
 
-          {step !== "success" && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Left column: Service + Calendar + Slots */}
-              <div className="space-y-6">
-                {/* Step 1: Service */}
-                <div>
-                  <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-2">
-                    <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold">1</span>
-                    Tipo de sesión
-                  </h2>
-                  <div className="space-y-2">
-                    {services.map((svc) => (
+              {selectedDate && (
+                <div className="mt-6">
+                  <h4 className="mb-3 text-sm font-semibold text-foreground">Horarios disponibles:</h4>
+                  <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+                    {timeSlots.map((time) => (
                       <button
-                        key={svc.id}
-                        onClick={() => {
-                          setSelectedService(svc.id);
-                          setSelectedSlot(null);
-                          setStep("select");
-                        }}
-                        className={`w-full text-left p-4 rounded-lg border transition-colors ${
-                          selectedService === svc.id
-                            ? "border-primary bg-primary/5"
-                            : "border-border hover:border-accent"
+                        key={time}
+                        onClick={() => setSelectedTime(time)}
+                        className={`rounded-lg border px-3 py-2 text-xs font-medium transition-colors ${
+                          selectedTime === time
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-border text-muted-foreground hover:border-primary hover:text-foreground"
                         }`}
                       >
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <p className="font-semibold text-sm">{svc.name}</p>
-                            <p className="text-xs text-muted-foreground">{svc.duration_minutes} min</p>
-                          </div>
-                          <span className="text-sm font-bold text-primary">{formatPrice(svc.price)}</span>
-                        </div>
+                        {time}
                       </button>
                     ))}
                   </div>
                 </div>
+              )}
+            </motion.div>
 
-                {/* Step 2: Calendar */}
-                {selectedService && (
+            {/* Form */}
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="rounded-2xl border border-border bg-surface p-6 shadow-soft">
+              <h3 className="mb-6 font-display text-lg font-semibold text-foreground">Datos de la reserva</h3>
+              <form className="space-y-4">
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-foreground">Servicio</label>
+                  <select
+                    value={selectedService}
+                    onChange={(e) => setSelectedService(e.target.value)}
+                    className="flex h-10 w-full rounded-md border border-input bg-surface px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
+                  >
+                    <option value="">Selecciona un servicio</option>
+                    {services.map((s) => (
+                      <option key={s.id} value={s.id}>{s.title} — {s.price}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-2">
-                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold">2</span>
-                      Fecha
-                    </h2>
-                    <div className="rounded-xl border border-border bg-card p-2 w-full sm:w-auto sm:inline-block overflow-x-auto">
-                      <Calendar
-                        mode="single"
-                        selected={selectedDate}
-                        onSelect={(d) => {
-                          setSelectedDate(d);
-                          setSelectedSlot(null);
-                          setStep("select");
-                        }}
-                        disabled={isDateDisabled}
-                        locale={es}
-                        className="pointer-events-auto"
-                        fromDate={new Date()}
-                      />
-                    </div>
+                    <label className="mb-1 block text-sm font-medium text-foreground">Nombre</label>
+                    <Input placeholder="Tu nombre completo" />
                   </div>
-                )}
-
-                {/* Step 3: Time slots */}
-                {selectedDate && selectedService && (
                   <div>
-                    <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-2">
-                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold">3</span>
-                      Horario disponible
-                    </h2>
-                    {slotsLoading ? (
-                      <p className="text-sm text-muted-foreground">Cargando horarios…</p>
-                    ) : slots.length === 0 ? (
-                      <p className="text-sm text-muted-foreground">No hay horarios disponibles este día. Intenta otro día o escríbeme por WhatsApp.</p>
-                    ) : (
-                      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                        {slots.map((slot) => (
-                          <button
-                            key={slot.start}
-                            onClick={() => handleSlotSelect(slot)}
-                            className={`px-3 py-2 rounded-lg text-sm font-medium border transition-colors ${
-                              selectedSlot?.start === slot.start
-                                ? "border-primary bg-primary text-primary-foreground"
-                                : "border-border hover:border-accent hover:bg-accent/5"
-                            }`}
-                          >
-                            {slot.start}
-                          </button>
-                        ))}
-                      </div>
-                    )}
+                    <label className="mb-1 block text-sm font-medium text-foreground">Email</label>
+                    <Input type="email" placeholder="tu@email.com" />
+                  </div>
+                </div>
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-foreground">Teléfono</label>
+                  <Input placeholder="+57 300 123 4567" />
+                </div>
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-foreground">Notas (opcional)</label>
+                  <Textarea placeholder="¿Algo que quieras comentarme antes de la sesión?" rows={3} />
+                </div>
+
+                {selectedDate && selectedTime && (
+                  <div className="rounded-xl bg-cream p-4">
+                    <p className="text-sm text-foreground">
+                      <span className="font-semibold">Resumen:</span> {selectedDate} de {monthName} a las {selectedTime}
+                    </p>
                   </div>
                 )}
-              </div>
 
-              {/* Right column: Booking form or info */}
-              <div>
-                {step === "form" && selectedSlot && selectedSvc ? (
-                  <div className="rounded-xl border border-border bg-secondary/50 p-6">
-                    {/* Summary */}
-                    <div className="rounded-lg bg-card border border-border p-4 mb-6">
-                      <h3 className="font-semibold text-sm mb-2">Resumen</h3>
-                      <p className="text-sm text-muted-foreground">
-                        <strong>{selectedSvc.name}</strong><br />
-                        {selectedDate && format(selectedDate, "EEEE d 'de' MMMM 'de' yyyy", { locale: es })}<br />
-                        {selectedSlot.start} – {selectedSlot.end} ({selectedSvc.duration_minutes} min)<br />
-                        <strong>{formatPrice(selectedSvc.price)}</strong>
-                      </p>
-                    </div>
-
-                    <h2 className="font-bold mb-4 flex items-center gap-2">
-                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold">4</span>
-                      Tus datos
-                    </h2>
-                    <form onSubmit={handleSubmit} className="space-y-3">
-                      <div>
-                        <label htmlFor="nombre" className="block text-sm font-medium mb-1">Nombre *</label>
-                        <input id="nombre" type="text" required maxLength={100} className="w-full px-3 py-2 rounded-lg border border-input bg-card text-foreground text-sm" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
-                      </div>
-                      <div>
-                        <label htmlFor="pronombres" className="block text-sm font-medium mb-1">Pronombres</label>
-                        <input id="pronombres" type="text" maxLength={50} placeholder="elle, ella, él" className="w-full px-3 py-2 rounded-lg border border-input bg-card text-foreground text-sm" value={form.pronombres} onChange={(e) => setForm({ ...form, pronombres: e.target.value })} />
-                      </div>
-                      <div>
-                        <label htmlFor="correo" className="block text-sm font-medium mb-1">Correo electrónico *</label>
-                        <input id="correo" type="email" required maxLength={255} className="w-full px-3 py-2 rounded-lg border border-input bg-card text-foreground text-sm" value={form.correo} onChange={(e) => setForm({ ...form, correo: e.target.value })} />
-                      </div>
-                      <div>
-                        <label htmlFor="telefono" className="block text-sm font-medium mb-1">Teléfono / WhatsApp</label>
-                        <input id="telefono" type="tel" maxLength={20} className="w-full px-3 py-2 rounded-lg border border-input bg-card text-foreground text-sm" value={form.telefono} onChange={(e) => setForm({ ...form, telefono: e.target.value })} />
-                      </div>
-                      <div>
-                        <label htmlFor="mensaje" className="block text-sm font-medium mb-1">Breve motivo de consulta</label>
-                        <textarea id="mensaje" rows={2} maxLength={500} className="w-full px-3 py-2 rounded-lg border border-input bg-card text-foreground text-sm resize-none" value={form.mensaje} onChange={(e) => setForm({ ...form, mensaje: e.target.value })} />
-                      </div>
-                      <div>
-                        <label htmlFor="modalidad" className="block text-sm font-medium mb-1">Modalidad</label>
-                        <select id="modalidad" className="w-full px-3 py-2 rounded-lg border border-input bg-card text-foreground text-sm" value={form.modalidad} onChange={(e) => setForm({ ...form, modalidad: e.target.value })}>
-                          <option value="online">Online</option>
-                          <option value="presencial">Presencial (Zona Norte, Cali)</option>
-                        </select>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <input id="consentimiento" type="checkbox" required checked={form.consentimiento} onChange={(e) => setForm({ ...form, consentimiento: e.target.checked })} className="mt-1 accent-cta" />
-                        <label htmlFor="consentimiento" className="text-xs text-muted-foreground">
-                          Acepto que mis datos sean utilizados para gestionar mi cita. Puedo ejercer mis derechos escribiendo a {EMAIL}.
-                        </label>
-                      </div>
-                      <div className="flex flex-col gap-2 pt-2">
-                        <button type="submit" disabled={submitting} className="w-full py-3 rounded-lg bg-cta text-cta-foreground font-semibold hover:opacity-90 transition-opacity disabled:opacity-50">
-                          {submitting ? "Enviando…" : "Confirmar reserva"}
-                        </button>
-                        <button type="button" onClick={handleWhatsApp} className="w-full py-3 rounded-lg border-2 border-cta text-cta font-semibold hover:bg-cta/10 transition-colors inline-flex items-center justify-center gap-2">
-                          <MessageCircle className="w-4 h-4" /> Prefiero agendar por WhatsApp
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                ) : (
-                  <div className="space-y-6">
-                    {/* Info card */}
-                    <div className="rounded-xl border border-border bg-secondary/50 p-6">
-                      <h2 className="font-semibold mb-3 flex items-center gap-2">
-                        <Clock className="w-4 h-4 text-accent" />
-                        Horarios de atención
-                      </h2>
-                      <ul className="text-sm text-muted-foreground space-y-1">
-                        <li>Lunes a viernes: 8:00 – 12:00 / 13:30 – 19:00</li>
-                        <li>Sábados: 8:00 – 11:00</li>
-                        <li className="text-xs">No se atiende domingos ni festivos.</li>
-                      </ul>
-                    </div>
-
-                    <div className="rounded-xl border border-border bg-secondary/50 p-6">
-                      <h2 className="font-semibold mb-3 flex items-center gap-2">
-                        <Info className="w-4 h-4 text-accent" />
-                        Reserva y cancelación
-                      </h2>
-                      <ul className="text-sm text-muted-foreground space-y-2">
-                        <li>Reserva con el 50% anticipado (efectivo, Nequi o transferencia).</li>
-                        <li><strong>Online:</strong> cancelar con ≥1 hora. <strong>Presencial:</strong> ≥3 horas.</li>
-                        <li>Dentro de ventana: devolución parcial 40% o reprogramación.</li>
-                        <li>Si la profesional cancela: reprogramación prioritaria o devolución total.</li>
-                      </ul>
-                    </div>
-
-                    {/* WhatsApp direct */}
-                    <div className="rounded-xl border border-accent bg-accent/5 p-6 text-center">
-                      <h2 className="font-bold mb-2">¿Prefieres escribirme?</h2>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        Si es tu primera vez o prefieres orientación, escríbeme directamente.
-                      </p>
-                      <a
-                        href={WHATSAPP_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-cta text-cta-foreground font-semibold hover:opacity-90 transition-opacity"
-                      >
-                        <MessageCircle className="w-5 h-5" />
-                        Escribir por WhatsApp
-                      </a>
-                      <p className="text-xs text-muted-foreground mt-3">Respondo en 24–48h hábiles.</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Disclaimer */}
-      <section className="py-8 bg-secondary border-t border-border">
-        <div className="container max-w-4xl">
-          <div className="flex items-start gap-3">
-            <AlertTriangle className="w-5 h-5 text-accent mt-0.5 shrink-0" />
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Este agendamiento no es para emergencias. Si estás en riesgo o necesitas ayuda inmediata, contacta:{" "}
-              <strong>106</strong> (orientación en salud mental) o <strong>123</strong> (emergencias).{" "}
-              <Link to="/privacidad" className="underline hover:text-primary">Política de privacidad</Link> ·{" "}
-              <Link to="/etica" className="underline hover:text-primary">Marco ético</Link>
-            </p>
+                <Button type="button" className="w-full gap-2" size="lg" disabled={!selectedDate || !selectedTime || !selectedService}>
+                  <Calendar className="h-4 w-4" /> Confirmar reserva
+                </Button>
+              </form>
+            </motion.div>
           </div>
         </div>
       </section>
-    </>
+    </Layout>
   );
 };
 

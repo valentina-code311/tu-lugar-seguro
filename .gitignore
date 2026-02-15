@@ -1,5 +1,6 @@
 conn/*.env
 conn/*.json
+temp/
 
 # Logs
 logs

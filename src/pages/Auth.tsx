@@ -1,46 +1,122 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/hooks/use-auth";
+import { supabase } from "@/integrations/supabase/client";
+import Layout from "@/components/layout/Layout";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { motion } from "framer-motion";
 import { toast } from "@/hooks/use-toast";
 
 const Auth = () => {
+  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await signIn(email, password);
-    if (error) {
-      toast({ title: "Error de acceso", description: error.message, variant: "destructive" });
-    } else {
-      navigate("/admin");
+
+    try {
+      if (isLogin) {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        toast({ title: "¡Bienvenida!", description: "Has iniciado sesión correctamente." });
+        navigate("/");
+      } else {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { full_name: fullName },
+            emailRedirectTo: window.location.origin,
+          },
+        });
+        if (error) throw error;
+        toast({
+          title: "Cuenta creada",
+          description: "Revisa tu email para confirmar tu cuenta.",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-background py-16">
-      <div className="w-full max-w-sm mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-8">Acceso administrador</h1>
-        <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border border-border bg-card p-6">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-1">Correo</label>
-            <input id="email" type="email" required value={email} onChange={e => setEmail(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-input bg-background text-foreground text-sm" />
+    <Layout>
+      <section className="flex min-h-[70vh] items-center justify-center py-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-md rounded-2xl border border-border bg-surface p-8 shadow-card"
+        >
+          <div className="mb-6 text-center">
+            <h1 className="font-display text-2xl font-bold text-foreground">
+              {isLogin ? "Iniciar sesión" : "Crear cuenta"}
+            </h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {isLogin ? "Accede a tu portal personal" : "Únete a la comunidad"}
+            </p>
           </div>
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium mb-1">Contraseña</label>
-            <input id="password" type="password" required value={password} onChange={e => setPassword(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-input bg-background text-foreground text-sm" />
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {!isLogin && (
+              <div>
+                <label className="mb-1 block text-sm font-medium text-foreground">Nombre completo</label>
+                <Input
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Tu nombre"
+                  required={!isLogin}
+                />
+              </div>
+            )}
+            <div>
+              <label className="mb-1 block text-sm font-medium text-foreground">Email</label>
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="tu@email.com"
+                required
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-medium text-foreground">Contraseña</label>
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                minLength={6}
+              />
+            </div>
+            <Button type="submit" className="w-full" size="lg" disabled={loading}>
+              {loading ? "Cargando..." : isLogin ? "Iniciar sesión" : "Crear cuenta"}
+            </Button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => setIsLogin(!isLogin)}
+              className="text-sm text-secondary transition-colors hover:text-primary"
+            >
+              {isLogin ? "¿No tienes cuenta? Regístrate" : "¿Ya tienes cuenta? Inicia sesión"}
+            </button>
           </div>
-          <button type="submit" disabled={loading} className="w-full py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50">
-            {loading ? "Ingresando…" : "Ingresar"}
-          </button>
-        </form>
-      </div>
-    </section>
+        </motion.div>
+      </section>
+    </Layout>
   );
 };
 

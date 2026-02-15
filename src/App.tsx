@@ -3,26 +3,20 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
+import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
-import SobreMi from "./pages/SobreMi";
-import Servicios from "./pages/Servicios";
+import About from "./pages/About";
+import Services from "./pages/Services";
+import Shop from "./pages/Shop";
+import Infoproducts from "./pages/Infoproducts";
 import Agenda from "./pages/Agenda";
-import Talleres from "./pages/Talleres";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
-import Etica from "./pages/Etica";
-import Privacidad from "./pages/Privacidad";
-import Contacto from "./pages/Contacto";
+import Contact from "./pages/Contact";
+import Legal from "./pages/Legal";
 import Auth from "./pages/Auth";
+import AdminLayout from "./components/admin/AdminLayout";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import ThemePreview from "./pages/admin/ThemePreview";
 import NotFound from "./pages/NotFound";
-import ProtectedRoute from "./components/ProtectedRoute";
-import AdminLayout from "./components/AdminLayout";
-import Dashboard from "./pages/admin/Dashboard";
-import AdminServicios from "./pages/admin/AdminServicios";
-import AdminTalleres from "./pages/admin/AdminTalleres";
-import AdminBlog from "./pages/admin/AdminBlog";
-import AdminAgenda from "./pages/admin/AdminAgenda";
 
 const queryClient = new QueryClient();
 
@@ -32,29 +26,25 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route element={<Layout />}>
+        <AuthProvider>
+          <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/sobre-mi" element={<SobreMi />} />
-            <Route path="/servicios" element={<Servicios />} />
+            <Route path="/sobre-mi" element={<About />} />
+            <Route path="/servicios" element={<Services />} />
+            <Route path="/tienda" element={<Shop />} />
+            <Route path="/infoproductos" element={<Infoproducts />} />
             <Route path="/agenda" element={<Agenda />} />
-            <Route path="/talleres" element={<Talleres />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/etica" element={<Etica />} />
-            <Route path="/privacidad" element={<Privacidad />} />
-            <Route path="/contacto" element={<Contacto />} />
-          </Route>
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
-            <Route index element={<Dashboard />} />
-            <Route path="servicios" element={<AdminServicios />} />
-            <Route path="talleres" element={<AdminTalleres />} />
-            <Route path="agenda" element={<AdminAgenda />} />
-            <Route path="blog" element={<AdminBlog />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            <Route path="/contacto" element={<Contact />} />
+            <Route path="/legal" element={<Legal />} />
+            <Route path="/auth" element={<Auth />} />
+            {/* Admin routes */}
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="theme" element={<ThemePreview />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

@@ -14,182 +14,9 @@ export type Database = {
   }
   public: {
     Tables: {
-      appointments: {
-        Row: {
-          admin_notes: string | null
-          appointment_date: string
-          cancelled_at: string | null
-          client_email: string
-          client_message: string | null
-          client_name: string
-          client_phone: string | null
-          client_pronouns: string | null
-          consent_accepted: boolean
-          created_at: string
-          end_time: string
-          id: string
-          modality: string
-          rescheduled_from_id: string | null
-          service_id: string
-          start_time: string
-          status: Database["public"]["Enums"]["appointment_status"]
-          updated_at: string
-        }
-        Insert: {
-          admin_notes?: string | null
-          appointment_date: string
-          cancelled_at?: string | null
-          client_email: string
-          client_message?: string | null
-          client_name: string
-          client_phone?: string | null
-          client_pronouns?: string | null
-          consent_accepted?: boolean
-          created_at?: string
-          end_time: string
-          id?: string
-          modality?: string
-          rescheduled_from_id?: string | null
-          service_id: string
-          start_time: string
-          status?: Database["public"]["Enums"]["appointment_status"]
-          updated_at?: string
-        }
-        Update: {
-          admin_notes?: string | null
-          appointment_date?: string
-          cancelled_at?: string | null
-          client_email?: string
-          client_message?: string | null
-          client_name?: string
-          client_phone?: string | null
-          client_pronouns?: string | null
-          consent_accepted?: boolean
-          created_at?: string
-          end_time?: string
-          id?: string
-          modality?: string
-          rescheduled_from_id?: string | null
-          service_id?: string
-          start_time?: string
-          status?: Database["public"]["Enums"]["appointment_status"]
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "appointments_rescheduled_from_id_fkey"
-            columns: ["rescheduled_from_id"]
-            isOneToOne: false
-            referencedRelation: "appointments"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "appointments_service_id_fkey"
-            columns: ["service_id"]
-            isOneToOne: false
-            referencedRelation: "services"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      blocked_dates: {
-        Row: {
-          blocked_date: string
-          created_at: string
-          id: string
-          reason: string | null
-        }
-        Insert: {
-          blocked_date: string
-          created_at?: string
-          id?: string
-          reason?: string | null
-        }
-        Update: {
-          blocked_date?: string
-          created_at?: string
-          id?: string
-          reason?: string | null
-        }
-        Relationships: []
-      }
-      blocked_slots: {
-        Row: {
-          created_at: string
-          created_by: string | null
-          end_at: string
-          id: string
-          reason: string | null
-          start_at: string
-        }
-        Insert: {
-          created_at?: string
-          created_by?: string | null
-          end_at: string
-          id?: string
-          reason?: string | null
-          start_at: string
-        }
-        Update: {
-          created_at?: string
-          created_by?: string | null
-          end_at?: string
-          id?: string
-          reason?: string | null
-          start_at?: string
-        }
-        Relationships: []
-      }
-      posts: {
-        Row: {
-          author_id: string | null
-          content: string
-          cover_image_url: string | null
-          created_at: string
-          excerpt: string | null
-          id: string
-          published_at: string | null
-          reading_time_minutes: number | null
-          slug: string
-          status: Database["public"]["Enums"]["post_status"]
-          tags: string[] | null
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          author_id?: string | null
-          content?: string
-          cover_image_url?: string | null
-          created_at?: string
-          excerpt?: string | null
-          id?: string
-          published_at?: string | null
-          reading_time_minutes?: number | null
-          slug: string
-          status?: Database["public"]["Enums"]["post_status"]
-          tags?: string[] | null
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          author_id?: string | null
-          content?: string
-          cover_image_url?: string | null
-          created_at?: string
-          excerpt?: string | null
-          id?: string
-          published_at?: string | null
-          reading_time_minutes?: number | null
-          slug?: string
-          status?: Database["public"]["Enums"]["post_status"]
-          tags?: string[] | null
-          title?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
       profiles: {
         Row: {
+          avatar_url: string | null
           created_at: string
           email: string
           full_name: string | null
@@ -197,6 +24,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          avatar_url?: string | null
           created_at?: string
           email: string
           full_name?: string | null
@@ -204,6 +32,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          avatar_url?: string | null
           created_at?: string
           email?: string
           full_name?: string | null
@@ -212,144 +41,21 @@ export type Database = {
         }
         Relationships: []
       }
-      services: {
-        Row: {
-          created_at: string
-          description: string | null
-          duration_minutes: number
-          id: string
-          image_url: string | null
-          is_active: boolean
-          mode: string
-          name: string
-          price: number
-          short_description: string | null
-          slug: string | null
-          sort_order: number
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          duration_minutes?: number
-          id?: string
-          image_url?: string | null
-          is_active?: boolean
-          mode?: string
-          name: string
-          price?: number
-          short_description?: string | null
-          slug?: string | null
-          sort_order?: number
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          duration_minutes?: number
-          id?: string
-          image_url?: string | null
-          is_active?: boolean
-          mode?: string
-          name?: string
-          price?: number
-          short_description?: string | null
-          slug?: string | null
-          sort_order?: number
-        }
-        Relationships: []
-      }
       user_roles: {
         Row: {
-          created_at: string
           id: string
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Insert: {
-          created_at?: string
           id?: string
-          role: Database["public"]["Enums"]["app_role"]
+          role?: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Update: {
-          created_at?: string
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
-        }
-        Relationships: []
-      }
-      weekly_availability: {
-        Row: {
-          day_of_week: number
-          end_time: string
-          id: string
-          is_active: boolean
-          start_time: string
-        }
-        Insert: {
-          day_of_week: number
-          end_time: string
-          id?: string
-          is_active?: boolean
-          start_time: string
-        }
-        Update: {
-          day_of_week?: number
-          end_time?: string
-          id?: string
-          is_active?: boolean
-          start_time?: string
-        }
-        Relationships: []
-      }
-      workshops: {
-        Row: {
-          capacity: number | null
-          content: string | null
-          created_at: string
-          end_at: string | null
-          id: string
-          image_url: string | null
-          is_active: boolean
-          price_cop: number | null
-          short_description: string | null
-          slug: string
-          sort_order: number
-          start_at: string | null
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          capacity?: number | null
-          content?: string | null
-          created_at?: string
-          end_at?: string | null
-          id?: string
-          image_url?: string | null
-          is_active?: boolean
-          price_cop?: number | null
-          short_description?: string | null
-          slug: string
-          sort_order?: number
-          start_at?: string | null
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          capacity?: number | null
-          content?: string | null
-          created_at?: string
-          end_at?: string | null
-          id?: string
-          image_url?: string | null
-          is_active?: boolean
-          price_cop?: number | null
-          short_description?: string | null
-          slug?: string
-          sort_order?: number
-          start_at?: string | null
-          title?: string
-          updated_at?: string
         }
         Relationships: []
       }
@@ -367,14 +73,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "viewer"
-      appointment_status:
-        | "pending"
-        | "confirmed"
-        | "cancelled"
-        | "completed"
-        | "rescheduled"
-      post_status: "draft" | "published"
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -502,15 +201,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "viewer"],
-      appointment_status: [
-        "pending",
-        "confirmed",
-        "cancelled",
-        "completed",
-        "rescheduled",
-      ],
-      post_status: ["draft", "published"],
+      app_role: ["admin", "user"],
     },
   },
 } as const

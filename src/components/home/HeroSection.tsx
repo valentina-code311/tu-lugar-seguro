@@ -1,0 +1,64 @@
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Calendar, ShoppingBag, BookOpen } from "lucide-react";
+import { motion } from "framer-motion";
+import heroBg from "@/assets/hero-bg.jpg";
+
+const HeroSection = () => {
+  return (
+    <section className="relative min-h-[90vh] overflow-hidden">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${heroBg})` }}
+      />
+      <div className="absolute inset-0 bg-hero-overlay" />
+
+      <div className="container relative mx-auto flex min-h-[90vh] items-center px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-2xl space-y-6"
+        >
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-4 py-1.5 text-sm text-primary-foreground backdrop-blur-sm">
+            <span className="h-2 w-2 rounded-full bg-cream" />
+            Psicóloga & Sexóloga Clínica
+          </div>
+
+          <h1 className="font-display text-4xl font-bold leading-tight text-primary-foreground md:text-5xl lg:text-6xl">
+            Tu bienestar mental y sexual{" "}
+            <span className="italic">importa</span>
+          </h1>
+
+          <p className="max-w-lg text-base leading-relaxed text-primary-foreground/85 md:text-lg">
+            Acompañamiento profesional sin tabúes. Reconecta contigo, con tu pareja 
+            y con tu placer desde un espacio seguro y basado en evidencia.
+          </p>
+
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Button asChild size="lg" variant="hero">
+              <Link to="/agenda">
+                <Calendar className="h-4 w-4" />
+                Agendar cita
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="border-primary-foreground/30 bg-primary-foreground/10 text-primary-foreground backdrop-blur-sm hover:bg-primary-foreground/20">
+              <Link to="/tienda">
+                <ShoppingBag className="h-4 w-4" />
+                Ver tienda
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="border-primary-foreground/30 bg-primary-foreground/10 text-primary-foreground backdrop-blur-sm hover:bg-primary-foreground/20">
+              <Link to="/infoproductos">
+                <BookOpen className="h-4 w-4" />
+                Infoproductos
+              </Link>
+            </Button>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+export default HeroSection;
