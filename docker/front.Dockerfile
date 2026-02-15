@@ -5,6 +5,9 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 ARG VITE_API_URL
+ARG VITE_SUPABASE_PROJECT_ID
+ARG VITE_SUPABASE_PUBLISHABLE_KEY
+ARG VITE_SUPABASE_URL
 RUN npm run build
 
 # Etapa 2: servir estáticos con nginx
