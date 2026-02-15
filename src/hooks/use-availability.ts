@@ -49,13 +49,26 @@ export function useAvailableSlots(date: Date | undefined, serviceDuration: numbe
       if (avErr) throw avErr;
       if (!availability || availability.length === 0) return [];
 
-      // Check if date is blocked
+      // Check if date is fully blocked
       const { data: blocked } = await supabase
         .from("blocked_dates")
         .select("id")
         .eq("blocked_date", dateStr)
         .limit(1);
       if (blocked && blocked.length > 0) return [];
+
+      // Get granular blocked slots for this date
+      const dayStart = `${dateStr}T00:00:00`;
+      const dayEnd = `${dateStr}T23:59:59`;
+      const { data: blockedSlots } = await supabase
+        .from("blocked_slots")
+        .select("start_at, end_at")
+        .gte("start_at", dayStart)
+        .lte("start_at", dayEnd);
+      const blockedRanges = (blockedSlots || []).map((bs) => ({
+        start: bs.start_at.slice(11, 16),
+        end: bs.end_at.slice(11, 16),
+      }));
 
       // Get existing appointments for this date (not cancelled)
       const { data: appointments } = await supabase
@@ -88,7 +101,12 @@ export function useAvailableSlots(date: Date | undefined, serviceDuration: numbe
             return slotStr < b.end && slotEndStr > b.start;
           });
 
-          if (!isBooked) {
+          // Check overlap with blocked slots
+          const isBlocked = blockedRanges.some((b) => {
+            return slotStr < b.end && slotEndStr > b.start;
+          });
+
+          if (!isBooked && !isBlocked) {
             slots.push({ start: slotStr, end: slotEndStr });
           }
 

@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           admin_notes: string | null
           appointment_date: string
+          cancelled_at: string | null
           client_email: string
           client_message: string | null
           client_name: string
@@ -28,6 +29,7 @@ export type Database = {
           end_time: string
           id: string
           modality: string
+          rescheduled_from_id: string | null
           service_id: string
           start_time: string
           status: Database["public"]["Enums"]["appointment_status"]
@@ -36,6 +38,7 @@ export type Database = {
         Insert: {
           admin_notes?: string | null
           appointment_date: string
+          cancelled_at?: string | null
           client_email: string
           client_message?: string | null
           client_name: string
@@ -46,6 +49,7 @@ export type Database = {
           end_time: string
           id?: string
           modality?: string
+          rescheduled_from_id?: string | null
           service_id: string
           start_time: string
           status?: Database["public"]["Enums"]["appointment_status"]
@@ -54,6 +58,7 @@ export type Database = {
         Update: {
           admin_notes?: string | null
           appointment_date?: string
+          cancelled_at?: string | null
           client_email?: string
           client_message?: string | null
           client_name?: string
@@ -64,12 +69,20 @@ export type Database = {
           end_time?: string
           id?: string
           modality?: string
+          rescheduled_from_id?: string | null
           service_id?: string
           start_time?: string
           status?: Database["public"]["Enums"]["appointment_status"]
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "appointments_rescheduled_from_id_fkey"
+            columns: ["rescheduled_from_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "appointments_service_id_fkey"
             columns: ["service_id"]
@@ -100,15 +113,118 @@ export type Database = {
         }
         Relationships: []
       }
+      blocked_slots: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          end_at: string
+          id: string
+          reason: string | null
+          start_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          end_at: string
+          id?: string
+          reason?: string | null
+          start_at: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          end_at?: string
+          id?: string
+          reason?: string | null
+          start_at?: string
+        }
+        Relationships: []
+      }
+      posts: {
+        Row: {
+          author_id: string | null
+          content: string
+          cover_image_url: string | null
+          created_at: string
+          excerpt: string | null
+          id: string
+          published_at: string | null
+          reading_time_minutes: number | null
+          slug: string
+          status: Database["public"]["Enums"]["post_status"]
+          tags: string[] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_id?: string | null
+          content?: string
+          cover_image_url?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          published_at?: string | null
+          reading_time_minutes?: number | null
+          slug: string
+          status?: Database["public"]["Enums"]["post_status"]
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string | null
+          content?: string
+          cover_image_url?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          published_at?: string | null
+          reading_time_minutes?: number | null
+          slug?: string
+          status?: Database["public"]["Enums"]["post_status"]
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       services: {
         Row: {
           created_at: string
           description: string | null
           duration_minutes: number
           id: string
+          image_url: string | null
           is_active: boolean
+          mode: string
           name: string
           price: number
+          short_description: string | null
+          slug: string | null
           sort_order: number
         }
         Insert: {
@@ -116,9 +232,13 @@ export type Database = {
           description?: string | null
           duration_minutes?: number
           id?: string
+          image_url?: string | null
           is_active?: boolean
+          mode?: string
           name: string
           price?: number
+          short_description?: string | null
+          slug?: string | null
           sort_order?: number
         }
         Update: {
@@ -126,10 +246,35 @@ export type Database = {
           description?: string | null
           duration_minutes?: number
           id?: string
+          image_url?: string | null
           is_active?: boolean
+          mode?: string
           name?: string
           price?: number
+          short_description?: string | null
+          slug?: string | null
           sort_order?: number
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
         }
         Relationships: []
       }
@@ -157,15 +302,79 @@ export type Database = {
         }
         Relationships: []
       }
+      workshops: {
+        Row: {
+          capacity: number | null
+          content: string | null
+          created_at: string
+          end_at: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          price_cop: number | null
+          short_description: string | null
+          slug: string
+          sort_order: number
+          start_at: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          capacity?: number | null
+          content?: string | null
+          created_at?: string
+          end_at?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          price_cop?: number | null
+          short_description?: string | null
+          slug: string
+          sort_order?: number
+          start_at?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          capacity?: number | null
+          content?: string | null
+          created_at?: string
+          end_at?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          price_cop?: number | null
+          short_description?: string | null
+          slug?: string
+          sort_order?: number
+          start_at?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      appointment_status: "pending" | "confirmed" | "cancelled" | "completed"
+      app_role: "admin" | "viewer"
+      appointment_status:
+        | "pending"
+        | "confirmed"
+        | "cancelled"
+        | "completed"
+        | "rescheduled"
+      post_status: "draft" | "published"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -293,7 +502,15 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      appointment_status: ["pending", "confirmed", "cancelled", "completed"],
+      app_role: ["admin", "viewer"],
+      appointment_status: [
+        "pending",
+        "confirmed",
+        "cancelled",
+        "completed",
+        "rescheduled",
+      ],
+      post_status: ["draft", "published"],
     },
   },
 } as const
