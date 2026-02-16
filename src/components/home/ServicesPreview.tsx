@@ -21,7 +21,7 @@ const ServicesPreview = () => {
             ¿Cómo puedo ayudarte?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-            Cada persona y cada relación es única. Ofrezco diferentes modalidades para 
+            Cada persona y cada relación es única. Ofrezco diferentes modalidades para
             acompañarte en tu proceso.
           </p>
         </motion.div>
@@ -38,7 +38,7 @@ const ServicesPreview = () => {
                 transition={{ delay: i * 0.1 }}
                 className="group rounded-2xl border border-border bg-surface p-6 shadow-soft transition-all hover:shadow-card"
               >
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-cream text-accent-foreground transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-accent-foreground transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
                   <Icon className="h-6 w-6" />
                 </div>
                 <h3 className="font-display text-lg font-semibold text-foreground">{service.title}</h3>

@@ -8,7 +8,7 @@ const ProductsPreview = () => {
   const featured = products.slice(0, 4);
 
   return (
-    <section className="bg-cream py-20 lg:py-28">
+    <section className="bg-primary py-20 lg:py-28">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -21,7 +21,7 @@ const ProductsPreview = () => {
             Productos para tu bienestar íntimo
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-            Selección curada de productos seguros, de calidad y recomendados por profesionales. 
+            Selección curada de productos seguros, de calidad y recomendados por profesionales.
             Envío discreto garantizado.
           </p>
         </motion.div>
@@ -45,7 +45,7 @@ const ProductsPreview = () => {
                 />
               </div>
               <div className="p-4">
-                <span className="rounded-full bg-cream px-2 py-0.5 text-xs font-medium uppercase tracking-wider text-accent-foreground">{product.category}</span>
+                <span className="rounded-full bg-primary px-2 py-0.5 text-xs font-medium uppercase tracking-wider text-accent-foreground">{product.category}</span>
                 <h3 className="mt-2 font-display text-sm font-semibold text-foreground">{product.name}</h3>
                 <div className="mt-3 flex items-center justify-between">
                   <p className="font-display text-lg font-bold text-primary">{formatPrice(product.price)}</p>

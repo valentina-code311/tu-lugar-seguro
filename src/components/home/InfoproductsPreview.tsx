@@ -19,7 +19,7 @@ const InfoproductsPreview = () => {
             Aprende a tu ritmo
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-            Ebooks, cursos y materiales diseñados para que trabajes en tu bienestar 
+            Ebooks, cursos y materiales diseñados para que trabajes en tu bienestar
             desde cualquier lugar.
           </p>
         </motion.div>
@@ -43,7 +43,7 @@ const InfoproductsPreview = () => {
                 />
               </div>
               <div className="flex flex-1 flex-col p-6">
-                <div className="inline-flex w-fit items-center gap-1 rounded-full bg-cream px-3 py-1 text-xs font-medium text-accent-foreground">
+                <div className="inline-flex w-fit items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-medium text-accent-foreground">
                   <Download className="h-3 w-3" />
                   Descarga digital
                 </div>

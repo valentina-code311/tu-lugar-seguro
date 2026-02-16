@@ -9,7 +9,7 @@ import {
 
 const FAQSection = () => {
   return (
-    <section id="faq" className="bg-cream py-20 lg:py-28">
+    <section id="faq" className="bg-primary py-20 lg:py-28">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -13,7 +13,7 @@ const Infoproducts = () => {
             <span className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">Recursos Digitales</span>
             <h1 className="mt-3 font-display text-4xl font-bold text-foreground lg:text-5xl">Infoproductos</h1>
             <p className="mt-4 text-muted-foreground">
-              Material digital profesional para tu crecimiento personal, sexual y emocional. 
+              Material digital profesional para tu crecimiento personal, sexual y emocional.
               Acceso inmediato tras la compra.
             </p>
           </motion.div>
@@ -36,7 +36,7 @@ const Infoproducts = () => {
                   <img src={product.image} alt={product.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <div className="inline-flex w-fit items-center gap-1 rounded-full bg-cream px-3 py-1 text-xs font-medium text-accent-foreground">
+                  <div className="inline-flex w-fit items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-medium text-accent-foreground">
                     <Download className="h-3 w-3" /> Descarga digital
                   </div>
                   <h2 className="mt-3 font-display text-xl font-semibold text-foreground">{product.title}</h2>

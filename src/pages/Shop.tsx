@@ -35,11 +35,10 @@ const Shop = () => {
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setSelectedCategory(null)}
-                className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-                  !selectedCategory
+                className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${!selectedCategory
                     ? "bg-primary text-primary-foreground"
-                    : "bg-cream text-accent-foreground hover:bg-muted"
-                }`}
+                    : "bg-primary text-accent-foreground hover:bg-muted"
+                  }`}
               >
                 Todos
               </button>
@@ -47,11 +46,10 @@ const Shop = () => {
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.slug)}
-                  className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-                    selectedCategory === cat.slug
+                  className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${selectedCategory === cat.slug
                       ? "bg-primary text-primary-foreground"
-                      : "bg-cream text-accent-foreground hover:bg-muted"
-                  }`}
+                      : "bg-primary text-accent-foreground hover:bg-muted"
+                    }`}
                 >
                   {cat.name}
                 </button>
@@ -87,7 +85,7 @@ const Shop = () => {
                   />
                 </div>
                 <div className="p-4">
-                  <span className="rounded-full bg-cream px-2 py-0.5 text-xs font-medium uppercase tracking-wider text-accent-foreground">{product.category}</span>
+                  <span className="rounded-full bg-primary px-2 py-0.5 text-xs font-medium uppercase tracking-wider text-accent-foreground">{product.category}</span>
                   <h3 className="mt-2 font-display text-sm font-semibold text-foreground">{product.name}</h3>
                   <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{product.description}</p>
                   <div className="mt-3 flex items-center justify-between">

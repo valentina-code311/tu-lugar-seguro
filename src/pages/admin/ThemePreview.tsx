@@ -94,10 +94,10 @@ const ThemePreview = () => {
                 <button className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover">
                   Primary CTA
                 </button>
-                <button className="rounded-md border border-secondary px-4 py-2 text-sm font-medium text-secondary transition-colors hover:bg-cream">
+                <button className="rounded-md border border-secondary px-4 py-2 text-sm font-medium text-secondary transition-colors hover:bg-primary">
                   Secondary
                 </button>
-                <button className="rounded-md px-4 py-2 text-sm font-medium text-secondary transition-colors hover:bg-cream">
+                <button className="rounded-md px-4 py-2 text-sm font-medium text-secondary transition-colors hover:bg-primary">
                   Ghost
                 </button>
                 <button className="rounded-md bg-destructive px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-destructive/90">
@@ -110,7 +110,7 @@ const ThemePreview = () => {
             <div>
               <p className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">Badges / Chips</p>
               <div className="flex flex-wrap gap-2">
-                <span className="rounded-full bg-cream px-3 py-1 text-xs font-medium text-accent-foreground">Default</span>
+                <span className="rounded-full bg-primary px-3 py-1 text-xs font-medium text-accent-foreground">Default</span>
                 <span className="rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">Activo</span>
                 <span className="rounded-full bg-success/10 px-3 py-1 text-xs font-medium text-success">Éxito</span>
                 <span className="rounded-full bg-warning/10 px-3 py-1 text-xs font-medium text-warning">Alerta</span>

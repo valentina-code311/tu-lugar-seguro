@@ -22,18 +22,18 @@ const AboutPreview = () => {
             </h2>
             <div className="space-y-4 text-muted-foreground">
               <p>
-                Psicóloga clínica y sexóloga con más de 8 años de experiencia acompañando 
+                Psicóloga clínica y sexóloga con más de 8 años de experiencia acompañando
                 a personas y parejas en su camino hacia el bienestar emocional y sexual.
               </p>
               <p>
-                Mi enfoque integra terapia cognitivo-conductual, sexología clínica y educación 
-                sexual basada en evidencia. Creo que hablar de sexualidad con naturalidad es 
+                Mi enfoque integra terapia cognitivo-conductual, sexología clínica y educación
+                sexual basada en evidencia. Creo que hablar de sexualidad con naturalidad es
                 el primer paso para vivir relaciones más plenas y auténticas.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
               {["Psicología Clínica", "Sexología", "Terapia de Pareja", "Educación Sexual"].map((tag) => (
-                <span key={tag} className="rounded-full bg-cream px-3 py-1 text-xs font-medium text-accent-foreground">
+                <span key={tag} className="rounded-full bg-primary px-3 py-1 text-xs font-medium text-accent-foreground">
                   {tag}
                 </span>
               ))}
@@ -52,7 +52,7 @@ const AboutPreview = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative"
           >
-            <div className="aspect-[3/4] overflow-hidden rounded-2xl bg-cream shadow-card">
+            <div className="aspect-[3/4] overflow-hidden rounded-2xl bg-primary shadow-card">
               <div className="flex h-full items-center justify-center text-muted-foreground">
                 <div className="text-center">
                   <div className="mx-auto mb-4 h-32 w-32 rounded-full bg-primary/10" />

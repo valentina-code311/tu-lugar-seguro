@@ -60,13 +60,12 @@ const Agenda = () => {
                       key={day}
                       disabled={isPast || isWeekend}
                       onClick={() => setSelectedDate(day)}
-                      className={`rounded-lg py-2 text-sm transition-colors ${
-                        selectedDate === day
+                      className={`rounded-lg py-2 text-sm transition-colors ${selectedDate === day
                           ? "bg-primary text-primary-foreground"
                           : isPast || isWeekend
-                          ? "text-muted-foreground/40"
-                          : "text-foreground hover:bg-cream"
-                      }`}
+                            ? "text-muted-foreground/40"
+                            : "text-foreground hover:bg-primary"
+                        }`}
                     >
                       {day}
                     </button>
@@ -82,11 +81,10 @@ const Agenda = () => {
                       <button
                         key={time}
                         onClick={() => setSelectedTime(time)}
-                        className={`rounded-lg border px-3 py-2 text-xs font-medium transition-colors ${
-                          selectedTime === time
+                        className={`rounded-lg border px-3 py-2 text-xs font-medium transition-colors ${selectedTime === time
                             ? "border-primary bg-primary text-primary-foreground"
                             : "border-border text-muted-foreground hover:border-primary hover:text-foreground"
-                        }`}
+                          }`}
                       >
                         {time}
                       </button>
@@ -133,7 +131,7 @@ const Agenda = () => {
                 </div>
 
                 {selectedDate && selectedTime && (
-                  <div className="rounded-xl bg-cream p-4">
+                  <div className="rounded-xl bg-primary p-4">
                     <p className="text-sm text-foreground">
                       <span className="font-semibold">Resumen:</span> {selectedDate} de {monthName} a las {selectedTime}
                     </p>

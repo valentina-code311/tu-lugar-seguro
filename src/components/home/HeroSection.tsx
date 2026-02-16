@@ -21,18 +21,16 @@ const HeroSection = () => {
           className="max-w-2xl space-y-6"
         >
           <div className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-4 py-1.5 text-sm text-primary-foreground backdrop-blur-sm">
-            <span className="h-2 w-2 rounded-full bg-cream" />
-            Psicóloga & Sexóloga Clínica
+            <span className="h-2 w-2 rounded-full bg-primary" />
+            Psicología humanista y feminista
           </div>
 
           <h1 className="font-display text-4xl font-bold leading-tight text-primary-foreground md:text-5xl lg:text-6xl">
-            Tu bienestar mental y sexual{" "}
-            <span className="italic">importa</span>
+            Psicología que <span className="italic">sí te cuida.</span>
           </h1>
 
           <p className="max-w-lg text-base leading-relaxed text-primary-foreground/85 md:text-lg">
-            Acompañamiento profesional sin tabúes. Reconecta contigo, con tu pareja 
-            y con tu placer desde un espacio seguro y basado en evidencia.
+            Acompaño a jóvenes y personas LGBTIQ+ desde un enfoque humanista y feminista para ver, nombrar y cambiar patrones sin compararte.
           </p>
 
           <div className="flex flex-wrap gap-3 pt-2">
@@ -43,15 +41,9 @@ const HeroSection = () => {
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-primary-foreground/30 bg-primary-foreground/10 text-primary-foreground backdrop-blur-sm hover:bg-primary-foreground/20">
-              <Link to="/tienda">
-                <ShoppingBag className="h-4 w-4" />
-                Ver tienda
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="border-primary-foreground/30 bg-primary-foreground/10 text-primary-foreground backdrop-blur-sm hover:bg-primary-foreground/20">
-              <Link to="/infoproductos">
+              <Link to="/escritos">
                 <BookOpen className="h-4 w-4" />
-                Infoproductos
+                Escritos
               </Link>
             </Button>
           </div>

@@ -4,13 +4,14 @@ import { Menu, X, ShoppingBag, User, LogOut, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
+import logo from "@/assets/logo-maryen.png";
+import { cn } from "@/lib/utils";
 
 const navItems = [
-  { label: "Inicio", path: "/" },
   { label: "Sobre mí", path: "/sobre-mi" },
   { label: "Servicios", path: "/servicios" },
-  { label: "Tienda", path: "/tienda" },
-  { label: "Infoproductos", path: "/infoproductos" },
+  { label: "Talleres", path: "/talleres" },
+  { label: "Escritos", path: "/escritos" },
   { label: "Agenda", path: "/agenda" },
   { label: "Contacto", path: "/contacto" },
 ];
@@ -19,18 +20,17 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, isAdmin, signOut } = useAuth();
+  const { isAdmin } = useAuth();
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-border bg-surface/95 backdrop-blur-lg">
+    <nav className="sticky top-0 z-50 border-b border-border bg-primary-foreground/70 backdrop-blur-lg">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:h-20">
-        <Link to="/" className="flex flex-col leading-tight">
-          <span className="font-display text-lg font-bold tracking-tight text-foreground lg:text-xl">
-            Psicosexvalendm
-          </span>
-          <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
-            Psicóloga · Sexóloga
-          </span>
+        <Link to="/" className="flex items-center gap-4" aria-label="Inicio - Maryen Chamorro Psicóloga">
+          <img src={logo} alt="Logo Maryen Chamorro" className="h-10 w-10 md:h-12 md:w-12" />
+          <div>
+            <span className="font-serif text-lg font-semibold text-primary leading-tight block">Maryen Chamorro</span>
+            <span className="text-xs text-muted-foreground">Psicóloga Humanista</span>
+          </div>
         </Link>
 
         {/* Desktop nav */}
@@ -39,11 +39,12 @@ const Navbar = () => {
             <Link
               key={item.path}
               to={item.path}
-              className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              className={cn(
+                "px-3 py-2 text-sm font-medium transition-colors border-b-2 border-transparent",
                 location.pathname === item.path
-                  ? "bg-cream text-accent-foreground"
-                  : "text-muted-foreground hover:text-secondary"
-              }`}
+                  ? "border-primary"
+                  : "text-muted-foreground hover:border-muted-foreground/50 hover:text-muted-foreground/50"
+              )}
             >
               {item.label}
             </Link>
@@ -56,21 +57,10 @@ const Navbar = () => {
               <Shield className="h-5 w-5" />
             </Button>
           )}
-          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-            <ShoppingBag className="h-5 w-5" />
-          </Button>
-          {user ? (
-            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive" onClick={signOut}>
-              <LogOut className="h-5 w-5" />
-            </Button>
-          ) : (
-            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary" onClick={() => navigate("/auth")}>
-              <User className="h-5 w-5" />
-            </Button>
-          )}
+
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="rounded-lg p-2 text-muted-foreground hover:bg-cream lg:hidden"
+            className="rounded-lg p-2 text-muted-foreground hover:bg-primary lg:hidden"
           >
             {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -93,11 +83,12 @@ const Navbar = () => {
                   key={item.path}
                   to={item.path}
                   onClick={() => setIsOpen(false)}
-                  className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
+                  className={cn(
+                    `rounded-lg px-4 py-3 text-sm font-medium transition-colors`,
                     location.pathname === item.path
-                      ? "bg-cream text-accent-foreground"
-                      : "text-muted-foreground hover:text-secondary"
-                  }`}
+                      ? "border-b border-primary"
+                      : "text-muted-foreground hover:text-muted-foreground/50"
+                  )}
                 >
                   {item.label}
                 </Link>

@@ -28,7 +28,7 @@ const Contact = () => {
                 { icon: MapPin, label: "Ubicación", value: "Consulta presencial y online" },
               ].map((item) => (
                 <div key={item.label} className="flex gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-cream text-accent-foreground">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-accent-foreground">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>

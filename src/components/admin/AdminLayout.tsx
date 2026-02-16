@@ -56,11 +56,10 @@ const AdminLayout = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                  location.pathname === item.path
+                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${location.pathname === item.path
                     ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:bg-cream hover:text-accent-foreground"
-                }`}
+                    : "text-muted-foreground hover:bg-primary hover:text-accent-foreground"
+                  }`}
               >
                 <item.icon className="h-4 w-4" />
                 {item.label}
@@ -72,7 +71,7 @@ const AdminLayout = () => {
         <div className="border-t border-border p-3 space-y-2">
           <Link
             to="/"
-            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-cream hover:text-accent-foreground"
+            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-primary hover:text-accent-foreground"
           >
             <ChevronLeft className="h-4 w-4" />
             Volver al sitio

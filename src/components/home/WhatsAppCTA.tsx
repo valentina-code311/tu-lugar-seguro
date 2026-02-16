@@ -22,7 +22,7 @@ const WhatsAppCTA = () => {
             asChild
             size="lg"
             variant="hero"
-            className="bg-surface text-primary hover:bg-cream"
+            className="bg-surface text-primary hover:bg-primary"
           >
             <a href="https://wa.me/573001234567" target="_blank" rel="noopener noreferrer">
               <MessageCircle className="h-5 w-5" />
