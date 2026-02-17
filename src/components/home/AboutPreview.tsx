@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 
 const AboutPreview = () => {
   return (
-    <section className="bg-surface py-20 lg:py-28">
+    <section className="bg-background py-20 lg:py-28">
       <div className="container mx-auto px-4">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <motion.div
@@ -15,14 +15,14 @@ const AboutPreview = () => {
             transition={{ duration: 0.6 }}
             className="space-y-6"
           >
-            <span className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">Sobre mí</span>
+            <span className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">Sobre mí</span>
             <h2 className="font-display text-3xl font-bold text-foreground lg:text-4xl">
-              Soy Valeria, y creo en una sexualidad{" "}
+              Soy Maryen, y creo en una sexualidad{" "}
               <span className="text-gradient-primary italic">libre y consciente</span>
             </h2>
             <div className="space-y-4 text-muted-foreground">
               <p>
-                Psicóloga clínica y sexóloga con más de 8 años de experiencia acompañando
+                Psicóloga clínica y sexóloga con más de 5 años de experiencia acompañando
                 a personas y parejas en su camino hacia el bienestar emocional y sexual.
               </p>
               <p>
@@ -55,13 +55,16 @@ const AboutPreview = () => {
             <div className="aspect-[3/4] overflow-hidden rounded-2xl bg-primary shadow-card">
               <div className="flex h-full items-center justify-center text-muted-foreground">
                 <div className="text-center">
-                  <div className="mx-auto mb-4 h-32 w-32 rounded-full bg-primary/10" />
-                  <p className="text-sm">Foto profesional</p>
+                  <img
+                    src="https://raw.githubusercontent.com/valentina-code311/tu-lugar-seguro/refs/heads/main/docs/photo.jpg"
+                    alt="Maryen"
+                    className="mx-auto mb-4 h-full w-full"
+                  />
                 </div>
               </div>
             </div>
             <div className="absolute -bottom-4 -right-4 rounded-xl bg-primary p-4 text-primary-foreground shadow-elevated">
-              <p className="font-display text-2xl font-bold">+8</p>
+              <p className="font-display text-2xl font-bold">+5</p>
               <p className="text-xs">Años de experiencia</p>
             </div>
           </motion.div>
