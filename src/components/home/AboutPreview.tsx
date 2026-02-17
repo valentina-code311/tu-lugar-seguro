@@ -5,9 +5,9 @@ import { ArrowRight } from "lucide-react";
 
 const AboutPreview = () => {
   return (
-    <section className="bg-background py-20 lg:py-28">
-      <div className="container mx-auto px-4">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
+    <section className="bg-background py-10 md:py-16">
+      <div className="container mx-auto">
+        <div className="grid items-center gap-12 md:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -16,7 +16,7 @@ const AboutPreview = () => {
             className="space-y-6"
           >
             <span className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">Sobre mí</span>
-            <h2 className="font-display text-3xl font-bold text-foreground lg:text-4xl">
+            <h2 className="font-display text-3xl font-bold text-foreground md:text-4xl">
               Soy Maryen, y creo en una sexualidad{" "}
               <span className="text-gradient-primary italic">libre y consciente</span>
             </h2>
@@ -54,11 +54,11 @@ const AboutPreview = () => {
           >
             <div className="aspect-[3/4] overflow-hidden rounded-2xl bg-primary shadow-card">
               <div className="flex h-full items-center justify-center text-muted-foreground">
-                <div className="text-center">
+                <div className="text-center p-4 lg:p-6 h-full w-full">
                   <img
                     src="https://raw.githubusercontent.com/valentina-code311/tu-lugar-seguro/refs/heads/main/docs/photo.jpg"
                     alt="Maryen"
-                    className="mx-auto mb-4 h-full w-full"
+                    className="mx-auto h-full w-full rounded-2xl"
                   />
                 </div>
               </div>
