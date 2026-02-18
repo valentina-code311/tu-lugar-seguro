@@ -2,22 +2,13 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import {
-  LayoutDashboard,
-  Palette,
-  Share2,
-  Package,
-  BookOpen,
-  ShoppingCart,
-  Calendar,
-  Users,
-  LogOut,
-  ChevronLeft,
-} from "lucide-react";
+import { LayoutDashboard, Palette, Share2, Package, BookOpen, ShoppingCart, Calendar, Users, LogOut, ChevronLeft, PenLine, Stethoscope } from "lucide-react";
 
 const adminNav = [
   { label: "Dashboard", path: "/admin", icon: LayoutDashboard },
   { label: "Theme Preview", path: "/admin/theme", icon: Palette },
+  { label: "Escritos", path: "/admin/escritos", icon: PenLine },
+  { label: "Servicios", path: "/admin/servicios", icon: Stethoscope },
   { label: "Redes Sociales", path: "/admin/redes", icon: Share2 },
   { label: "Productos", path: "/admin/productos", icon: Package },
   { label: "Infoproductos", path: "/admin/infoproductos", icon: BookOpen },
@@ -56,10 +47,12 @@ const AdminLayout = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${location.pathname === item.path
+                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                  location.pathname === item.path ||
+                  (item.path !== "/admin" && location.pathname.startsWith(item.path))
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:bg-primary hover:text-accent-foreground"
-                  }`}
+                }`}
               >
                 <item.icon className="h-4 w-4" />
                 {item.label}

@@ -2,12 +2,13 @@ import Layout from "@/components/layout/Layout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Heart, Users, Sparkles, Video, Calendar } from "lucide-react";
-import { services } from "@/data/mockData";
-
-const iconMap: Record<string, React.ElementType> = { Heart, Users, Sparkles, Video };
+import { Calendar, Clock } from "lucide-react";
+import { useServices, formatPrice } from "@/hooks/useServices";
+import { resolveIcon } from "@/components/admin/IconPicker";
 
 const Services = () => {
+  const { data: services, isLoading } = useServices();
+
   return (
     <Layout>
       <section className="bg-surface py-20 lg:py-28">
@@ -26,10 +27,17 @@ const Services = () => {
 
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="space-y-8">
-            {services.map((service, i) => {
-              const Icon = iconMap[service.icon] || Heart;
-              return (
+          {isLoading && (
+            <div className="space-y-8">
+              {[1, 2, 3, 4].map((n) => (
+                <div key={n} className="h-36 animate-pulse rounded-2xl bg-surface" />
+              ))}
+            </div>
+          )}
+
+          {!isLoading && (
+            <div className="space-y-8">
+              {services?.map((service, i) => (
                 <motion.div
                   key={service.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -39,16 +47,27 @@ const Services = () => {
                   className="flex flex-col gap-6 rounded-2xl border border-border bg-surface p-8 shadow-soft md:flex-row md:items-center md:justify-between"
                 >
                   <div className="flex gap-4">
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary text-accent-foreground">
-                      <Icon className="h-7 w-7" />
-                    </div>
+                    {(() => {
+                      const Icon = resolveIcon(service.icon);
+                      return (
+                        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                          <Icon className="h-7 w-7" />
+                        </div>
+                      );
+                    })()}
                     <div>
-                      <h2 className="font-display text-xl font-bold text-foreground">{service.title}</h2>
-                      <p className="mt-2 max-w-lg text-sm text-muted-foreground">{service.description}</p>
+                      <h2 className="font-display text-xl font-bold text-foreground">{service.name}</h2>
+                      {service.description && (
+                        <p className="mt-2 max-w-lg text-sm text-muted-foreground">{service.description}</p>
+                      )}
+                      <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
+                        <Clock className="h-3.5 w-3.5" />
+                        {service.duration_minutes} min
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
-                    <p className="font-display text-2xl font-bold text-primary">{service.price}</p>
+                    <p className="font-display text-2xl font-bold text-primary">{formatPrice(service.price)}</p>
                     <Button asChild className="gap-2">
                       <Link to="/agenda">
                         <Calendar className="h-4 w-4" />
@@ -57,9 +76,9 @@ const Services = () => {
                     </Button>
                   </div>
                 </motion.div>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </Layout>

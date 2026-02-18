@@ -4,27 +4,27 @@ import { motion } from "framer-motion";
 
 const WhatsAppCTA = () => {
   return (
-    <section className="bg-gradient-primary py-16">
-      <div className="container mx-auto px-4">
+    <section className="bg-primary/90 py-10">
+      <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-col items-center gap-6 text-center"
+          className="flex flex-col items-center gap-2 text-center"
         >
           <h2 className="font-display text-2xl font-bold text-primary-foreground lg:text-3xl">
             ¿Tienes dudas? Escríbeme
           </h2>
-          <p className="max-w-md text-sm text-primary-foreground/80">
+          <p className="text-sm text-primary-foreground">
             Puedes contactarme directamente por WhatsApp. Respondo en menos de 24 horas.
           </p>
           <Button
             asChild
             size="lg"
             variant="hero"
-            className="bg-surface text-primary hover:bg-primary"
+            className="mt-4 bg-secondary text-secondary-foreground hover:bg-secondary/80"
           >
-            <a href="https://wa.me/573001234567" target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/573208621614" target="_blank" rel="noopener noreferrer">
               <MessageCircle className="h-5 w-5" />
               Escribir por WhatsApp
             </a>

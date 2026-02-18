@@ -16,6 +16,11 @@ import Auth from "./pages/Auth";
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ThemePreview from "./pages/admin/ThemePreview";
+import AdminEscritos from "./pages/admin/AdminEscritos";
+import AdminEscritoEditor from "./pages/admin/AdminEscritoEditor";
+import AdminServicios from "./pages/admin/AdminServicios";
+import Escritos from "./pages/Escritos";
+import EscritoDetail from "./pages/EscritoDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,10 +42,16 @@ const App = () => (
             <Route path="/contacto" element={<Contact />} />
             <Route path="/legal" element={<Legal />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/escritos" element={<Escritos />} />
+            <Route path="/escritos/:slug" element={<EscritoDetail />} />
             {/* Admin routes */}
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
               <Route path="theme" element={<ThemePreview />} />
+              <Route path="escritos" element={<AdminEscritos />} />
+              <Route path="escritos/nuevo" element={<AdminEscritoEditor />} />
+              <Route path="escritos/:id" element={<AdminEscritoEditor />} />
+              <Route path="servicios" element={<AdminServicios />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

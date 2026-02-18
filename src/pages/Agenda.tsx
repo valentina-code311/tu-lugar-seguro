@@ -5,12 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
-import { services } from "@/data/mockData";
+import { useServices, formatPrice } from "@/hooks/useServices";
 
 const daysOfWeek = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
 const timeSlots = ["9:00 AM", "10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"];
 
 const Agenda = () => {
+  const { data: services } = useServices();
   const [selectedService, setSelectedService] = useState("");
   const [selectedDate, setSelectedDate] = useState<number | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -106,8 +107,8 @@ const Agenda = () => {
                     className="flex h-10 w-full rounded-md border border-input bg-surface px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
                   >
                     <option value="">Selecciona un servicio</option>
-                    {services.map((s) => (
-                      <option key={s.id} value={s.id}>{s.title} — {s.price}</option>
+                    {services?.map((s) => (
+                      <option key={s.id} value={s.id}>{s.name} — {formatPrice(s.price)}</option>
                     ))}
                   </select>
                 </div>

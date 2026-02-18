@@ -2,12 +2,13 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Sprout } from 'lucide-react'
 
 const AboutPreview = () => {
   return (
-    <section className="bg-background py-20 lg:py-28">
-      <div className="container mx-auto px-4">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
+    <section className="bg-background py-10 md:py-16">
+      <div className="container mx-auto">
+        <div className="grid items-center gap-12 md:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -15,24 +16,28 @@ const AboutPreview = () => {
             transition={{ duration: 0.6 }}
             className="space-y-6"
           >
-            <span className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">Sobre mí</span>
-            <h2 className="font-display text-3xl font-bold text-foreground lg:text-4xl">
-              Soy Maryen, y creo en una sexualidad{" "}
-              <span className="text-gradient-primary italic">libre y consciente</span>
+            <span className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">
+              <Sprout className="h-5 w-5" />
+              Sobre mí
+            </span>
+            <h2 className="font-display text-3xl font-semibold text-primary md:text-4xl">
+              Soy{" "}
+              <span className="italic text-primary/70 underline">Maryen Chamorro</span>,
+              hago psicología con criterio, contexto y cambio real.
             </h2>
             <div className="space-y-4 text-muted-foreground">
               <p>
-                Psicóloga clínica y sexóloga con más de 5 años de experiencia acompañando
-                a personas y parejas en su camino hacia el bienestar emocional y sexual.
+                Psicóloga con más de 5 años de experiencia acompañando procesos desde un enfoque humanista, feminista y psicosocial.
+                Trabajo bienestar emocional, autoestima, límites y relaciones, integrando tu historia personal con el contexto social
+                que también moldea lo que sentimos, pensamos y sostenemos.
               </p>
               <p>
-                Mi enfoque integra terapia cognitivo-conductual, sexología clínica y educación
-                sexual basada en evidencia. Creo que hablar de sexualidad con naturalidad es
-                el primer paso para vivir relaciones más plenas y auténticas.
+                Aquí no vengo a juzgarte ni a decirte qué hacer. Construimos un espacio seguro para comprender tus patrones,
+                nombrarlos con claridad y tomar decisiones más conscientes, con herramientas prácticas para la vida diaria.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
-              {["Psicología Clínica", "Sexología", "Terapia de Pareja", "Educación Sexual"].map((tag) => (
+              {["Psicología Humanista", "Perspectiva Feminista", "Talleres Psicoeducativos"].map((tag) => (
                 <span key={tag} className="rounded-full bg-primary px-3 py-1 text-xs font-medium text-accent-foreground">
                   {tag}
                 </span>
@@ -54,11 +59,11 @@ const AboutPreview = () => {
           >
             <div className="aspect-[3/4] overflow-hidden rounded-2xl bg-primary shadow-card">
               <div className="flex h-full items-center justify-center text-muted-foreground">
-                <div className="text-center">
+                <div className="text-center p-4 lg:p-6 h-full w-full">
                   <img
                     src="https://raw.githubusercontent.com/valentina-code311/tu-lugar-seguro/refs/heads/main/docs/photo.jpg"
                     alt="Maryen"
-                    className="mx-auto mb-4 h-full w-full"
+                    className="mx-auto h-full w-full rounded-2xl"
                   />
                 </div>
               </div>

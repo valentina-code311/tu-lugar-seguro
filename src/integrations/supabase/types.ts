@@ -14,6 +14,79 @@ export type Database = {
   }
   public: {
     Tables: {
+      escrito_blocks: {
+        Row: {
+          id: string
+          escrito_id: string
+          type: "paragraph" | "heading" | "quote" | "image"
+          content: string | null
+          image_url: string | null
+          sort_order: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          escrito_id: string
+          type: "paragraph" | "heading" | "quote" | "image"
+          content?: string | null
+          image_url?: string | null
+          sort_order: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          escrito_id?: string
+          type?: "paragraph" | "heading" | "quote" | "image"
+          content?: string | null
+          image_url?: string | null
+          sort_order?: number
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "escrito_blocks_escrito_id_fkey"
+            columns: ["escrito_id"]
+            referencedRelation: "escritos"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      escritos: {
+        Row: {
+          id: string
+          title: string
+          slug: string
+          cover_image: string | null
+          excerpt: string | null
+          status: "draft" | "published"
+          published_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          slug: string
+          cover_image?: string | null
+          excerpt?: string | null
+          status?: "draft" | "published"
+          published_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          slug?: string
+          cover_image?: string | null
+          excerpt?: string | null
+          status?: "draft" | "published"
+          published_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
