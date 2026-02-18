@@ -9,8 +9,8 @@ const ServicesPreview = () => {
   const { data: services, isLoading } = useServices();
 
   return (
-    <section className="py-10 md:py-16">
-      <div className="container mx-auto px-4">
+    <section className="py-10">
+      <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -29,7 +29,7 @@ const ServicesPreview = () => {
           </p>
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {isLoading &&
             [1, 2, 3, 4].map((n) => (
               <div key={n} className="h-48 animate-pulse rounded-2xl bg-surface" />
@@ -43,12 +43,12 @@ const ServicesPreview = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="group rounded-2xl border border-border bg-surface p-6 shadow-soft transition-all hover:shadow-card"
+                className="group rounded-2xl bg-card/80 p-6 shadow-lg transition-all hover:shadow-card"
               >
                 {(() => {
                   const Icon = resolveIcon(service.icon);
                   return (
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-secondary text-primary group-hover:bg-primary group-hover:text-secondary">
                       <Icon className="h-6 w-6" />
                     </div>
                   );
