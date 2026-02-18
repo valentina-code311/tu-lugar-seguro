@@ -19,6 +19,9 @@ import ThemePreview from "./pages/admin/ThemePreview";
 import AdminEscritos from "./pages/admin/AdminEscritos";
 import AdminEscritoEditor from "./pages/admin/AdminEscritoEditor";
 import AdminServicios from "./pages/admin/AdminServicios";
+import AdminTalleres from "./pages/admin/AdminTalleres";
+import AdminTallerEditor from "./pages/admin/AdminTallerEditor";
+import Talleres from "./pages/Talleres";
 import Escritos from "./pages/Escritos";
 import EscritoDetail from "./pages/EscritoDetail";
 import NotFound from "./pages/NotFound";
@@ -44,6 +47,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/escritos" element={<Escritos />} />
             <Route path="/escritos/:slug" element={<EscritoDetail />} />
+            <Route path="/talleres" element={<Talleres />} />
             {/* Admin routes */}
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
@@ -52,6 +56,9 @@ const App = () => (
               <Route path="escritos/nuevo" element={<AdminEscritoEditor />} />
               <Route path="escritos/:id" element={<AdminEscritoEditor />} />
               <Route path="servicios" element={<AdminServicios />} />
+              <Route path="talleres" element={<AdminTalleres />} />
+              <Route path="talleres/nuevo" element={<AdminTallerEditor />} />
+              <Route path="talleres/:id" element={<AdminTallerEditor />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

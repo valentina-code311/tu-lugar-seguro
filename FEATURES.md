@@ -121,10 +121,14 @@
 - [ ] Conectar el formulario para guardar mensajes en Supabase
 - [ ] Enviar email de notificación a la admin cuando llega un mensaje
 
-### Talleres
-- [ ] Crear la página `/talleres` (actualmente el link en la navbar no tiene página)
-- [ ] Migración de tabla `workshops` (título, descripción, fecha, cupos, precio, imagen)
-- [ ] CRUD en admin
+### Talleres ✓ (implementado)
+- [x] Crear la página `/talleres` con sección de próximos y anteriores
+- [x] Migración de tablas `talleres` y `taller_inscripciones`
+- [x] CRUD en admin con editor completo
+- [x] Formulario de inscripción público (cierra 5 h antes del evento)
+- [x] Campo "experiencia vivida" editable post-evento
+- [x] Imagen de referencia con upload a Supabase Storage
+- [x] Vista de inscripciones en el editor admin
 
 ### Portal del cliente (autenticado)
 - [ ] Crear sección `/mi-portal` visible solo para usuarios logueados
