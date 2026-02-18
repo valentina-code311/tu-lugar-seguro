@@ -1,0 +1,166 @@
+# Features & Mejoras pendientes
+
+## Base de datos
+
+- [ ] Aplicar las 3 migraciones en Supabase (`supabase db push` o manual en SQL Editor)
+- [ ] Crear usuario admin e insertar en `user_roles`
+- [ ] Migración para tabla `products` (nombre, descripción, precio, stock, categoría, imagen, activo)
+- [ ] Migración para tabla `infoproducts` (título, descripción, precio, contenido, imagen, activo)
+- [ ] Migración para tabla `orders` (pedidos de tienda: usuario, productos, estado, total, dirección)
+- [ ] Migración para tabla `testimonials` (texto, autor, rating, visible)
+- [ ] Migración para tabla `faqs` (pregunta, respuesta, orden, visible)
+- [ ] Migración para tabla `contact_messages` (nombre, email, asunto, mensaje, leído)
+- [ ] Migración para tabla `social_links` (red, url, activo, orden)
+
+---
+
+## Panel admin
+
+### Dashboard
+- [ ] Conectar contadores reales (citas hoy, pedidos pendientes, escritos publicados, mensajes sin leer)
+- [ ] Gráfico de citas por semana/mes
+- [ ] Accesos directos a acciones frecuentes (nueva cita, nuevo escrito, ver pedidos)
+
+### Escritos ✓ (implementado)
+- [ ] Preview del escrito antes de publicar
+- [ ] Ordenar escritos por drag-and-drop en el listado
+- [ ] Duplicar un escrito existente como borrador
+
+### Agenda
+- [ ] Vista de citas en calendario mensual (admin)
+- [ ] Cambiar estado de una cita (pendiente → confirmada → completada → cancelada)
+- [ ] Ver detalle completo de cada cita
+- [ ] Agregar notas internas a una cita
+- [ ] Gestionar disponibilidad semanal (horarios por día)
+- [ ] Gestionar fechas bloqueadas (vacaciones, festivos)
+
+### Productos
+- [ ] Crear página `/admin/productos`
+- [ ] CRUD de productos (crear, editar, eliminar)
+- [ ] Subir imagen del producto a Supabase Storage
+- [ ] Gestión de stock
+- [ ] Activar/desactivar producto sin eliminarlo
+- [ ] Gestión de categorías
+
+### Infoproductos
+- [ ] Crear página `/admin/infoproductos`
+- [ ] CRUD de infoproductos
+- [ ] Subir imagen de portada
+- [ ] Editar lista de qué incluye
+
+### Pedidos
+- [ ] Crear página `/admin/pedidos`
+- [ ] Listado de pedidos con estado (pendiente, procesando, enviado, entregado)
+- [ ] Ver detalle del pedido con productos e info de envío
+- [ ] Cambiar estado del pedido
+- [ ] Filtrar por estado
+
+### Redes sociales
+- [ ] Crear página `/admin/redes`
+- [ ] Editar URL de cada red (Instagram, Facebook, YouTube, WhatsApp)
+- [ ] Activar/desactivar cada red
+- [ ] Reordenar el listado
+
+### Testimonios
+- [ ] Crear página `/admin/testimonios`
+- [ ] CRUD de testimonios
+- [ ] Mostrar/ocultar testimonio en el sitio
+
+### FAQs
+- [ ] Crear página `/admin/faqs`
+- [ ] CRUD de preguntas frecuentes
+- [ ] Reordenar por drag-and-drop
+
+### Clientes
+- [ ] Crear página `/admin/clientes`
+- [ ] Listado de usuarios registrados
+- [ ] Ver historial de citas por cliente
+- [ ] Ver historial de pedidos por cliente
+
+### Contacto
+- [ ] Crear página `/admin/mensajes`
+- [ ] Listado de mensajes recibidos (leído/no leído)
+- [ ] Ver mensaje completo
+- [ ] Marcar como leído
+
+---
+
+## Páginas públicas
+
+### Agenda
+- [ ] Conectar servicios desde Supabase (en vez de mockData)
+- [ ] Calendario que respeta la disponibilidad semanal real desde BD
+- [ ] Deshabilitar fechas bloqueadas en el calendario
+- [ ] Deshabilitar horarios ya ocupados por otras citas
+- [ ] Enviar formulario de reserva a Supabase (`appointments`)
+- [ ] Email de confirmación automático al cliente tras reservar
+
+### Tienda
+- [ ] Conectar productos desde Supabase (en vez de mockData)
+- [ ] Página de detalle de producto (`/tienda/:slug`)
+- [ ] Carrito de compras (contexto o estado global)
+- [ ] Checkout con datos de envío
+- [ ] Integración pasarela de pago (Wompi o MercadoPago)
+- [ ] Email de confirmación de pedido al cliente
+
+### Infoproductos
+- [ ] Conectar infoproductos desde Supabase (en vez de mockData)
+- [ ] Página de detalle de infoproducto (`/infoproductos/:slug`)
+- [ ] Integración pasarela de pago para compra digital
+- [ ] Entrega automática por email del archivo/acceso tras el pago
+
+### Servicios
+- [ ] Conectar servicios desde Supabase (en vez de mockData)
+- [ ] Botón "Agendar" en cada servicio que lleva a `/agenda` pre-seleccionando el servicio
+
+### Contacto
+- [ ] Conectar el formulario para guardar mensajes en Supabase
+- [ ] Enviar email de notificación a la admin cuando llega un mensaje
+
+### Talleres
+- [ ] Crear la página `/talleres` (actualmente el link en la navbar no tiene página)
+- [ ] Migración de tabla `workshops` (título, descripción, fecha, cupos, precio, imagen)
+- [ ] CRUD en admin
+
+### Portal del cliente (autenticado)
+- [ ] Crear sección `/mi-portal` visible solo para usuarios logueados
+- [ ] Ver mis citas (historial + próximas)
+- [ ] Ver mis compras
+- [ ] Acceder a mis infoproductos comprados
+- [ ] Editar perfil (nombre, foto)
+- [ ] Recuperación de contraseña por email
+
+---
+
+## Datos estáticos a migrar desde mockData
+
+- [x] Reemplazar `services` en el sitio público por datos desde Supabase
+- [ ] Reemplazar `products` / `productCategories` por datos desde Supabase
+- [ ] Reemplazar `infoproducts` por datos desde Supabase
+- [ ] Reemplazar `testimonials` por datos desde Supabase (con control admin)
+- [ ] Reemplazar `faqs` por datos desde Supabase (con control admin)
+- [ ] Reemplazar `socialLinks` en navbar/footer por datos desde Supabase
+- [ ] Reemplazar datos de contacto (email, teléfono) por configuración editable en admin
+
+---
+
+## SEO y rendimiento
+
+- [ ] Meta tags dinámicos por página (`<title>`, `description`)
+- [ ] Open Graph tags para escritos (título, imagen de portada, excerpt)
+- [ ] Sitemap automático con escritos publicados
+- [ ] Lazy loading en imágenes de tienda e infoproductos
+- [ ] Code splitting por ruta para reducir el bundle inicial
+
+---
+
+## UX / Mejoras de interfaz
+
+- [ ] Skeleton loaders en listados mientras carga la data
+- [ ] Página 404 con link a inicio
+- [ ] Toggle de dark mode visible en el navbar
+- [ ] Toast de confirmación al reservar cita
+- [ ] Responsive del panel admin en móvil (sidebar colapsable)
+- [ ] Imagen placeholder cuando un escrito/producto no tiene portada
+- [ ] Paginación o infinite scroll en listados largos (escritos, productos)
+- [ ] Breadcrumbs en páginas de detalle
