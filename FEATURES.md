@@ -2,8 +2,8 @@
 
 ## Base de datos
 
-- [ ] Aplicar las 3 migraciones en Supabase (`supabase db push` o manual en SQL Editor)
-- [ ] Crear usuario admin e insertar en `user_roles`
+- [x] Aplicar las 3 migraciones en Supabase (`supabase db push` o manual en SQL Editor)
+- [x] Crear usuario admin e insertar en `user_roles`
 - [ ] Migración para tabla `products` (nombre, descripción, precio, stock, categoría, imagen, activo)
 - [ ] Migración para tabla `infoproducts` (título, descripción, precio, contenido, imagen, activo)
 - [ ] Migración para tabla `orders` (pedidos de tienda: usuario, productos, estado, total, dirección)
@@ -88,7 +88,7 @@
 ## Páginas públicas
 
 ### Agenda
-- [ ] Conectar servicios desde Supabase (en vez de mockData)
+- [x] Conectar servicios desde Supabase (en vez de mockData)
 - [ ] Calendario que respeta la disponibilidad semanal real desde BD
 - [ ] Deshabilitar fechas bloqueadas en el calendario
 - [ ] Deshabilitar horarios ya ocupados por otras citas
@@ -109,8 +109,12 @@
 - [ ] Integración pasarela de pago para compra digital
 - [ ] Entrega automática por email del archivo/acceso tras el pago
 
-### Servicios
-- [ ] Conectar servicios desde Supabase (en vez de mockData)
+### Servicios ✓ (implementado)
+- [x] Crear página `/admin/servicios`
+- [x] CRUD de servicios (crear, editar, eliminar)
+- [x] Selección de ícono desde librería Lucide (picker visual)
+- [x] Activar/desactivar servicio sin eliminarlo
+- [x] Conectar servicios desde Supabase (en vez de mockData)
 - [ ] Botón "Agendar" en cada servicio que lleva a `/agenda` pre-seleccionando el servicio
 
 ### Contacto
