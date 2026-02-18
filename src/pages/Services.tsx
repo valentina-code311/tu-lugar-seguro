@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock } from "lucide-react";
 import { useServices, formatPrice } from "@/hooks/useServices";
+import { resolveIcon } from "@/components/admin/IconPicker";
 
 const Services = () => {
   const { data: services, isLoading } = useServices();
@@ -45,15 +46,25 @@ const Services = () => {
                   transition={{ delay: i * 0.1 }}
                   className="flex flex-col gap-6 rounded-2xl border border-border bg-surface p-8 shadow-soft md:flex-row md:items-center md:justify-between"
                 >
-                  <div>
-                    <h2 className="font-display text-xl font-bold text-foreground">{service.name}</h2>
-                    {service.description && (
-                      <p className="mt-2 max-w-lg text-sm text-muted-foreground">{service.description}</p>
-                    )}
-                    <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
-                      <Clock className="h-3.5 w-3.5" />
-                      {service.duration_minutes} min
-                    </p>
+                  <div className="flex gap-4">
+                    {(() => {
+                      const Icon = resolveIcon(service.icon);
+                      return (
+                        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                          <Icon className="h-7 w-7" />
+                        </div>
+                      );
+                    })()}
+                    <div>
+                      <h2 className="font-display text-xl font-bold text-foreground">{service.name}</h2>
+                      {service.description && (
+                        <p className="mt-2 max-w-lg text-sm text-muted-foreground">{service.description}</p>
+                      )}
+                      <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
+                        <Clock className="h-3.5 w-3.5" />
+                        {service.duration_minutes} min
+                      </p>
+                    </div>
                   </div>
                   <div className="flex items-center gap-4">
                     <p className="font-display text-2xl font-bold text-primary">{formatPrice(service.price)}</p>

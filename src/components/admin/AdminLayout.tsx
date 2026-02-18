@@ -2,12 +2,13 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, Palette, Share2, Package, BookOpen, ShoppingCart, Calendar, Users, LogOut, ChevronLeft, PenLine } from "lucide-react";
+import { LayoutDashboard, Palette, Share2, Package, BookOpen, ShoppingCart, Calendar, Users, LogOut, ChevronLeft, PenLine, Stethoscope } from "lucide-react";
 
 const adminNav = [
   { label: "Dashboard", path: "/admin", icon: LayoutDashboard },
   { label: "Theme Preview", path: "/admin/theme", icon: Palette },
   { label: "Escritos", path: "/admin/escritos", icon: PenLine },
+  { label: "Servicios", path: "/admin/servicios", icon: Stethoscope },
   { label: "Redes Sociales", path: "/admin/redes", icon: Share2 },
   { label: "Productos", path: "/admin/productos", icon: Package },
   { label: "Infoproductos", path: "/admin/infoproductos", icon: BookOpen },

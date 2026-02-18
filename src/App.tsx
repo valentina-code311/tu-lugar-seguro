@@ -18,6 +18,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import ThemePreview from "./pages/admin/ThemePreview";
 import AdminEscritos from "./pages/admin/AdminEscritos";
 import AdminEscritoEditor from "./pages/admin/AdminEscritoEditor";
+import AdminServicios from "./pages/admin/AdminServicios";
 import Escritos from "./pages/Escritos";
 import EscritoDetail from "./pages/EscritoDetail";
 import NotFound from "./pages/NotFound";
@@ -50,6 +51,7 @@ const App = () => (
               <Route path="escritos" element={<AdminEscritos />} />
               <Route path="escritos/nuevo" element={<AdminEscritoEditor />} />
               <Route path="escritos/:id" element={<AdminEscritoEditor />} />
+              <Route path="servicios" element={<AdminServicios />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

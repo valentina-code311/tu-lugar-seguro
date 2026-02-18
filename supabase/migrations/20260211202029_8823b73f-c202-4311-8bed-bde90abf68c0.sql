@@ -6,6 +6,7 @@ CREATE TABLE public.services (
   description TEXT,
   duration_minutes INTEGER NOT NULL DEFAULT 60,
   price INTEGER NOT NULL DEFAULT 0,
+  icon TEXT NOT NULL DEFAULT 'Heart',
   is_active BOOLEAN NOT NULL DEFAULT true,
   sort_order INTEGER NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sprout } from "lucide-react";
 import { useServices, formatPrice } from "@/hooks/useServices";
+import { resolveIcon } from "@/components/admin/IconPicker";
 
 const ServicesPreview = () => {
   const { data: services, isLoading } = useServices();
@@ -44,6 +45,14 @@ const ServicesPreview = () => {
                 transition={{ delay: i * 0.1 }}
                 className="group rounded-2xl border border-border bg-surface p-6 shadow-soft transition-all hover:shadow-card"
               >
+                {(() => {
+                  const Icon = resolveIcon(service.icon);
+                  return (
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                  );
+                })()}
                 <h3 className="font-display text-lg font-semibold text-foreground">{service.name}</h3>
                 {service.description && (
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{service.description}</p>
