@@ -53,17 +53,22 @@ const Navbar = () => {
 
         <div className="flex items-center gap-2">
           {isAdmin && (
-            <Button variant="ghost" size="icon" className="text-primary hover:text-primary-hover" onClick={() => navigate("/admin")}>
+            <Button
+              variant="ghost" size="icon"
+              onClick={() => navigate("/admin")}
+            >
               <Shield className="h-5 w-5" />
             </Button>
           )}
 
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setIsOpen(!isOpen)}
-            className="rounded-lg p-2 text-muted-foreground hover:bg-primary lg:hidden"
+            className="lg:hidden"
           >
             {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+          </Button>
         </div>
       </div>
 
