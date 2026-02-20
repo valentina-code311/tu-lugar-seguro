@@ -11,7 +11,6 @@ import Shop from "./pages/Shop";
 import Infoproducts from "./pages/Infoproducts";
 import Agenda from "./pages/Agenda";
 import Contact from "./pages/Contact";
-import Legal from "./pages/Legal";
 import Auth from "./pages/Auth";
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -22,6 +21,7 @@ import AdminServicios from "./pages/admin/AdminServicios";
 import AdminValores from "./pages/admin/AdminValores";
 import AdminTalleres from "./pages/admin/AdminTalleres";
 import AdminTallerEditor from "./pages/admin/AdminTallerEditor";
+import AdminAgenda from "./pages/admin/AdminAgenda";
 import Talleres from "./pages/Talleres";
 import Escritos from "./pages/Escritos";
 import EscritoDetail from "./pages/EscritoDetail";
@@ -44,7 +44,6 @@ const App = () => (
             <Route path="/infoproductos" element={<Infoproducts />} />
             <Route path="/agenda" element={<Agenda />} />
             <Route path="/contacto" element={<Contact />} />
-            <Route path="/legal" element={<Legal />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/escritos" element={<Escritos />} />
             <Route path="/escritos/:slug" element={<EscritoDetail />} />
@@ -61,6 +60,7 @@ const App = () => (
               <Route path="talleres" element={<AdminTalleres />} />
               <Route path="talleres/nuevo" element={<AdminTallerEditor />} />
               <Route path="talleres/:id" element={<AdminTallerEditor />} />
+              <Route path="agenda" element={<AdminAgenda />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
