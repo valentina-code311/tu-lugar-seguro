@@ -19,6 +19,7 @@ import ThemePreview from "./pages/admin/ThemePreview";
 import AdminEscritos from "./pages/admin/AdminEscritos";
 import AdminEscritoEditor from "./pages/admin/AdminEscritoEditor";
 import AdminServicios from "./pages/admin/AdminServicios";
+import AdminValores from "./pages/admin/AdminValores";
 import AdminTalleres from "./pages/admin/AdminTalleres";
 import AdminTallerEditor from "./pages/admin/AdminTallerEditor";
 import Talleres from "./pages/Talleres";
@@ -56,6 +57,7 @@ const App = () => (
               <Route path="escritos/nuevo" element={<AdminEscritoEditor />} />
               <Route path="escritos/:id" element={<AdminEscritoEditor />} />
               <Route path="servicios" element={<AdminServicios />} />
+              <Route path="valores" element={<AdminValores />} />
               <Route path="talleres" element={<AdminTalleres />} />
               <Route path="talleres/nuevo" element={<AdminTallerEditor />} />
               <Route path="talleres/:id" element={<AdminTallerEditor />} />
