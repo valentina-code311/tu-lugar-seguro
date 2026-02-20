@@ -11,12 +11,7 @@ const adminNav = [
   { label: "Servicios", path: "/admin/servicios", icon: Stethoscope },
   { label: "Talleres", path: "/admin/talleres", icon: GraduationCap },
   { label: "Valores", path: "/admin/valores", icon: Star },
-  { label: "Redes Sociales", path: "/admin/redes", icon: Share2 },
-  { label: "Productos", path: "/admin/productos", icon: Package },
-  { label: "Infoproductos", path: "/admin/infoproductos", icon: BookOpen },
-  { label: "Pedidos", path: "/admin/pedidos", icon: ShoppingCart },
   { label: "Agenda", path: "/admin/agenda", icon: Calendar },
-  { label: "Clientes", path: "/admin/clientes", icon: Users },
 ];
 
 const AdminLayout = () => {
