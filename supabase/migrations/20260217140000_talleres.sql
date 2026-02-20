@@ -28,7 +28,7 @@ CREATE TABLE public.talleres (
   image_url    TEXT,
   purpose      TEXT,
   experience   TEXT,
-  price        INTEGER      NOT NULL DEFAULT 0,  -- 0 = gratuito
+  price        INTEGER     NOT NULL DEFAULT 0,
   is_published BOOLEAN     NOT NULL DEFAULT true,
   created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
