@@ -9,7 +9,7 @@ const About = () => {
 
   return (
     <Layout>
-      <section className="bg-surface py-10 lg:pt-16">
+      <section className="bg-surface py-10 md:pt-16">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-3xl">
             <span className="flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">
@@ -55,9 +55,12 @@ const About = () => {
         </div>
       </section>
 
-      <section className="py-5">
+      <section className="py-5 pb-12">
         <div className="container mx-auto px-4">
-          <h2 className="mb-12 text-center font-display text-3xl font-bold text-foreground">Mis Valores</h2>
+          <h2 className="mb-8 flex items-center justify-center gap-3 text-3xl font-bold text-foreground">
+            <Sprout className="h-7 w-7" />
+            Mis Valores
+          </h2>
 
           {loadingValores && (
             <div className="grid gap-6 md:grid-cols-2">
@@ -68,7 +71,7 @@ const About = () => {
           )}
 
           {!loadingValores && (
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-3">
               {valores?.map((v, i) => {
                 const Icon = resolveIcon(v.icon);
                 return (
@@ -78,13 +81,13 @@ const About = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
-                    className="flex gap-4 rounded-2xl border border-border bg-surface p-6 shadow-soft"
+                    className="group rounded-2xl bg-card/80 p-6 shadow-lg transition-all hover:shadow-card"
                   >
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                    <div className="mb-4 mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-secondary text-primary group-hover:bg-primary group-hover:text-secondary">
                       <Icon className="h-6 w-6" />
                     </div>
-                    <div>
-                      <h3 className="font-display font-semibold text-foreground">{v.title}</h3>
+                    <div className="text-center">
+                      <h3 className="font-display font-semibold text-foreground text-xl">{v.title}</h3>
                       {v.description && (
                         <p className="mt-1 text-sm text-muted-foreground">{v.description}</p>
                       )}
@@ -98,9 +101,9 @@ const About = () => {
       </section>
 
       <section className="bg-primary/90 py-10">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="font-display text-2xl font-bold text-primary-foreground lg:text-3xl">
-            "La sexualidad es parte fundamental de nuestra salud integral. Hablemos de ella con naturalidad."
+        <div className="container mx-auto px-4 max-w-lg text-center">
+          <h2 className="font-display text-2xl font-bold text-primary-foreground">
+            "Cuando entiendes que el contexto importa, cambia la forma de cuidarte."
           </h2>
           <p className="mt-4 text-sm text-primary-foreground/70">— Maryen Chamorro</p>
         </div>
