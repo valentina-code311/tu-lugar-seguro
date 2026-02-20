@@ -11,13 +11,13 @@ const Services = () => {
 
   return (
     <Layout>
-      <section className="bg-surface py-10 md:pt-16">
+      <section className="bg-background py-10 md:pt-16">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-3xl text-center">
             <span className="flex items-center gap-2 justify-center text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">
-            <Sprout className="h-5 w-5" />
-            Servicios
-          </span>
+              <Sprout className="h-5 w-5" />
+              Servicios
+            </span>
             <h1 className="mt-3 font-display text-4xl font-bold text-foreground lg:text-5xl">
               Servicios profesionales
             </h1>
@@ -33,7 +33,7 @@ const Services = () => {
           {isLoading && (
             <div className="space-y-8">
               {[1, 2, 3, 4].map((n) => (
-                <div key={n} className="h-36 animate-pulse rounded-2xl bg-surface" />
+                <div key={n} className="h-36 animate-pulse rounded-2xl bg-background" />
               ))}
             </div>
           )}
@@ -53,7 +53,7 @@ const Services = () => {
                     {(() => {
                       const Icon = resolveIcon(service.icon);
                       return (
-                        <div className="mb-4 mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-secondary text-primary group-hover:bg-primary group-hover:text-secondary">
+                        <div className="mb-4 mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-background text-primary group-hover:bg-primary group-hover:text-secondary">
                           <Icon className="h-6 w-6" />
                         </div>
                       );

@@ -92,7 +92,7 @@ const AdminAgenda = () => {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: index * 0.04 }}
-        className="flex cursor-pointer items-start gap-4 rounded-2xl border border-border bg-surface p-5 shadow-soft transition-colors hover:border-primary/40"
+        className="flex cursor-pointer items-start gap-4 rounded-2xl border border-border bg-background p-5 shadow-soft transition-colors hover:border-primary/40"
         onClick={() => handleOpen(appt)}
       >
         {/* Date column */}
@@ -183,11 +183,10 @@ const AdminAgenda = () => {
           <button
             key={tab.key}
             onClick={() => setActiveFilter(tab.key)}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-              activeFilter === tab.key
-                ? "bg-primary text-primary-foreground"
-                : "border border-border bg-surface text-muted-foreground hover:border-primary/50"
-            }`}
+            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${activeFilter === tab.key
+              ? "bg-primary text-primary-foreground"
+              : "border border-border bg-background text-muted-foreground hover:border-primary/50"
+              }`}
           >
             {tab.label}
           </button>
@@ -199,13 +198,13 @@ const AdminAgenda = () => {
         {isLoading && (
           <div className="space-y-3">
             {[1, 2, 3].map((n) => (
-              <div key={n} className="h-24 animate-pulse rounded-2xl bg-surface" />
+              <div key={n} className="h-24 animate-pulse rounded-2xl bg-background" />
             ))}
           </div>
         )}
 
         {!isLoading && appointments?.length === 0 && (
-          <div className="rounded-2xl border border-dashed border-border bg-surface py-16 text-center">
+          <div className="rounded-2xl border border-dashed border-border bg-background py-16 text-center">
             <Calendar className="mx-auto h-10 w-10 text-muted-foreground/40" />
             <p className="mt-3 text-muted-foreground">No hay citas en esta categoría.</p>
           </div>

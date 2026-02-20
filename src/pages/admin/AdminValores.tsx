@@ -92,7 +92,7 @@ export default function AdminValores() {
       {isLoading && (
         <div className="space-y-3">
           {[1, 2, 3].map((n) => (
-            <div key={n} className="h-20 animate-pulse rounded-xl bg-surface" />
+            <div key={n} className="h-20 animate-pulse rounded-xl bg-background" />
           ))}
         </div>
       )}
@@ -104,7 +104,7 @@ export default function AdminValores() {
             return (
               <div
                 key={v.id}
-                className="flex items-center gap-4 rounded-xl border border-border bg-surface p-4 shadow-soft"
+                className="flex items-center gap-4 rounded-xl border border-border bg-background p-4 shadow-soft"
               >
                 <GripVertical className="h-4 w-4 shrink-0 text-muted-foreground/40" />
 

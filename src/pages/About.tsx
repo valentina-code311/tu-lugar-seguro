@@ -9,7 +9,7 @@ const About = () => {
 
   return (
     <Layout>
-      <section className="bg-surface py-10 md:pt-16">
+      <section className="bg-background py-10 md:pt-16">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-3xl">
             <span className="flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">
@@ -38,7 +38,7 @@ const About = () => {
               </p>
               <p>
                 Mi forma de acompañar es práctica y directa, sin perder la calidez, uso un método sencillo para aterrizar el proceso:
-                Ver → Nombrar → Elegir → Practicar. 
+                Ver → Nombrar → Elegir → Practicar.
               </p>
               <p>
                 Primero observamos patrones bien sean emocionales, relacionales o de pensamiento, después los nombramos con honestidad,
@@ -65,7 +65,7 @@ const About = () => {
           {loadingValores && (
             <div className="grid gap-6 md:grid-cols-2">
               {[1, 2, 3, 4].map((n) => (
-                <div key={n} className="h-24 animate-pulse rounded-2xl bg-surface" />
+                <div key={n} className="h-24 animate-pulse rounded-2xl bg-background" />
               ))}
             </div>
           )}
@@ -83,7 +83,7 @@ const About = () => {
                     transition={{ delay: i * 0.1 }}
                     className="group rounded-2xl bg-card/80 p-6 shadow-lg transition-all hover:shadow-card"
                   >
-                    <div className="mb-4 mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-secondary text-primary group-hover:bg-primary group-hover:text-secondary">
+                    <div className="mb-4 mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-background text-primary group-hover:bg-primary group-hover:text-secondary">
                       <Icon className="h-6 w-6" />
                     </div>
                     <div className="text-center">

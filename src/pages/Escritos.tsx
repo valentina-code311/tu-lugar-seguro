@@ -64,7 +64,7 @@ export default function Escritos() {
                 >
                   <Link
                     to={`/escritos/${escrito.slug}`}
-                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-soft transition-shadow hover:shadow-card"
+                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-soft transition-shadow hover:shadow-card"
                   >
                     {/* Cover image */}
                     {escrito.cover_image ? (

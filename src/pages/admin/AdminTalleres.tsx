@@ -147,7 +147,7 @@ export default function AdminTalleres() {
     const inscCount = t.taller_inscripciones?.[0]?.count ?? 0;
 
     return (
-      <div className="flex items-start gap-4 rounded-xl border border-border bg-surface p-4 shadow-soft">
+      <div className="flex items-start gap-4 rounded-xl border border-border bg-background p-4 shadow-soft">
         {/* Thumbnail */}
         {t.image_url ? (
           <img src={t.image_url} alt={t.title} className="h-20 w-32 shrink-0 rounded-lg object-cover" />
@@ -276,7 +276,7 @@ export default function AdminTalleres() {
       {isLoading && (
         <div className="space-y-3">
           {[1, 2, 3].map((n) => (
-            <div key={n} className="h-28 animate-pulse rounded-xl bg-surface" />
+            <div key={n} className="h-28 animate-pulse rounded-xl bg-background" />
           ))}
         </div>
       )}

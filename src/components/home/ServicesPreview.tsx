@@ -32,7 +32,7 @@ const ServicesPreview = () => {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {isLoading &&
             [1, 2, 3, 4].map((n) => (
-              <div key={n} className="h-48 animate-pulse rounded-2xl bg-surface" />
+              <div key={n} className="h-48 animate-pulse rounded-2xl bg-background" />
             ))}
 
           {!isLoading &&
@@ -48,7 +48,7 @@ const ServicesPreview = () => {
                 {(() => {
                   const Icon = resolveIcon(service.icon);
                   return (
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-secondary text-primary group-hover:bg-primary group-hover:text-secondary">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-background text-primary group-hover:bg-primary group-hover:text-secondary">
                       <Icon className="h-6 w-6" />
                     </div>
                   );

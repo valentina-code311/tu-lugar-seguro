@@ -8,7 +8,7 @@ import { Mail, Phone, MapPin, MessageCircle, Send } from "lucide-react";
 const Contact = () => {
   return (
     <Layout>
-      <section className="bg-surface py-16 lg:py-20">
+      <section className="bg-background py-16 lg:py-20">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-3xl text-center">
             <span className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">Contacto</span>
@@ -47,7 +47,7 @@ const Contact = () => {
             <motion.form
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="space-y-4 rounded-2xl border border-border bg-surface p-6 shadow-soft lg:col-span-3"
+              className="space-y-4 rounded-2xl border border-border bg-background p-6 shadow-soft lg:col-span-3"
             >
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>

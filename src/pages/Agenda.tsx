@@ -23,7 +23,7 @@ const Agenda = () => {
 
   return (
     <Layout>
-      <section className="bg-surface py-16 lg:py-20">
+      <section className="bg-background py-16 lg:py-20">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-3xl text-center">
             <span className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">Agenda</span>
@@ -37,7 +37,7 @@ const Agenda = () => {
         <div className="container mx-auto px-4">
           <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-2">
             {/* Calendar */}
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="rounded-2xl border border-border bg-surface p-6 shadow-soft">
+            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="rounded-2xl border border-border bg-background p-6 shadow-soft">
               <div className="mb-4 flex items-center justify-between">
                 <h3 className="font-display text-lg font-semibold capitalize text-foreground">{monthName}</h3>
                 <div className="flex gap-1">
@@ -62,10 +62,10 @@ const Agenda = () => {
                       disabled={isPast || isWeekend}
                       onClick={() => setSelectedDate(day)}
                       className={`rounded-lg py-2 text-sm transition-colors ${selectedDate === day
-                          ? "bg-primary text-primary-foreground"
-                          : isPast || isWeekend
-                            ? "text-muted-foreground/40"
-                            : "text-foreground hover:bg-primary"
+                        ? "bg-primary text-primary-foreground"
+                        : isPast || isWeekend
+                          ? "text-muted-foreground/40"
+                          : "text-foreground hover:bg-primary"
                         }`}
                     >
                       {day}
@@ -83,8 +83,8 @@ const Agenda = () => {
                         key={time}
                         onClick={() => setSelectedTime(time)}
                         className={`rounded-lg border px-3 py-2 text-xs font-medium transition-colors ${selectedTime === time
-                            ? "border-primary bg-primary text-primary-foreground"
-                            : "border-border text-muted-foreground hover:border-primary hover:text-foreground"
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border text-muted-foreground hover:border-primary hover:text-foreground"
                           }`}
                       >
                         {time}
@@ -96,7 +96,7 @@ const Agenda = () => {
             </motion.div>
 
             {/* Form */}
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="rounded-2xl border border-border bg-surface p-6 shadow-soft">
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="rounded-2xl border border-border bg-background p-6 shadow-soft">
               <h3 className="mb-6 font-display text-lg font-semibold text-foreground">Datos de la reserva</h3>
               <form className="space-y-4">
                 <div>
@@ -104,7 +104,7 @@ const Agenda = () => {
                   <select
                     value={selectedService}
                     onChange={(e) => setSelectedService(e.target.value)}
-                    className="flex h-10 w-full rounded-md border border-input bg-surface px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
                   >
                     <option value="">Selecciona un servicio</option>
                     {services?.map((s) => (
