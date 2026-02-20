@@ -55,7 +55,7 @@ export default function AdminEscritos() {
       )}
 
       {!isLoading && escritos && escritos.length > 0 && (
-        <div className="overflow-hidden rounded-xl border border-border bg-surface">
+        <div className="overflow-hidden rounded-xl border border-border bg-background">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-background/50">

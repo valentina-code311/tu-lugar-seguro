@@ -7,7 +7,7 @@ const iconMap: Record<string, React.ElementType> = {
 
 const Footer = () => {
   return (
-    <footer className="border-t border-border bg-secondary">
+    <footer className="border-t border-border bg-background">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           {/* Brand */}

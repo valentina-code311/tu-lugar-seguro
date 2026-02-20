@@ -1,8 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { LayoutDashboard, Palette, Share2, Package, BookOpen, ShoppingCart, Calendar, Users, LogOut, ChevronLeft, PenLine, Stethoscope, GraduationCap } from "lucide-react";
+import { LayoutDashboard, Palette, Calendar, LogOut, ChevronLeft, PenLine, Stethoscope, GraduationCap, Star } from "lucide-react";
 
 const adminNav = [
   { label: "Dashboard", path: "/admin", icon: LayoutDashboard },
@@ -10,12 +9,8 @@ const adminNav = [
   { label: "Escritos", path: "/admin/escritos", icon: PenLine },
   { label: "Servicios", path: "/admin/servicios", icon: Stethoscope },
   { label: "Talleres", path: "/admin/talleres", icon: GraduationCap },
-  { label: "Redes Sociales", path: "/admin/redes", icon: Share2 },
-  { label: "Productos", path: "/admin/productos", icon: Package },
-  { label: "Infoproductos", path: "/admin/infoproductos", icon: BookOpen },
-  { label: "Pedidos", path: "/admin/pedidos", icon: ShoppingCart },
+  { label: "Valores", path: "/admin/valores", icon: Star },
   { label: "Agenda", path: "/admin/agenda", icon: Calendar },
-  { label: "Clientes", path: "/admin/clientes", icon: Users },
 ];
 
 const AdminLayout = () => {
@@ -36,7 +31,7 @@ const AdminLayout = () => {
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
-      <aside className="sticky top-0 flex h-screen w-64 flex-col border-r border-border bg-surface">
+      <aside className="sticky top-0 flex h-screen w-64 flex-col border-r border-border bg-background">
         <div className="border-b border-border p-4">
           <h2 className="font-display text-lg font-bold text-foreground">Admin Panel</h2>
           <p className="text-xs text-muted-foreground">Psicosexvalendm</p>
@@ -48,12 +43,11 @@ const AdminLayout = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                  location.pathname === item.path ||
+                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${location.pathname === item.path ||
                   (item.path !== "/admin" && location.pathname.startsWith(item.path))
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:bg-primary hover:text-accent-foreground"
-                }`}
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-primary hover:text-accent-foreground"
+                  }`}
               >
                 <item.icon className="h-4 w-4" />
                 {item.label}

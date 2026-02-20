@@ -8,7 +8,7 @@ const tokens = {
   ],
   "Fondos": [
     { name: "Background", variable: "--background", hex: "#F6E4E6", desc: "Fondo general de la app" },
-    { name: "Surface", variable: "--surface", hex: "#FFFFFF", desc: "Cards, modales, navbar, footer" },
+    { name: "secondary", variable: "--secondary", hex: "#FFFFFF", desc: "Cards, modales, navbar, footer" },
     { name: "Highlight Cream", variable: "--highlight-cream", hex: "#F1E0D2", desc: "Secciones destacadas, badges default" },
   ],
   "Texto": [
@@ -44,7 +44,7 @@ const ThemePreview = () => {
               {items.map((token) => (
                 <div
                   key={token.variable}
-                  className="rounded-xl border border-border bg-surface p-4 shadow-soft"
+                  className="rounded-xl border border-border bg-background p-4 shadow-soft"
                 >
                   <div className="flex items-start gap-3">
                     <div
@@ -69,12 +69,12 @@ const ThemePreview = () => {
       <div className="mt-12">
         <h2 className="mb-4 font-display text-xl font-semibold text-foreground">Tipografía</h2>
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-xl border border-border bg-surface p-6 shadow-soft">
+          <div className="rounded-xl border border-border bg-background p-6 shadow-soft">
             <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Display</p>
             <p className="mt-2 font-display text-3xl font-bold text-foreground">Playfair Display</p>
             <p className="mt-1 font-display text-lg italic text-muted-foreground">Elegante y con personalidad</p>
           </div>
-          <div className="rounded-xl border border-border bg-surface p-6 shadow-soft">
+          <div className="rounded-xl border border-border bg-background p-6 shadow-soft">
             <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Body</p>
             <p className="mt-2 font-body text-3xl font-bold text-foreground">DM Sans</p>
             <p className="mt-1 font-body text-lg text-muted-foreground">Limpia y legible</p>
@@ -85,7 +85,7 @@ const ThemePreview = () => {
       {/* Component Preview */}
       <div className="mt-12">
         <h2 className="mb-4 font-display text-xl font-semibold text-foreground">Componentes</h2>
-        <div className="rounded-xl border border-border bg-surface p-6 shadow-soft">
+        <div className="rounded-xl border border-border bg-background p-6 shadow-soft">
           <div className="space-y-6">
             {/* Buttons */}
             <div>
@@ -123,11 +123,11 @@ const ThemePreview = () => {
               <p className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">Inputs</p>
               <div className="max-w-sm space-y-3">
                 <input
-                  className="flex h-10 w-full rounded-md border border-input bg-surface px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
                   placeholder="Input normal"
                 />
                 <input
-                  className="flex h-10 w-full rounded-md border-2 border-error bg-surface px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/30"
+                  className="flex h-10 w-full rounded-md border-2 border-error bg-background px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/30"
                   placeholder="Input con error"
                 />
               </div>
@@ -136,9 +136,9 @@ const ThemePreview = () => {
             {/* Card */}
             <div>
               <p className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">Card</p>
-              <div className="max-w-sm rounded-xl border border-border bg-surface p-5 shadow-card">
+              <div className="max-w-sm rounded-xl border border-border bg-background p-5 shadow-card">
                 <h3 className="font-display text-lg font-semibold text-foreground">Título de la card</h3>
-                <p className="mt-1 text-sm text-muted-foreground">Descripción con texto muted sobre fondo surface.</p>
+                <p className="mt-1 text-sm text-muted-foreground">Descripción con texto muted sobre fondo secondary.</p>
                 <div className="mt-4">
                   <button className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover">
                     Acción

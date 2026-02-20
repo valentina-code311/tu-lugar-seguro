@@ -7,7 +7,7 @@ import { infoproducts, formatPrice } from "@/data/mockData";
 const Infoproducts = () => {
   return (
     <Layout>
-      <section className="bg-surface py-16 lg:py-20">
+      <section className="bg-background py-16 lg:py-20">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-3xl text-center">
             <span className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">Recursos Digitales</span>
@@ -30,7 +30,7 @@ const Infoproducts = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15 }}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-soft transition-all hover:shadow-card"
+                className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-soft transition-all hover:shadow-card"
               >
                 <div className="aspect-[16/9] overflow-hidden bg-muted">
                   <img src={product.image} alt={product.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />

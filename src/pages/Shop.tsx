@@ -18,7 +18,7 @@ const Shop = () => {
 
   return (
     <Layout>
-      <section className="bg-surface py-16 lg:py-20">
+      <section className="bg-background py-16 lg:py-20">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-3xl text-center">
             <span className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">El Clóset de la Sexóloga</span>
@@ -36,8 +36,8 @@ const Shop = () => {
               <button
                 onClick={() => setSelectedCategory(null)}
                 className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${!selectedCategory
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-primary text-accent-foreground hover:bg-muted"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-primary text-accent-foreground hover:bg-muted"
                   }`}
               >
                 Todos
@@ -47,8 +47,8 @@ const Shop = () => {
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.slug)}
                   className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${selectedCategory === cat.slug
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-primary text-accent-foreground hover:bg-muted"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-primary text-accent-foreground hover:bg-muted"
                     }`}
                 >
                   {cat.name}
@@ -74,7 +74,7 @@ const Shop = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="group overflow-hidden rounded-2xl border border-border bg-surface shadow-soft transition-all hover:shadow-card"
+                className="group overflow-hidden rounded-2xl border border-border bg-background shadow-soft transition-all hover:shadow-card"
               >
                 <div className="aspect-square overflow-hidden bg-muted">
                   <img

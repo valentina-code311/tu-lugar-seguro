@@ -138,7 +138,7 @@ function TallerCard({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.4, delay: index * 0.08 }}
-        className="overflow-hidden rounded-2xl border border-border bg-surface shadow-soft"
+        className="overflow-hidden rounded-2xl border border-border bg-background shadow-soft"
       >
         {/* Cover image */}
         {taller.image_url ? (
@@ -187,8 +187,8 @@ function TallerCard({
               {taller.price === 0
                 ? <span className="text-green-600">Gratuito</span>
                 : <span className="text-foreground">
-                    {new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(taller.price)}
-                  </span>}
+                  {new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(taller.price)}
+                </span>}
             </p>
           </div>
 
@@ -280,7 +280,7 @@ export default function Talleres() {
         <div className="container mx-auto pb-24">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3].map((n) => (
-              <div key={n} className="h-96 animate-pulse rounded-2xl bg-surface" />
+              <div key={n} className="h-96 animate-pulse rounded-2xl bg-background" />
             ))}
           </div>
         </div>

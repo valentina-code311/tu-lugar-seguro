@@ -118,7 +118,7 @@ export function BlockEditor({ blocks, onChange }: BlockEditorProps) {
       {blocks.map((block, index) => (
         <div key={block.localId} className="group relative">
           {/* Block card */}
-          <div className="rounded-xl border border-border bg-surface p-4 transition-shadow hover:shadow-soft">
+          <div className="rounded-xl border border-border bg-background p-4 transition-shadow hover:shadow-soft">
             {/* Block header: type label + controls */}
             <div className="mb-3 flex items-center justify-between">
               <span className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground/70">
@@ -247,7 +247,7 @@ export function BlockEditor({ blocks, onChange }: BlockEditorProps) {
           {/* Add block button between blocks */}
           <div className="relative flex items-center justify-center py-1">
             {addingAt === index ? (
-              <div className="flex items-center gap-1.5 rounded-full border border-border bg-surface p-1 shadow-soft">
+              <div className="flex items-center gap-1.5 rounded-full border border-border bg-background p-1 shadow-soft">
                 {BLOCK_OPTIONS.map((opt) => (
                   <button
                     key={opt.type}
@@ -269,7 +269,7 @@ export function BlockEditor({ blocks, onChange }: BlockEditorProps) {
             ) : (
               <button
                 onClick={() => setAddingAt(index)}
-                className="flex h-6 w-6 items-center justify-center rounded-full border border-border bg-surface text-muted-foreground opacity-0 shadow-soft transition-all group-hover:opacity-100 hover:border-primary hover:text-primary"
+                className="flex h-6 w-6 items-center justify-center rounded-full border border-border bg-background text-muted-foreground opacity-0 shadow-soft transition-all group-hover:opacity-100 hover:border-primary hover:text-primary"
                 title="Agregar bloque"
               >
                 <Plus className="h-3.5 w-3.5" />

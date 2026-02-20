@@ -6,76 +6,60 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
+  Dialog, DialogContent, DialogHeader,
+  DialogTitle, DialogFooter,
 } from "@/components/ui/dialog";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
+  AlertDialog, AlertDialogAction, AlertDialogCancel,
+  AlertDialogContent, AlertDialogDescription,
+  AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { IconPicker, resolveIcon } from "@/components/admin/IconPicker";
 import {
-  useAdminServices,
-  useCreateService,
-  useUpdateService,
-  useDeleteService,
-  formatPrice,
-  type Service,
-} from "@/hooks/useServices";
+  useAdminValores, useCreateValor,
+  useUpdateValor, useDeleteValor,
+  type Valor,
+} from "@/hooks/useValores";
 
-const EMPTY: Omit<Service, "id"> = {
-  name: "",
+const EMPTY: Omit<Valor, "id"> = {
+  title: "",
   description: "",
-  duration_minutes: 60,
-  price: 0,
   icon: "Heart",
-  is_active: true,
   sort_order: 0,
+  is_active: true,
 };
 
-export default function AdminServicios() {
-  const { data: services, isLoading } = useAdminServices();
-  const createMutation = useCreateService();
-  const updateMutation = useUpdateService();
-  const deleteMutation = useDeleteService();
+export default function AdminValores() {
+  const { data: valores, isLoading } = useAdminValores();
+  const createMutation = useCreateValor();
+  const updateMutation = useUpdateValor();
+  const deleteMutation = useDeleteValor();
 
   const [open, setOpen] = useState(false);
-  const [editing, setEditing] = useState<Service | null>(null);
+  const [editing, setEditing] = useState<Valor | null>(null);
   const [form, setForm] = useState(EMPTY);
 
   function openNew() {
-    const nextOrder = (services?.length ?? 0) + 1;
     setEditing(null);
-    setForm({ ...EMPTY, sort_order: nextOrder });
+    setForm({ ...EMPTY, sort_order: (valores?.length ?? 0) + 1 });
     setOpen(true);
   }
 
-  function openEdit(service: Service) {
-    setEditing(service);
+  function openEdit(v: Valor) {
+    setEditing(v);
     setForm({
-      name: service.name,
-      description: service.description ?? "",
-      duration_minutes: service.duration_minutes,
-      price: service.price,
-      icon: service.icon,
-      is_active: service.is_active,
-      sort_order: service.sort_order,
+      title: v.title,
+      description: v.description ?? "",
+      icon: v.icon,
+      sort_order: v.sort_order,
+      is_active: v.is_active,
     });
     setOpen(true);
   }
 
   async function handleSave() {
-    if (!form.name.trim()) return;
+    if (!form.title.trim()) return;
     if (editing) {
       await updateMutation.mutateAsync({ id: editing.id, ...form });
     } else {
@@ -84,8 +68,8 @@ export default function AdminServicios() {
     setOpen(false);
   }
 
-  function toggleActive(service: Service) {
-    updateMutation.mutate({ id: service.id, is_active: !service.is_active });
+  function toggleActive(v: Valor) {
+    updateMutation.mutate({ id: v.id, is_active: !v.is_active });
   }
 
   const isPending = createMutation.isPending || updateMutation.isPending;
@@ -94,14 +78,14 @@ export default function AdminServicios() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-2xl font-bold text-foreground">Servicios</h1>
+          <h1 className="font-display text-2xl font-bold text-foreground">Valores</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Gestiona los servicios que ofreces y su información
+            Aparecen en la sección "Mis Valores" de la página Sobre mí
           </p>
         </div>
         <Button onClick={openNew}>
           <Plus className="mr-2 h-4 w-4" />
-          Nuevo servicio
+          Nuevo valor
         </Button>
       </div>
 
@@ -115,11 +99,11 @@ export default function AdminServicios() {
 
       {!isLoading && (
         <div className="space-y-3">
-          {services?.map((service) => {
-            const Icon = resolveIcon(service.icon);
+          {valores?.map((v) => {
+            const Icon = resolveIcon(v.icon);
             return (
               <div
-                key={service.id}
+                key={v.id}
                 className="flex items-center gap-4 rounded-xl border border-border bg-background p-4 shadow-soft"
               >
                 <GripVertical className="h-4 w-4 shrink-0 text-muted-foreground/40" />
@@ -130,44 +114,42 @@ export default function AdminServicios() {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="font-medium text-foreground truncate">{service.name}</p>
-                    {!service.is_active && (
+                    <p className="font-medium text-foreground truncate">{v.title}</p>
+                    {!v.is_active && (
                       <Badge variant="secondary" className="shrink-0 text-xs">Inactivo</Badge>
                     )}
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    {service.duration_minutes} min · {formatPrice(service.price)}
-                  </p>
+                  {v.description && (
+                    <p className="mt-0.5 line-clamp-1 text-sm text-muted-foreground">{v.description}</p>
+                  )}
                 </div>
 
                 <div className="flex items-center gap-1 shrink-0">
                   <Button
-                    variant="ghost"
-                    size="icon"
-                    title={service.is_active ? "Desactivar" : "Activar"}
-                    onClick={() => toggleActive(service)}
+                    variant="ghost" size="icon"
+                    title={v.is_active ? "Desactivar" : "Activar"}
+                    onClick={() => toggleActive(v)}
                   >
-                    {service.is_active
+                    {v.is_active
                       ? <Eye className="h-4 w-4" />
                       : <EyeOff className="h-4 w-4 text-muted-foreground" />}
                   </Button>
-                  <Button variant="ghost" size="icon" title="Editar" onClick={() => openEdit(service)}>
+                  <Button variant="ghost" size="icon" title="Editar" onClick={() => openEdit(v)}>
                     <Pencil className="h-4 w-4" />
                   </Button>
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button
-                        variant="ghost"
-                        size="icon"
-                        title="Eliminar"
+                        variant="ghost" size="icon"
                         className="text-destructive hover:text-destructive"
+                        title="Eliminar"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>¿Eliminar "{service.name}"?</AlertDialogTitle>
+                        <AlertDialogTitle>¿Eliminar "{v.title}"?</AlertDialogTitle>
                         <AlertDialogDescription>
                           Esta acción no se puede deshacer.
                         </AlertDialogDescription>
@@ -176,7 +158,7 @@ export default function AdminServicios() {
                         <AlertDialogCancel>Cancelar</AlertDialogCancel>
                         <AlertDialogAction
                           className="bg-destructive hover:bg-destructive/90"
-                          onClick={() => deleteMutation.mutate(service.id)}
+                          onClick={() => deleteMutation.mutate(v.id)}
                         >
                           Eliminar
                         </AlertDialogAction>
@@ -188,9 +170,9 @@ export default function AdminServicios() {
             );
           })}
 
-          {services?.length === 0 && (
+          {valores?.length === 0 && (
             <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border py-16 text-center">
-              <p className="text-muted-foreground">No hay servicios todavía.</p>
+              <p className="text-muted-foreground">No hay valores todavía.</p>
               <Button variant="outline" className="mt-4" onClick={openNew}>
                 Crear el primero
               </Button>
@@ -199,20 +181,20 @@ export default function AdminServicios() {
         </div>
       )}
 
-      {/* Create / Edit dialog */}
+      {/* Dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{editing ? "Editar servicio" : "Nuevo servicio"}</DialogTitle>
+            <DialogTitle>{editing ? "Editar valor" : "Nuevo valor"}</DialogTitle>
           </DialogHeader>
 
           <div className="space-y-4 py-2">
             <div className="space-y-1.5">
-              <Label>Nombre</Label>
+              <Label>Título</Label>
               <Input
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                placeholder="Ej: Sesión individual"
+                value={form.title}
+                onChange={(e) => setForm({ ...form, title: e.target.value })}
+                placeholder="Ej: Enfoque Humanista"
               />
             </div>
 
@@ -221,32 +203,9 @@ export default function AdminServicios() {
               <Textarea
                 value={form.description ?? ""}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
-                placeholder="Breve descripción del servicio..."
+                placeholder="Breve descripción de este valor..."
                 rows={3}
               />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <Label>Duración (minutos)</Label>
-                <Input
-                  type="number"
-                  min={15}
-                  step={15}
-                  value={form.duration_minutes}
-                  onChange={(e) => setForm({ ...form, duration_minutes: Number(e.target.value) })}
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label>Precio (COP)</Label>
-                <Input
-                  type="number"
-                  min={0}
-                  step={1000}
-                  value={form.price}
-                  onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
-                />
-              </div>
             </div>
 
             <div className="space-y-1.5">
@@ -256,6 +215,7 @@ export default function AdminServicios() {
                 min={1}
                 value={form.sort_order}
                 onChange={(e) => setForm({ ...form, sort_order: Number(e.target.value) })}
+                className="w-28"
               />
             </div>
 
@@ -270,18 +230,16 @@ export default function AdminServicios() {
                     </div>
                   );
                 })()}
-                <span className="text-sm text-muted-foreground">Vista previa del ícono seleccionado</span>
+                <span className="text-sm text-muted-foreground">Vista previa</span>
               </div>
               <IconPicker value={form.icon} onChange={(icon) => setForm({ ...form, icon })} />
             </div>
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setOpen(false)}>
-              Cancelar
-            </Button>
-            <Button onClick={handleSave} disabled={isPending || !form.name.trim()}>
-              {isPending ? "Guardando..." : editing ? "Guardar cambios" : "Crear servicio"}
+            <Button variant="outline" onClick={() => setOpen(false)}>Cancelar</Button>
+            <Button onClick={handleSave} disabled={isPending || !form.title.trim()}>
+              {isPending ? "Guardando..." : editing ? "Guardar cambios" : "Crear valor"}
             </Button>
           </DialogFooter>
         </DialogContent>

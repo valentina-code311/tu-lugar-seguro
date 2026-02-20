@@ -198,7 +198,7 @@ export default function AdminEscritoEditor() {
         {/* Sidebar */}
         <div className="space-y-5 lg:sticky lg:top-6 lg:self-start">
           {/* Cover image */}
-          <div className="rounded-xl border border-border bg-surface p-4">
+          <div className="rounded-xl border border-border bg-background p-4">
             <Label className="mb-3 block text-sm font-medium">Imagen de portada</Label>
             <input
               ref={coverInputRef}
@@ -253,7 +253,7 @@ export default function AdminEscritoEditor() {
           </div>
 
           {/* Metadata */}
-          <div className="rounded-xl border border-border bg-surface p-4 space-y-4">
+          <div className="rounded-xl border border-border bg-background p-4 space-y-4">
             <h3 className="text-sm font-medium text-foreground">Metadatos</h3>
 
             <div className="space-y-1.5">
@@ -278,7 +278,7 @@ export default function AdminEscritoEditor() {
           </div>
 
           {/* Word count */}
-          <div className="rounded-xl border border-border bg-surface px-4 py-3">
+          <div className="rounded-xl border border-border bg-background px-4 py-3">
             <p className="text-xs text-muted-foreground">
               <span className="font-medium text-foreground">
                 {blocks.reduce((acc, b) => acc + (b.content?.split(/\s+/).filter(Boolean).length ?? 0), 0)}

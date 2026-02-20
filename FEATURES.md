@@ -26,11 +26,11 @@
 - [ ] Ordenar escritos por drag-and-drop en el listado
 - [ ] Duplicar un escrito existente como borrador
 
-### Agenda
+### Agenda ✓ (parcialmente implementado)
 - [ ] Vista de citas en calendario mensual (admin)
-- [ ] Cambiar estado de una cita (pendiente → confirmada → completada → cancelada)
-- [ ] Ver detalle completo de cada cita
-- [ ] Agregar notas internas a una cita
+- [x] Cambiar estado de una cita (pendiente → confirmada → completada → cancelada)
+- [x] Ver detalle completo de cada cita
+- [x] Agregar notas internas a una cita
 - [ ] Gestionar disponibilidad semanal (horarios por día)
 - [ ] Gestionar fechas bloqueadas (vacaciones, festivos)
 
@@ -108,6 +108,12 @@
 - [ ] Página de detalle de infoproducto (`/infoproductos/:slug`)
 - [ ] Integración pasarela de pago para compra digital
 - [ ] Entrega automática por email del archivo/acceso tras el pago
+
+### Valores (Sobre mí) ✓ (implementado)
+- [x] Migración tabla `valores` con seed de datos iniciales
+- [x] Sección "Mis Valores" en /sobre-mi conectada a Supabase
+- [x] Admin /admin/valores: CRUD con selector de ícono Lucide, título y descripción
+- [x] Activar/desactivar valor sin eliminarlo
 
 ### Servicios ✓ (implementado)
 - [x] Crear página `/admin/servicios`

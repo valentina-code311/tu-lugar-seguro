@@ -59,7 +59,7 @@ const Auth = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-md rounded-2xl border border-border bg-surface p-8 shadow-card"
+          className="w-full max-w-md rounded-2xl border border-border bg-background p-8 shadow-card"
         >
           <div className="mb-6 text-center">
             <h1 className="font-display text-2xl font-bold text-foreground">

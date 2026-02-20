@@ -11,11 +11,11 @@ const AdminDashboard = () => {
       <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {[
           { label: "Productos", value: "8", color: "bg-primary" },
-          { label: "Infoproductos", value: "3", color: "bg-secondary" },
+          { label: "Infoproductos", value: "3", color: "bg-background" },
           { label: "Pedidos", value: "0", color: "bg-success" },
           { label: "Citas", value: "0", color: "bg-info" },
         ].map((stat) => (
-          <div key={stat.label} className="rounded-2xl border border-border bg-surface p-6 shadow-soft">
+          <div key={stat.label} className="rounded-2xl border border-border bg-background p-6 shadow-soft">
             <p className="text-sm text-muted-foreground">{stat.label}</p>
             <p className="mt-2 font-display text-3xl font-bold text-foreground">{stat.value}</p>
           </div>

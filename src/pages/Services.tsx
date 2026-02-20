@@ -2,7 +2,7 @@ import Layout from "@/components/layout/Layout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock } from "lucide-react";
+import { Calendar, Clock, Sprout } from "lucide-react";
 import { useServices, formatPrice } from "@/hooks/useServices";
 import { resolveIcon } from "@/components/admin/IconPicker";
 
@@ -11,10 +11,13 @@ const Services = () => {
 
   return (
     <Layout>
-      <section className="bg-surface py-20 lg:py-28">
+      <section className="bg-background py-10 md:pt-16">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-3xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">Servicios</span>
+            <span className="flex items-center gap-2 justify-center text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">
+              <Sprout className="h-5 w-5" />
+              Servicios
+            </span>
             <h1 className="mt-3 font-display text-4xl font-bold text-foreground lg:text-5xl">
               Servicios profesionales
             </h1>
@@ -25,18 +28,18 @@ const Services = () => {
         </div>
       </section>
 
-      <section className="py-20">
+      <section className="py-5 pb-12">
         <div className="container mx-auto px-4">
           {isLoading && (
             <div className="space-y-8">
               {[1, 2, 3, 4].map((n) => (
-                <div key={n} className="h-36 animate-pulse rounded-2xl bg-surface" />
+                <div key={n} className="h-36 animate-pulse rounded-2xl bg-background" />
               ))}
             </div>
           )}
 
           {!isLoading && (
-            <div className="space-y-8">
+            <div className="grid gap-6 sm:grid-cols-2">
               {services?.map((service, i) => (
                 <motion.div
                   key={service.id}
@@ -44,14 +47,14 @@ const Services = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="flex flex-col gap-6 rounded-2xl border border-border bg-surface p-8 shadow-soft md:flex-row md:items-center md:justify-between"
+                  className="group rounded-2xl bg-card/80 p-6 space-y-6 shadow-lg transition-all hover:shadow-card"
                 >
                   <div className="flex gap-4">
                     {(() => {
                       const Icon = resolveIcon(service.icon);
                       return (
-                        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-                          <Icon className="h-7 w-7" />
+                        <div className="mb-4 mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-background text-primary group-hover:bg-primary group-hover:text-secondary">
+                          <Icon className="h-6 w-6" />
                         </div>
                       );
                     })()}
