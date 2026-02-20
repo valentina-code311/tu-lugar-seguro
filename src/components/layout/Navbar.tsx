@@ -23,7 +23,7 @@ const Navbar = () => {
   const { isAdmin } = useAuth();
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-border bg-primary-foreground/70 backdrop-blur-lg">
+    <nav className="sticky top-0 z-50 border-b border-border bg-primary-foreground/70 backdrop-blur-lg relative">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:h-20">
         <Link to="/" className="flex items-center gap-4" aria-label="Inicio - Maryen Chamorro Psicóloga">
           <img src={logo} alt="Logo Maryen Chamorro" className="h-10 w-10 md:h-12 md:w-12" />
@@ -80,7 +80,7 @@ const Navbar = () => {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="overflow-hidden border-t border-border bg-surface lg:hidden"
+            className="absolute left-0 right-0 top-full overflow-hidden border-b border-border bg-primary-foreground/70 backdrop-blur-lg shadow-md lg:hidden"
           >
             <div className="container mx-auto flex flex-col gap-1 px-4 py-4">
               {navItems.map((item) => (
