@@ -2,16 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { motion } from "framer-motion";
-import {
-  ArrowLeft,
-  Share2,
-  Link2,
-  MessageCircle,
-  Twitter,
-  Facebook,
-  Loader2,
-  BookOpen,
-} from "lucide-react";
+import { ArrowLeft, Share2, Link2, MessageCircle, Twitter, Facebook, Loader2, BookOpen, Dot } from "lucide-react";
 import { toast } from "sonner";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -38,12 +29,7 @@ function ShareBar({ title }: { title: string }) {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
-      <span className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
-        <Share2 className="h-4 w-4" />
-        Compartir
-      </span>
-
+    <div className="flex flex-wrap items-center gap-2">
       <a
         href={links.whatsapp}
         target="_blank"
@@ -162,9 +148,11 @@ function RenderBlock({ block }: { block: EscritoBlock }) {
 
     case "separator":
       return (
-        <div className="flex items-center justify-center py-4">
-          <span className="select-none text-2xl font-light tracking-[0.6em] text-foreground/30">
-            · · ·
+        <div className="flex items-center justify-center py-2">
+          <span className="flex items-center gap-2 select-none tracking-[0.6em] text-primary/80">
+            <Dot />
+            <Dot />
+            <Dot />
           </span>
         </div>
       );
@@ -240,10 +228,7 @@ export default function EscritoDetail() {
   if (isLoading) {
     return (
       <Layout>
-        <div className="flex min-h-[60vh] items-center justify-center text-muted-foreground">
-          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-          Cargando escrito...
-        </div>
+        <div className="h-[40vh] min-h-[280px] w-full overflow-hidden bg-primary/50 md:h-[55vh] animate-pulse" />
       </Layout>
     );
   }
@@ -251,7 +236,7 @@ export default function EscritoDetail() {
   if (isError || !escrito) {
     return (
       <Layout>
-        <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 text-center">
+        <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
           <BookOpen className="h-12 w-12 text-muted-foreground/40" />
           <h1 className="font-display text-2xl font-bold text-foreground">
             Escrito no encontrado
@@ -271,7 +256,7 @@ export default function EscritoDetail() {
     <Layout>
       {/* Cover image */}
       {escrito.cover_image && (
-        <div className="h-[40vh] min-h-[280px] w-full overflow-hidden md:h-[55vh]">
+        <div className="h-[40vh] min-h-[200px] w-full overflow-hidden md:h-[55vh]">
           <img
             src={escrito.cover_image}
             alt={escrito.title}
@@ -280,15 +265,15 @@ export default function EscritoDetail() {
         </div>
       )}
 
-      <article className="bg-background py-12 md:py-20">
+      <article className="bg-background py-4 md:py-8">
         <div className="container mx-auto">
-          <div className="mx-auto max-w-2xl">
+          <div className="mx-auto max-w-5xl">
             {/* Back link */}
             <Button
               asChild
               variant="ghost"
               size="sm"
-              className="mb-8 gap-1.5 text-muted-foreground"
+              className="mb-5 gap-1.5 text-muted-foreground"
             >
               <Link to="/escritos">
                 <ArrowLeft className="h-4 w-4" />
@@ -296,30 +281,34 @@ export default function EscritoDetail() {
               </Link>
             </Button>
 
+            {/* Share bar */}
+            <div className="pb-6">
+              <ShareBar title={escrito.title} />
+            </div>
+
             {/* Header */}
             <motion.header
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="mb-10 space-y-4"
+              className="mb-4"
             >
               {escrito.published_at && (
-                <time className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">
+                <time className="text-xs md:text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">
                   {format(new Date(escrito.published_at), "d 'de' MMMM 'de' yyyy", {
                     locale: es,
                   })}
                 </time>
               )}
-              <h1 className="font-display text-4xl font-bold leading-tight text-foreground md:text-5xl">
+
+              <h1 className="font-display font-bold leading-tight text-foreground text-3xl md:text-4xl mt-4 mb-8">
                 {escrito.title}
               </h1>
               {escrito.excerpt && (
-                <p className="text-xl leading-relaxed text-muted-foreground">{escrito.excerpt}</p>
+                <p className="text-lg leading-[1.85] text-primary text-justify">
+                  {escrito.excerpt}
+                </p>
               )}
-
-              <div className="pt-2">
-                <ShareBar title={escrito.title} />
-              </div>
             </motion.header>
 
             {/* Content blocks */}
@@ -327,7 +316,7 @@ export default function EscritoDetail() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="space-y-8"
+              className="space-y-4"
             >
               {escrito.escrito_blocks.map((block) => (
                 <RenderBlock key={block.id} block={block} />
@@ -335,15 +324,15 @@ export default function EscritoDetail() {
             </motion.div>
 
             {/* Footer sharing */}
-            <div className="mt-16 border-t border-border pt-8">
-              <p className="mb-4 text-sm font-medium text-muted-foreground">
-                ¿Te resonó este escrito? Compártelo con alguien que pueda necesitarlo.
+            <div className="mt-10 pt-8 border-t border-border">
+              <p className="mb-5 text-sm font-medium text-muted-foreground">
+                ¿Te resonó este escrito? Compártelo con alguien que también pueda conectar.
               </p>
               <ShareBar title={escrito.title} />
             </div>
 
             {/* Back CTA */}
-            <div className="mt-12 text-center">
+            <div className="mt-5 text-center">
               <Button asChild variant="outline">
                 <Link to="/escritos">
                   <ArrowLeft className="mr-2 h-4 w-4" />

@@ -95,11 +95,11 @@ export default function Escritos() {
                         {escrito.title}
                       </h2>
                       {escrito.excerpt && (
-                        <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+                        <p className="mt-3 line-clamp-5 text-sm leading-relaxed text-muted-foreground">
                           {escrito.excerpt}
                         </p>
                       )}
-                      <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:border-b-2 group-hover:border-primary w-fit">
+                      <span className="mt-auto pt-5 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:border-b-2 group-hover:border-primary w-fit">
                         Leer escrito
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </span>
