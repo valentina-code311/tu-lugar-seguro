@@ -26,6 +26,55 @@ export interface Appointment {
   services: { name: string; duration_minutes: number; price: number } | null;
 }
 
+// ── Public booking ────────────────────────────────────────────────────────────
+
+interface BookAppointmentPayload {
+  service_id: string;
+  appointment_date: string;   // YYYY-MM-DD
+  start_time: string;          // HH:MM:SS
+  end_time: string;            // HH:MM:SS
+  client_name: string;
+  client_email: string;
+  client_phone?: string;
+  client_message?: string;
+  modality: "online" | "presencial";
+  consent_accepted: boolean;
+}
+
+export interface BookedSlot {
+  start_time: string; // HH:MM:SS
+  end_time: string;   // HH:MM:SS
+}
+
+export function useBookedSlots(date: string | null) {
+  return useQuery({
+    queryKey: ["booked-slots", date],
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("get_booked_slots", { p_date: date! });
+      if (error) throw error;
+      return (data ?? []) as BookedSlot[];
+    },
+    enabled: !!date,
+  });
+}
+
+export function useBookAppointment() {
+  return useMutation({
+    mutationFn: async (payload: BookAppointmentPayload) => {
+      const { data, error } = await supabase
+        .from("appointments")
+        .insert(payload)
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onError: (err: Error) => toast.error(`Error al reservar: ${err.message}`),
+  });
+}
+
+// ── Admin queries ─────────────────────────────────────────────────────────────
+
 export function useAdminAppointments(filter: "all" | AppointmentStatus = "all") {
   return useQuery({
     queryKey: ["admin", "appointments", filter],

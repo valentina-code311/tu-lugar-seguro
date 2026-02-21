@@ -72,7 +72,7 @@ const Services = () => {
                   <div className="flex items-center gap-4">
                     <p className="font-display text-2xl font-bold text-primary">{formatPrice(service.price)}</p>
                     <Button asChild className="gap-2">
-                      <Link to="/agenda">
+                      <Link to={`/agenda?servicio=${service.id}`}>
                         <Calendar className="h-4 w-4" />
                         Agendar
                       </Link>
