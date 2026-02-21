@@ -7,8 +7,6 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Services from "./pages/Services";
-import Shop from "./pages/Shop";
-import Infoproducts from "./pages/Infoproducts";
 import Agenda from "./pages/Agenda";
 import Contact from "./pages/Contact";
 import Auth from "./pages/Auth";
@@ -40,14 +38,12 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/sobre-mi" element={<About />} />
             <Route path="/servicios" element={<Services />} />
-            <Route path="/tienda" element={<Shop />} />
-            <Route path="/infoproductos" element={<Infoproducts />} />
+            <Route path="/talleres" element={<Talleres />} />
+            <Route path="/escritos" element={<Escritos />} />
+            <Route path="/escritos/:slug" element={<EscritoDetail />} />
             <Route path="/agenda" element={<Agenda />} />
             <Route path="/contacto" element={<Contact />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/escritos" element={<Escritos />} />
-            <Route path="/escritos/:slug" element={<EscritoDetail />} />
-            <Route path="/talleres" element={<Talleres />} />
             {/* Admin routes */}
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
