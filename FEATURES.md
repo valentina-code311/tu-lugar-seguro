@@ -22,6 +22,14 @@
 - [ ] Accesos directos a acciones frecuentes (nueva cita, nuevo escrito, ver pedidos)
 
 ### Escritos ✓ (implementado)
+- [x] Rich text en párrafos (negrita, cursiva, subrayado, enlaces inline) con toolbar de formato
+- [x] Texto justificado en la vista pública del lector
+- [x] Bloque separador estilo Medium (· · ·) para dividir secciones
+- [x] Bloque de video YouTube (embed con URL)
+- [x] Bloque de tabla (filas y columnas editables, visualización estilizada)
+- [x] Fix: constraint de tipo en escrito_blocks ampliada para nuevos bloques (migración)
+- [x] Fix: guardado de escritos usa INSERT/UPDATE en lugar de upsert (evita conflicto de slug)
+- [x] Fix: published_at gestionado por trigger SQL (se preserva al re-editar un publicado)
 - [ ] Preview del escrito antes de publicar
 - [ ] Ordenar escritos por drag-and-drop en el listado
 - [ ] Duplicar un escrito existente como borrador
