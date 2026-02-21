@@ -45,7 +45,7 @@ const Services = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="rounded-2xl bg-card/80 p-6 shadow-lg transition-all hover:shadow-card"
+                className="flex flex-col rounded-2xl bg-card/80 p-6 shadow-lg transition-all hover:shadow-card"
               >
                 {(() => {
                   const Icon = resolveIcon(service.icon);
@@ -62,25 +62,23 @@ const Services = () => {
                   );
                 })()}
 
-                <div className="flex flex-col gap-2 justify-between">
-                  <div className="flex flex-col gap-2">
-                    <h3 className="font-display text-lg font-semibold text-foreground">{service.name}</h3>
-                    {service.description && (
-                      <p className="text-sm leading-relaxed text-muted-foreground">{service.description}</p>
-                    )}
-                  </div>
+                <div className="flex-1">
+                  <h3 className="font-display text-lg font-semibold text-foreground">{service.name}</h3>
+                  {service.description && (
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{service.description}</p>
+                  )}
+                </div>
 
-                  <div className="flex items-center justify-between mt-auto">
-                    <p className="font-display text-xl font-bold text-primary">
-                      {formatPrice(service.price)}
-                    </p>
-                    <Button asChild className="group">
-                      <Link to={`/agenda?servicio=${service.id}`}>
-                        <Calendar className="h-4 w-4" />
-                        <ChevronRight className="hidden group-hover:block group-hover:animate-slide-left" />
-                      </Link>
-                    </Button>
-                  </div>
+                <div className="mt-4 flex items-center justify-between">
+                  <p className="font-display text-xl font-bold text-primary">
+                    {formatPrice(service.price)}
+                  </p>
+                  <Button asChild className="group">
+                    <Link to={`/agenda?servicio=${service.id}`}>
+                      <Calendar className="h-4 w-4" />
+                      <ChevronRight className="hidden group-hover:block group-hover:animate-slide-left" />
+                    </Link>
+                  </Button>
                 </div>
               </motion.div>
             ))

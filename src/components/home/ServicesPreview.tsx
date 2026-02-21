@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Sprout } from "lucide-react";
 import { useServices, formatPrice } from "@/hooks/useServices";
 import { resolveIcon } from "@/components/admin/IconPicker";
+import { useNavigate } from "react-router-dom";
 
 const ServicesPreview = () => {
   const { data: services, isLoading } = useServices();
+  const navigate = useNavigate();
 
   return (
     <section className="py-10">
@@ -43,7 +45,8 @@ const ServicesPreview = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="group rounded-2xl bg-card/80 p-6 shadow-lg transition-all hover:shadow-card"
+                className="group flex flex-col rounded-2xl bg-card/80 p-6 shadow-lg transition-all hover:shadow-card cursor-pointer"
+                onClick={() => navigate(`/agenda?servicio=${service.id}`)}
               >
                 {(() => {
                   const Icon = resolveIcon(service.icon);
@@ -53,10 +56,12 @@ const ServicesPreview = () => {
                     </div>
                   );
                 })()}
-                <h3 className="font-display text-lg font-semibold text-foreground">{service.name}</h3>
-                {service.description && (
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{service.description}</p>
-                )}
+                <div className="flex-1">
+                  <h3 className="font-display text-lg font-semibold text-foreground">{service.name}</h3>
+                  {service.description && (
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{service.description}</p>
+                  )}
+                </div>
                 <p className="mt-4 font-display text-lg font-bold text-primary">{formatPrice(service.price)}</p>
               </motion.div>
             ))}
