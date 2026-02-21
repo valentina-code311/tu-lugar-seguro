@@ -144,6 +144,9 @@
 - [x] Campo "experiencia vivida" editable post-evento
 - [x] Imagen de referencia con upload a Supabase Storage
 - [x] Vista de inscripciones en el editor admin
+- [ ] Enviar email de confirmación automático al cliente tras reservar
+- [ ] Enviar email de notificación a la admin cuando llega un mensaje
+- [ ] Poder adjuntar un carrusel de imágenes al taller
 
 ### Portal del cliente (autenticado)
 - [ ] Crear sección `/mi-portal` visible solo para usuarios logueados

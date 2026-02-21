@@ -18,7 +18,7 @@ const Services = () => {
               <Sprout className="h-5 w-5" />
               Servicios
             </span>
-            <div className="mt-6 mx-2 grid gap-4 text-muted-foreground text-justify">
+            <div className="mt-6 mx-2 text-muted-foreground">
               <p>
                 Acompañamiento terapéutico adaptado a tus necesidades, con enfoque integral y sin juicios.
               </p>
