@@ -22,11 +22,7 @@ import {
 
 // ── Registration dialog ───────────────────────────────────────────────────────
 
-function InscripcionDialog({ taller, open, onClose }: {
-  taller: Taller;
-  open: boolean;
-  onClose: () => void;
-}) {
+function InscripcionDialog({ taller, open, onClose }: { taller: Taller; open: boolean; onClose: () => void; }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");

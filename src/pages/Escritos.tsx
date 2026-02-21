@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { motion } from "framer-motion";
-import { ArrowRight, BookOpen } from "lucide-react";
+import { ArrowRight, BookOpen, Sprout } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { usePublishedEscritos } from "@/hooks/useEscritos";
 
@@ -11,35 +11,37 @@ export default function Escritos() {
 
   return (
     <Layout>
-      {/* Hero */}
-      <section className="bg-background py-16 md:py-24">
-        <div className="container mx-auto">
+      <section className="bg-background py-10 md:pt-16">
+        <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="mx-auto max-w-2xl text-center"
           >
-            <span className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">
-              Reflexiones
-            </span>
-            <h1 className="mt-3 font-display text-4xl font-bold text-foreground md:text-5xl">
+            <span className="flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">
+              <Sprout className="h-5 w-5" />
               Escritos
-            </h1>
-            <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-              Reflexiones sobre sexualidad, vínculos y bienestar emocional. Textos para pensar,
-              sentir y reconocerte.
-            </p>
+            </span>
+            <div className="mt-6 mx-2 text-muted-foreground">
+              <p>
+                Textos para pensar, sentir y reconocerte.
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
 
       {/* Content */}
-      <section className="bg-background pb-24">
+      <section className="bg-background pb-12">
         <div className="container mx-auto">
           {isLoading && (
-            <div className="flex justify-center py-20 text-muted-foreground">
-              Cargando escritos...
+            <div className="container mx-auto pb-12">
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {[1, 2, 3].map((n) => (
+                  <div key={n} className="h-96 animate-pulse rounded-2xl bg-card/80" />
+                ))}
+              </div>
             </div>
           )}
 
@@ -64,7 +66,7 @@ export default function Escritos() {
                 >
                   <Link
                     to={`/escritos/${escrito.slug}`}
-                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-soft transition-shadow hover:shadow-card"
+                    className="group flex h-full flex-col overflow-hidden rounded-2xl bg-card/80 shadow-lg transition-shadow hover:shadow-card"
                   >
                     {/* Cover image */}
                     {escrito.cover_image ? (
@@ -89,15 +91,15 @@ export default function Escritos() {
                           {format(new Date(escrito.published_at), "d MMMM yyyy", { locale: es })}
                         </time>
                       )}
-                      <h2 className="font-display text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                      <h2 className="font-display line-clamp-2 text-xl font-bold text-foreground group-hover:text-primary transition-colors">
                         {escrito.title}
                       </h2>
                       {escrito.excerpt && (
-                        <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+                        <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
                           {escrito.excerpt}
                         </p>
                       )}
-                      <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
+                      <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:border-b-2 group-hover:border-primary w-fit">
                         Leer escrito
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </span>
