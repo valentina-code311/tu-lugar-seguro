@@ -87,13 +87,42 @@ function ShareBar({ title }: { title: string }) {
 
 // ── Block renderer ─────────────────────────────────────────────────────────────
 
+function getYoutubeEmbedUrl(url: string): string | null {
+  if (!url) return null;
+  const m = url.match(
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/
+  );
+  return m ? `https://www.youtube.com/embed/${m[1]}` : null;
+}
+
+interface TableData {
+  headers: string[];
+  rows: string[][];
+}
+
+function parseTable(content: string): TableData | null {
+  try {
+    const d = JSON.parse(content);
+    if (Array.isArray(d.headers) && Array.isArray(d.rows)) return d;
+  } catch {}
+  return null;
+}
+
+// Convert plain text to HTML for backward compat
+function contentToHtml(text: string | null): string {
+  if (!text) return "";
+  if (/<[^>]+>/.test(text)) return text;
+  return text.replace(/\n/g, "<br>");
+}
+
 function RenderBlock({ block }: { block: EscritoBlock }) {
   switch (block.type) {
     case "paragraph":
       return (
-        <p className="text-lg leading-[1.85] text-foreground/85 whitespace-pre-wrap">
-          {block.content}
-        </p>
+        <p
+          className="text-lg leading-[1.85] text-foreground/85 text-justify [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2"
+          dangerouslySetInnerHTML={{ __html: contentToHtml(block.content) }}
+        />
       );
 
     case "heading":
@@ -130,6 +159,72 @@ function RenderBlock({ block }: { block: EscritoBlock }) {
           )}
         </figure>
       );
+
+    case "separator":
+      return (
+        <div className="flex items-center justify-center py-4">
+          <span className="select-none text-2xl font-light tracking-[0.6em] text-foreground/30">
+            · · ·
+          </span>
+        </div>
+      );
+
+    case "video": {
+      const embedUrl = getYoutubeEmbedUrl(block.content ?? "");
+      if (!embedUrl) return null;
+      return (
+        <div className="aspect-video overflow-hidden rounded-xl shadow-soft">
+          <iframe
+            src={embedUrl}
+            className="h-full w-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            loading="lazy"
+            title="Video"
+          />
+        </div>
+      );
+    }
+
+    case "table": {
+      const tableData = parseTable(block.content ?? "");
+      if (!tableData) return null;
+      return (
+        <div className="overflow-auto rounded-xl border border-border shadow-soft">
+          <table className="w-full border-collapse text-base">
+            <thead>
+              <tr className="bg-muted/60">
+                {tableData.headers.map((h, i) => (
+                  <th
+                    key={i}
+                    className="border-b border-border px-4 py-2.5 text-left text-sm font-semibold text-foreground"
+                  >
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {tableData.rows.map((row, ri) => (
+                <tr
+                  key={ri}
+                  className="border-b border-border/60 last:border-0 odd:bg-background even:bg-muted/20"
+                >
+                  {row.map((cell, ci) => (
+                    <td
+                      key={ci}
+                      className="px-4 py-2.5 text-sm text-foreground/85"
+                    >
+                      {cell}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
 
     default:
       return null;

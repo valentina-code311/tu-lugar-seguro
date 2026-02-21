@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   ArrowUp,
   ArrowDown,
@@ -9,13 +9,317 @@ import {
   ImageIcon,
   Plus,
   Loader2,
+  Minus,
+  Video,
+  Table,
+  Bold,
+  Italic,
+  Underline,
+  Link2,
+  PlusCircle,
+  Rows3,
+  Columns3,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { EditorBlock, BlockType, uploadEscritoImage } from "@/hooks/useEscritos";
 import { toast } from "sonner";
-import { useState } from "react";
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function getYoutubeEmbedUrl(url: string): string | null {
+  if (!url) return null;
+  const m = url.match(
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/
+  );
+  return m ? `https://www.youtube.com/embed/${m[1]}` : null;
+}
+
+interface TableData {
+  headers: string[];
+  rows: string[][];
+}
+
+function parseTable(content: string): TableData {
+  try {
+    const d = JSON.parse(content);
+    if (Array.isArray(d.headers) && Array.isArray(d.rows)) return d;
+  } catch {}
+  return { headers: ["Columna 1", "Columna 2"], rows: [["", ""]] };
+}
+
+// Detect if content has HTML markup (for backward compat with plain text)
+function toHtml(text: string): string {
+  if (!text) return "";
+  if (/<[^>]+>/.test(text)) return text;
+  return text.replace(/\n/g, "<br>");
+}
+
+// ── Sub-components ────────────────────────────────────────────────────────────
+
+function ToolbarBtn({
+  onMouseDown,
+  title,
+  children,
+}: {
+  onMouseDown: (e: React.MouseEvent) => void;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onMouseDown={(e) => {
+        e.preventDefault(); // Preserve selection in contentEditable
+        onMouseDown(e);
+      }}
+      title={title}
+      className="flex h-6 w-6 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+    >
+      {children}
+    </button>
+  );
+}
+
+function RichTextParagraph({
+  content,
+  onChange,
+}: {
+  content: string;
+  onChange: (html: string) => void;
+}) {
+  const editorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (editorRef.current) {
+      const htmlContent = toHtml(content);
+      if (editorRef.current.innerHTML !== htmlContent) {
+        editorRef.current.innerHTML = htmlContent;
+      }
+    }
+  }, [content]);
+
+  function exec(command: string, value?: string) {
+    editorRef.current?.focus();
+    document.execCommand(command, false, value ?? undefined);
+    if (editorRef.current) onChange(editorRef.current.innerHTML);
+  }
+
+  function handleLink() {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed) {
+      toast.error("Selecciona texto primero para agregar un enlace");
+      return;
+    }
+    const url = window.prompt("URL del enlace (ej: https://ejemplo.com):");
+    if (url) exec("createLink", url);
+  }
+
+  return (
+    <div>
+      {/* Formatting toolbar */}
+      <div className="mb-2 flex items-center gap-0.5 border-b border-border/50 pb-2">
+        <ToolbarBtn onMouseDown={() => exec("bold")} title="Negrita (Ctrl+B)">
+          <Bold className="h-3.5 w-3.5" />
+        </ToolbarBtn>
+        <ToolbarBtn onMouseDown={() => exec("italic")} title="Cursiva (Ctrl+I)">
+          <Italic className="h-3.5 w-3.5" />
+        </ToolbarBtn>
+        <ToolbarBtn onMouseDown={() => exec("underline")} title="Subrayado (Ctrl+U)">
+          <Underline className="h-3.5 w-3.5" />
+        </ToolbarBtn>
+        <div className="mx-1 h-4 w-px bg-border" />
+        <ToolbarBtn onMouseDown={handleLink} title="Agregar enlace">
+          <Link2 className="h-3.5 w-3.5" />
+        </ToolbarBtn>
+      </div>
+
+      {/* ContentEditable editor */}
+      <div
+        ref={editorRef}
+        contentEditable
+        suppressContentEditableWarning
+        onInput={() => {
+          if (editorRef.current) onChange(editorRef.current.innerHTML);
+        }}
+        className="min-h-[120px] text-base leading-relaxed outline-none [&:empty]:before:text-muted-foreground/50 [&:empty]:before:content-[attr(data-placeholder)] [&_a]:text-primary [&_a]:underline"
+        data-placeholder="Escribe tu párrafo aquí..."
+      />
+    </div>
+  );
+}
+
+function VideoEditor({
+  content,
+  onChange,
+}: {
+  content: string;
+  onChange: (v: string) => void;
+}) {
+  const embedUrl = getYoutubeEmbedUrl(content);
+
+  return (
+    <div className="space-y-3">
+      <Input
+        value={content}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder="https://www.youtube.com/watch?v=... o https://youtu.be/..."
+        className="font-mono text-sm"
+      />
+      {embedUrl ? (
+        <div className="aspect-video overflow-hidden rounded-lg bg-black/5">
+          <iframe
+            src={embedUrl}
+            className="h-full w-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title="Vista previa del video"
+          />
+        </div>
+      ) : content ? (
+        <p className="text-xs text-destructive">URL de YouTube no válida</p>
+      ) : null}
+    </div>
+  );
+}
+
+function TableEditor({
+  content,
+  onChange,
+}: {
+  content: string;
+  onChange: (v: string) => void;
+}) {
+  const data = parseTable(content);
+
+  function update(newData: TableData) {
+    onChange(JSON.stringify(newData));
+  }
+
+  function updateHeader(ci: number, value: string) {
+    const headers = [...data.headers];
+    headers[ci] = value;
+    update({ ...data, headers });
+  }
+
+  function updateCell(ri: number, ci: number, value: string) {
+    const rows = data.rows.map((r) => [...r]);
+    rows[ri][ci] = value;
+    update({ ...data, rows });
+  }
+
+  function addRow() {
+    update({ ...data, rows: [...data.rows, data.headers.map(() => "")] });
+  }
+
+  function removeRow(ri: number) {
+    update({ ...data, rows: data.rows.filter((_, j) => j !== ri) });
+  }
+
+  function addCol() {
+    update({
+      headers: [...data.headers, `Columna ${data.headers.length + 1}`],
+      rows: data.rows.map((r) => [...r, ""]),
+    });
+  }
+
+  function removeCol(ci: number) {
+    update({
+      headers: data.headers.filter((_, j) => j !== ci),
+      rows: data.rows.map((r) => r.filter((_, j) => j !== ci)),
+    });
+  }
+
+  return (
+    <div className="space-y-2 overflow-auto">
+      <table className="w-full border-collapse text-sm">
+        <thead>
+          <tr>
+            {data.headers.map((h, ci) => (
+              <th key={ci} className="border border-border bg-muted/50 p-0">
+                <div className="flex items-center">
+                  <input
+                    value={h}
+                    onChange={(e) => updateHeader(ci, e.target.value)}
+                    className="min-w-0 flex-1 bg-transparent px-2 py-1.5 font-semibold outline-none"
+                    placeholder={`Col ${ci + 1}`}
+                  />
+                  {data.headers.length > 1 && (
+                    <button
+                      onClick={() => removeCol(ci)}
+                      className="mr-1 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded text-muted-foreground/50 hover:text-destructive"
+                      title="Eliminar columna"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  )}
+                </div>
+              </th>
+            ))}
+            {/* Add column */}
+            <th className="w-8 border border-dashed border-border/60 bg-muted/20 p-0">
+              <button
+                onClick={addCol}
+                className="flex w-full items-center justify-center py-2 text-muted-foreground/60 hover:text-primary"
+                title="Agregar columna"
+              >
+                <Columns3 className="h-3.5 w-3.5" />
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.rows.map((row, ri) => (
+            <tr key={ri}>
+              {row.map((cell, ci) => (
+                <td key={ci} className="border border-border p-0">
+                  <input
+                    value={cell}
+                    onChange={(e) => updateCell(ri, ci, e.target.value)}
+                    className="w-full bg-transparent px-2 py-1.5 outline-none"
+                    placeholder="..."
+                  />
+                </td>
+              ))}
+              {/* Delete row */}
+              <td className="border border-border p-0 text-center">
+                {data.rows.length > 1 && (
+                  <button
+                    onClick={() => removeRow(ri)}
+                    className="flex w-full items-center justify-center py-2 text-muted-foreground/50 hover:text-destructive"
+                    title="Eliminar fila"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
+          {/* Add row */}
+          <tr>
+            <td
+              colSpan={data.headers.length + 1}
+              className="border border-dashed border-border/60 p-0"
+            >
+              <button
+                onClick={addRow}
+                className="flex w-full items-center justify-center gap-1.5 py-1.5 text-xs text-muted-foreground/60 hover:text-primary"
+                title="Agregar fila"
+              >
+                <Rows3 className="h-3.5 w-3.5" />
+                Agregar fila
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// ── Block options ─────────────────────────────────────────────────────────────
 
 interface BlockEditorProps {
   blocks: EditorBlock[];
@@ -27,16 +331,28 @@ const BLOCK_OPTIONS: { type: BlockType; label: string; icon: React.ElementType }
   { type: "heading", label: "Encabezado", icon: Heading2 },
   { type: "quote", label: "Cita", icon: Quote },
   { type: "image", label: "Imagen", icon: ImageIcon },
+  { type: "separator", label: "Separador", icon: Minus },
+  { type: "video", label: "Video", icon: Video },
+  { type: "table", label: "Tabla", icon: Table },
 ];
 
 function newBlock(type: BlockType): EditorBlock {
+  let defaultContent = "";
+  if (type === "table") {
+    defaultContent = JSON.stringify({
+      headers: ["Columna 1", "Columna 2"],
+      rows: [["", ""]],
+    });
+  }
   return {
     localId: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
     type,
-    content: "",
+    content: defaultContent,
     image_url: "",
   };
 }
+
+// ── Main component ────────────────────────────────────────────────────────────
 
 export function BlockEditor({ blocks, onChange }: BlockEditorProps) {
   const [addingAt, setAddingAt] = useState<number | null>(null);
@@ -76,7 +392,7 @@ export function BlockEditor({ blocks, onChange }: BlockEditorProps) {
     try {
       const url = await uploadEscritoImage(file);
       updateBlock(localId, { image_url: url });
-    } catch (err) {
+    } catch {
       toast.error("Error al subir la imagen");
     } finally {
       setUploadingId(null);
@@ -122,12 +438,17 @@ export function BlockEditor({ blocks, onChange }: BlockEditorProps) {
             {/* Block header: type label + controls */}
             <div className="mb-3 flex items-center justify-between">
               <span className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground/70">
-                {BLOCK_OPTIONS.find((o) => o.type === block.type)?.icon &&
-                  (() => {
-                    const Icon = BLOCK_OPTIONS.find((o) => o.type === block.type)!.icon;
-                    return <Icon className="h-3.5 w-3.5" />;
-                  })()}
-                {BLOCK_OPTIONS.find((o) => o.type === block.type)?.label}
+                {(() => {
+                  const opt = BLOCK_OPTIONS.find((o) => o.type === block.type);
+                  if (!opt) return null;
+                  const Icon = opt.icon;
+                  return (
+                    <>
+                      <Icon className="h-3.5 w-3.5" />
+                      {opt.label}
+                    </>
+                  );
+                })()}
               </span>
               <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
                 <Button
@@ -162,13 +483,12 @@ export function BlockEditor({ blocks, onChange }: BlockEditorProps) {
               </div>
             </div>
 
-            {/* Block content */}
+            {/* ── Block content ── */}
+
             {block.type === "paragraph" && (
-              <Textarea
-                value={block.content}
-                onChange={(e) => updateBlock(block.localId, { content: e.target.value })}
-                placeholder="Escribe tu párrafo aquí..."
-                className="min-h-[120px] resize-y border-0 bg-transparent p-0 text-base leading-relaxed shadow-none focus-visible:ring-0"
+              <RichTextParagraph
+                content={block.content}
+                onChange={(html) => updateBlock(block.localId, { content: html })}
               />
             )}
 
@@ -242,17 +562,39 @@ export function BlockEditor({ blocks, onChange }: BlockEditorProps) {
                 />
               </div>
             )}
+
+            {block.type === "separator" && (
+              <div className="flex items-center justify-center py-3">
+                <span className="select-none text-2xl font-light tracking-[0.5em] text-muted-foreground/40">
+                  · · ·
+                </span>
+              </div>
+            )}
+
+            {block.type === "video" && (
+              <VideoEditor
+                content={block.content}
+                onChange={(v) => updateBlock(block.localId, { content: v })}
+              />
+            )}
+
+            {block.type === "table" && (
+              <TableEditor
+                content={block.content}
+                onChange={(v) => updateBlock(block.localId, { content: v })}
+              />
+            )}
           </div>
 
           {/* Add block button between blocks */}
           <div className="relative flex items-center justify-center py-1">
             {addingAt === index ? (
-              <div className="flex items-center gap-1.5 rounded-full border border-border bg-background p-1 shadow-soft">
+              <div className="flex flex-wrap items-center gap-1 rounded-xl border border-border bg-background p-1.5 shadow-soft">
                 {BLOCK_OPTIONS.map((opt) => (
                   <button
                     key={opt.type}
                     onClick={() => addBlock(opt.type, index)}
-                    className="flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+                    className="flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
                     title={opt.label}
                   >
                     <opt.icon className="h-3.5 w-3.5" />
@@ -280,15 +622,13 @@ export function BlockEditor({ blocks, onChange }: BlockEditorProps) {
       ))}
 
       {/* Add block at the end */}
-      <div className="flex items-center gap-2 pt-2">
+      <div className="flex flex-wrap items-center gap-2 pt-2">
         {BLOCK_OPTIONS.map((opt) => (
           <Button
             key={opt.type}
             variant="outline"
             size="sm"
-            onClick={() => {
-              onChange([...blocks, newBlock(opt.type)]);
-            }}
+            onClick={() => onChange([...blocks, newBlock(opt.type)])}
             className="gap-1.5"
           >
             <opt.icon className="h-3.5 w-3.5" />
