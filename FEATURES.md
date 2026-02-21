@@ -99,8 +99,9 @@
 - [x] Conectar servicios desde Supabase (en vez de mockData)
 - [ ] Calendario que respeta la disponibilidad semanal real desde BD
 - [ ] Deshabilitar fechas bloqueadas en el calendario
-- [ ] Deshabilitar horarios ya ocupados por otras citas
-- [ ] Enviar formulario de reserva a Supabase (`appointments`)
+- [x] Horarios en bloques de 30 min (9:00-11:30 y 14:00-16:30)
+- [x] Deshabilitar horarios ocupados por citas existentes (consulta via RPC segura)
+- [x] Enviar formulario de reserva a Supabase (appointments) — botón confirmar funcional
 - [ ] Email de confirmación automático al cliente tras reservar
 
 ### Tienda
@@ -129,7 +130,7 @@
 - [x] Selección de ícono desde librería Lucide (picker visual)
 - [x] Activar/desactivar servicio sin eliminarlo
 - [x] Conectar servicios desde Supabase (en vez de mockData)
-- [ ] Botón "Agendar" en cada servicio que lleva a `/agenda` pre-seleccionando el servicio
+- [x] Botón "Agendar" en cada servicio lleva a /agenda pre-seleccionando el servicio (?servicio=uuid)
 
 ### Contacto
 - [ ] Conectar el formulario para guardar mensajes en Supabase
