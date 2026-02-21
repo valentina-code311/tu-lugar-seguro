@@ -155,7 +155,8 @@
 - [ ] Acceder a mis infoproductos comprados
 - [ ] Editar perfil (nombre, foto)
 - [ ] Recuperación de contraseña por email
-
+/talleres
+/encuentros
 ---
 
 ## Datos estáticos a migrar desde mockData
