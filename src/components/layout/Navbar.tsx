@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 const navItems = [
   { label: "Sobre mí", path: "/sobre-mi" },
   { label: "Servicios", path: "/servicios" },
-  { label: "Encuentros", path: "/talleres" },
+  { label: "Encuentros", path: "/encuentros" },
   { label: "Escritos", path: "/escritos" },
   { label: "Agenda", path: "/agenda" },
   { label: "Contacto", path: "/contacto" },

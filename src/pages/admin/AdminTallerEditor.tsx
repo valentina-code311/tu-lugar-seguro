@@ -102,13 +102,13 @@ export default function AdminTallerEditor() {
     };
 
     const saved = await saveMutation.mutateAsync(payload);
-    if (isNew && saved) navigate(`/admin/talleres/${saved.id}`, { replace: true });
+    if (isNew && saved) navigate(`/admin/encuentros/${saved.id}`, { replace: true });
   }
 
   async function handleDelete() {
     if (!id) return;
     await deleteMutation.mutateAsync(id);
-    navigate("/admin/talleres");
+    navigate("/admin/encuentros");
   }
 
   if (!isNew && isLoading) {
@@ -129,7 +129,7 @@ export default function AdminTallerEditor() {
       <div className="flex items-center justify-between gap-4">
         <Button
           variant="ghost" size="sm"
-          onClick={() => navigate("/admin/talleres")}
+          onClick={() => navigate("/admin/encuentros")}
           className="gap-1.5 text-muted-foreground"
         >
           <ArrowLeft className="h-4 w-4" />

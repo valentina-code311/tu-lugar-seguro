@@ -218,7 +218,7 @@ export default function AdminTalleres() {
           </Button>
 
           <Button asChild variant="ghost" size="icon" title="Editar">
-            <Link to={`/admin/talleres/${t.id}`}>
+            <Link to={`/admin/encuentros/${t.id}`}>
               <Pencil className="h-4 w-4" />
             </Link>
           </Button>
@@ -266,7 +266,7 @@ export default function AdminTalleres() {
           </p>
         </div>
         <Button asChild>
-          <Link to="/admin/talleres/nuevo">
+          <Link to="/admin/encuentros/nuevo">
             <Plus className="mr-2 h-4 w-4" />
             Nuevo taller
           </Link>
@@ -286,7 +286,7 @@ export default function AdminTalleres() {
           <CalendarDays className="mb-3 h-10 w-10 text-muted-foreground/50" />
           <p className="text-muted-foreground">No hay talleres todavía.</p>
           <Button asChild variant="outline" className="mt-4">
-            <Link to="/admin/talleres/nuevo">Crear el primero</Link>
+            <Link to="/admin/encuentros/nuevo">Crear el primero</Link>
           </Button>
         </div>
       )}

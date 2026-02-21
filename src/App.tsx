@@ -38,7 +38,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/sobre-mi" element={<About />} />
             <Route path="/servicios" element={<Services />} />
-            <Route path="/talleres" element={<Talleres />} />
+            <Route path="/encuentros" element={<Talleres />} />
             <Route path="/escritos" element={<Escritos />} />
             <Route path="/escritos/:slug" element={<EscritoDetail />} />
             <Route path="/agenda" element={<Agenda />} />
@@ -53,9 +53,9 @@ const App = () => (
               <Route path="escritos/:id" element={<AdminEscritoEditor />} />
               <Route path="servicios" element={<AdminServicios />} />
               <Route path="valores" element={<AdminValores />} />
-              <Route path="talleres" element={<AdminTalleres />} />
-              <Route path="talleres/nuevo" element={<AdminTallerEditor />} />
-              <Route path="talleres/:id" element={<AdminTallerEditor />} />
+              <Route path="encuentros" element={<AdminTalleres />} />
+              <Route path="encuentros/nuevo" element={<AdminTallerEditor />} />
+              <Route path="encuentros/:id" element={<AdminTallerEditor />} />
               <Route path="agenda" element={<AdminAgenda />} />
             </Route>
             <Route path="*" element={<NotFound />} />

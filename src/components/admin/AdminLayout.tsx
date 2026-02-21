@@ -8,7 +8,7 @@ const adminNav = [
   { label: "Theme Preview", path: "/admin/theme", icon: Palette },
   { label: "Escritos", path: "/admin/escritos", icon: PenLine },
   { label: "Servicios", path: "/admin/servicios", icon: Stethoscope },
-  { label: "Talleres", path: "/admin/talleres", icon: GraduationCap },
+  { label: "Encuentros", path: "/admin/encuentros", icon: GraduationCap },
   { label: "Valores", path: "/admin/valores", icon: Star },
   { label: "Agenda", path: "/admin/agenda", icon: Calendar },
 ];
