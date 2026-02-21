@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import {
-  CalendarDays, Clock, MapPin, Users,
-  BookOpen, Sparkles, AlertCircle, CheckCircle2, Ticket,
+  CalendarDays, Clock, MapPin, Users, BookOpen,
+  Sparkles, AlertCircle, CheckCircle2, Ticket, Sprout,
 } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -22,11 +22,7 @@ import {
 
 // ── Registration dialog ───────────────────────────────────────────────────────
 
-function InscripcionDialog({
-  taller,
-  open,
-  onClose,
-}: {
+function InscripcionDialog({ taller, open, onClose }: {
   taller: Taller;
   open: boolean;
   onClose: () => void;
@@ -118,15 +114,7 @@ function InscripcionDialog({
 
 // ── Taller card ───────────────────────────────────────────────────────────────
 
-function TallerCard({
-  taller,
-  index,
-  past = false,
-}: {
-  taller: Taller;
-  index: number;
-  past?: boolean;
-}) {
+function TallerCard({ taller, index, past = false }: { taller: Taller; index: number; past?: boolean; }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const open = isRegistrationOpen(taller);
   const dt = tallerDateTime(taller);
@@ -138,7 +126,7 @@ function TallerCard({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.4, delay: index * 0.08 }}
-        className="overflow-hidden rounded-2xl border border-border bg-background shadow-soft"
+        className="overflow-hidden rounded-2xl bg-card/80 shadow-lg"
       >
         {/* Cover image */}
         {taller.image_url ? (
@@ -253,48 +241,49 @@ export default function Talleres() {
 
   return (
     <Layout>
-      {/* Hero */}
-      <section className="bg-background py-16 md:py-24">
-        <div className="container mx-auto">
+      <section className="bg-background py-10 md:pt-16">
+        <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="mx-auto max-w-2xl text-center"
           >
-            <span className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">
+            <span className="flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">
+              <Sprout className="h-5 w-5" />
               Encuentros
             </span>
-            <h1 className="mt-3 font-display text-4xl font-bold text-foreground md:text-5xl">
-              Talleres
-            </h1>
-            <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-              Espacios grupales para explorar, sentir y aprender juntas. Cada taller es un
-              encuentro único e irrepetible.
-            </p>
+            <div className="mt-6 mx-2 text-muted-foreground">
+              <p>
+                Espacios grupales para explorar, sentir y aprender en juntanza.
+              </p>
+              <p>
+                Cada encuentro es un espacio único e irrepetible.
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
 
       {isLoading && (
-        <div className="container mx-auto pb-24">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="container mx-auto pb-12">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3].map((n) => (
-              <div key={n} className="h-96 animate-pulse rounded-2xl bg-background" />
+              <div key={n} className="h-96 animate-pulse rounded-2xl bg-card/80" />
             ))}
           </div>
         </div>
       )}
 
       {!isLoading && (
-        <div className="bg-background pb-24">
-          <div className="container mx-auto space-y-20">
+        <div className="bg-background pb-12">
+          <div className="container mx-auto space-y-14">
 
             {/* Próximos talleres */}
             <section>
               <div className="mb-8">
                 <h2 className="font-display text-2xl font-bold text-foreground md:text-3xl">
-                  Próximos talleres
+                  Proximamente
                 </h2>
                 <div className="mt-1 h-1 w-12 rounded-full bg-primary" />
               </div>
@@ -302,9 +291,9 @@ export default function Talleres() {
               {future.length === 0 ? (
                 <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border py-16 text-center">
                   <CalendarDays className="mb-3 h-10 w-10 text-muted-foreground/40" />
-                  <p className="font-medium text-foreground">Sin talleres próximos por ahora</p>
+                  <p className="font-medium text-foreground">Sin encuentros próximos por ahora</p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Estamos preparando nuevos encuentros. ¡Vuelve pronto!
+                    Estamos preparando nuevas experiencias. ¡Vuelve pronto!
                   </p>
                 </div>
               ) : (
@@ -321,7 +310,7 @@ export default function Talleres() {
               <section>
                 <div className="mb-8">
                   <h2 className="font-display text-2xl font-bold text-foreground md:text-3xl">
-                    Talleres anteriores
+                    Experiencias pasadas
                   </h2>
                   <div className="mt-1 h-1 w-12 rounded-full bg-muted-foreground/30" />
                 </div>
