@@ -5,7 +5,7 @@ import { Tables } from "@/integrations/supabase/types";
 
 export type Escrito = Tables<"escritos">;
 export type EscritoBlock = Tables<"escrito_blocks">;
-export type BlockType = "paragraph" | "heading" | "quote" | "image";
+export type BlockType = "paragraph" | "heading" | "quote" | "image" | "separator" | "video" | "table";
 
 export interface EscritoWithBlocks extends Escrito {
   escrito_blocks: EscritoBlock[];
@@ -132,37 +132,47 @@ export function useSaveEscrito() {
   return useMutation({
     mutationFn: async (payload: SaveEscritoPayload) => {
       const { id, title, slug, cover_image, excerpt, status, blocks } = payload;
-      const published_at =
-        status === "published" ? new Date().toISOString() : null;
 
-      // 1. Upsert the escrito record
-      const { data: escrito, error: e1 } = await supabase
-        .from("escritos")
-        .upsert(
-          {
-            ...(id ? { id } : {}),
-            title,
-            slug,
-            cover_image: cover_image || null,
-            excerpt: excerpt || null,
-            status,
-            published_at,
-          },
-          { onConflict: "id" }
-        )
-        .select()
-        .single();
-      if (e1) throw e1;
+      const fields = {
+        title,
+        slug,
+        cover_image: cover_image || null,
+        excerpt: excerpt || null,
+        status,
+        // published_at is managed automatically by the DB trigger
+      };
 
-      // 2. Replace all blocks (delete + insert)
+      let escrito: Escrito;
+
       if (id) {
+        // 1a. Update existing escrito (avoids slug unique-constraint conflicts)
+        const { data, error: e1 } = await supabase
+          .from("escritos")
+          .update(fields)
+          .eq("id", id)
+          .select()
+          .single();
+        if (e1) throw e1;
+        escrito = data;
+
+        // 2. Delete old blocks before re-inserting
         const { error: e2 } = await supabase
           .from("escrito_blocks")
           .delete()
-          .eq("escrito_id", escrito.id);
+          .eq("escrito_id", id);
         if (e2) throw e2;
+      } else {
+        // 1b. Insert new escrito
+        const { data, error: e1 } = await supabase
+          .from("escritos")
+          .insert(fields)
+          .select()
+          .single();
+        if (e1) throw e1;
+        escrito = data;
       }
 
+      // 3. Insert blocks
       if (blocks.length > 0) {
         const { error: e3 } = await supabase.from("escrito_blocks").insert(
           blocks.map((b, i) => ({
