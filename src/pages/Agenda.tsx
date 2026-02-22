@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar, CalendarCheck, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { Calendar, CalendarCheck, ChevronLeft, ChevronRight, Loader2, Sprout, MessageCircle } from "lucide-react";
 import { useServices, formatPrice } from "@/hooks/useServices";
 import { useBookAppointment, useBookedSlots, BookedSlot } from "@/hooks/useAppointments";
 
@@ -164,7 +164,7 @@ const Agenda = () => {
   if (submitted) {
     return (
       <Layout>
-        <section className="flex min-h-[70vh] items-center justify-center bg-background py-16">
+        <section className="flex flex-1 items-center justify-center bg-background py-16">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -178,7 +178,7 @@ const Agenda = () => {
               Tu solicitud fue recibida. En breve me pondré en contacto contigo para confirmar la cita.
             </p>
             <p className="text-sm text-muted-foreground">
-              Revisa tu correo <span className="font-medium text-foreground">{email}</span>
+              Revisa tu correo: <span className="font-medium text-foreground">{email}</span>
             </p>
             <Button
               variant="outline"
@@ -206,27 +206,35 @@ const Agenda = () => {
 
   return (
     <Layout>
-      <section className="bg-background py-16 lg:py-20">
+      <section className="bg-background py-10 md:pt-16">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-3xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">Agenda</span>
-            <h1 className="mt-3 font-display text-4xl font-bold text-foreground lg:text-5xl">Reserva tu cita</h1>
-            <p className="mt-4 text-muted-foreground">Selecciona el servicio, fecha y hora que mejor se adapte a ti.</p>
+            <span className="flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">
+              <Sprout className="h-5 w-5" />
+              Reserva tu cita
+            </span>
+            <div className="mt-6 mx-2 text-muted-foreground">
+              <p>
+                Selecciona el servicio, fecha y hora que mejor se adapte a ti.
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      <section className="py-16">
+      <section className="pb-12 px-4 max-w-6xl mx-auto">
         <div className="container mx-auto px-4">
-          <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-2">
+          <div className="mx-auto grid max-w-5xl gap-4 lg:grid-cols-2">
 
             {/* ── Calendar ── */}
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
-              className="rounded-2xl border border-border bg-background p-6 shadow-soft">
-
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="rounded-2xl bg-card/80 p-6 shadow-lg"
+            >
               {/* Month navigation */}
               <div className="mb-4 flex items-center justify-between">
-                <h3 className="font-display text-lg font-semibold capitalize text-foreground">{monthName}</h3>
+                <h3 className="font-display text-lg font-semibold capitalize text-primary">{monthName}</h3>
                 <div className="flex gap-1">
                   <Button type="button" variant="ghost" size="icon" className="h-8 w-8" onClick={prevMonth}>
                     <ChevronLeft className="h-4 w-4" />
@@ -303,16 +311,19 @@ const Agenda = () => {
                   </div>
 
                   <p className="mt-3 text-xs text-muted-foreground/60">
-                    Bloques de 30 min · Los horarios tachados ya están reservados
+                    Los horarios tachados ya están reservados
                   </p>
                 </div>
               )}
             </motion.div>
 
             {/* ── Form ── */}
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
-              className="rounded-2xl border border-border bg-background p-6 shadow-soft">
-              <h3 className="mb-6 font-display text-lg font-semibold text-foreground">Datos de la reserva</h3>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="rounded-2xl bg-card/80 p-6 shadow-lg"
+            >
+              <h3 className="mb-6 font-display text-lg font-semibold text-primary">Datos de la reserva</h3>
 
               <form className="space-y-4" onSubmit={handleSubmit}>
                 {/* Service */}
@@ -322,7 +333,7 @@ const Agenda = () => {
                     value={selectedService}
                     onChange={(e) => setSelectedService(e.target.value)}
                     required
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
+                    className="flex h-10 w-full rounded-md border border-input bg-background/60 px-3 py-2 text-sm text-foreground focus-visible:outline-none"
                   >
                     <option value="">Selecciona un servicio</option>
                     {services?.map((s) => (
@@ -335,11 +346,24 @@ const Agenda = () => {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
                     <label className="mb-1 block text-sm font-medium text-foreground">Nombre *</label>
-                    <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Tu nombre completo" required />
+                    <Input
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Tu nombre completo"
+                      className="bg-background/60"
+                      required
+                    />
                   </div>
                   <div>
                     <label className="mb-1 block text-sm font-medium text-foreground">Email *</label>
-                    <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@email.com" required />
+                    <Input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="tu@email.com"
+                      className="bg-background/60"
+                      required
+                    />
                   </div>
                 </div>
 
@@ -347,14 +371,19 @@ const Agenda = () => {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
                     <label className="mb-1 block text-sm font-medium text-foreground">Teléfono</label>
-                    <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+57 300 123 4567" />
+                    <Input
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="+57 300 123 4567"
+                      className="bg-background/60"
+                    />
                   </div>
                   <div>
                     <label className="mb-1 block text-sm font-medium text-foreground">Modalidad *</label>
                     <select
                       value={modality}
                       onChange={(e) => setModality(e.target.value as "online" | "presencial")}
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
+                      className="flex h-10 w-full rounded-md border border-input bg-background/60 px-3 py-2 text-sm text-foreground focus-visible:outline-none"
                     >
                       <option value="online">Online</option>
                       <option value="presencial">Presencial</option>
@@ -369,6 +398,7 @@ const Agenda = () => {
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="¿Algo que quieras comentarme antes de la sesión?"
+                    className="bg-background/60"
                     rows={3}
                   />
                 </div>
@@ -414,8 +444,26 @@ const Agenda = () => {
                 </Button>
               </form>
             </motion.div>
-
           </div>
+        </div>
+      </section>
+
+      <section className="bg-primary/90 py-5">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center text-center max-w-4xl mx-auto"
+          >
+            <h1 className="text-lg text-primary-foreground">
+              Este agendamiento no es para emergencias.
+              <br />
+              Si estás en riesgo o necesitas ayuda inmediata, contacta: 106 (orientación en salud mental) o 123 (emergencias).
+              <br />
+              Política de privacidad · Marco ético
+            </h1>
+          </motion.div>
         </div>
       </section>
     </Layout>

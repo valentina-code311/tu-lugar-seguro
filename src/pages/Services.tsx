@@ -27,8 +27,8 @@ const Services = () => {
         </div>
       </section>
 
-      <section className="pb-12 px-6">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <section className="pb-12 px-4 max-w-6xl mx-auto">
+        <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4">
           {isLoading && (
             <div className="space-y-4">
               {[1, 2, 3, 4].map((n) => (
