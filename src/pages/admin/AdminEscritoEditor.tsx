@@ -4,10 +4,10 @@ import { ArrowLeft, Save, Globe, Loader2, ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { BlockEditor } from "@/components/admin/escritos/BlockEditor";
+import { RichTextEditor } from "@/components/admin/escritos/RichTextEditor";
 import {
   EditorBlock,
   useAdminEscrito,
@@ -181,11 +181,11 @@ export default function AdminEscritoEditor() {
 
           {/* Excerpt */}
           <div>
-            <Textarea
-              value={excerpt}
-              onChange={(e) => setExcerpt(e.target.value)}
+            <RichTextEditor
+              content={excerpt}
+              onChange={setExcerpt}
               placeholder="Resumen o extracto corto (aparece en el listado)..."
-              className="min-h-[80px] resize-none border-0 bg-transparent p-0 text-lg leading-relaxed text-muted-foreground placeholder:text-muted-foreground/40 shadow-none focus-visible:ring-0"
+              editorClassName="min-h-[60px] text-lg leading-relaxed text-muted-foreground outline-none [&:empty]:before:text-muted-foreground/40 [&:empty]:before:content-[attr(data-placeholder)] [&_a]:text-primary [&_a]:underline"
             />
           </div>
 

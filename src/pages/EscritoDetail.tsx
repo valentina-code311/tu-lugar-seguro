@@ -305,9 +305,10 @@ export default function EscritoDetail() {
                 {escrito.title}
               </h1>
               {escrito.excerpt && (
-                <p className="text-lg leading-[1.85] text-primary text-justify">
-                  {escrito.excerpt}
-                </p>
+                <p
+                  className="text-lg leading-[1.85] text-primary text-justify [&_a]:underline [&_a]:underline-offset-2"
+                  dangerouslySetInnerHTML={{ __html: contentToHtml(escrito.excerpt) }}
+                />
               )}
             </motion.header>
 
