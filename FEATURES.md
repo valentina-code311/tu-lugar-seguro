@@ -10,7 +10,8 @@
 - [ ] Migración para tabla `testimonials` (texto, autor, rating, visible)
 - [ ] Migración para tabla `faqs` (pregunta, respuesta, orden, visible)
 - [ ] Migración para tabla `contact_messages` (nombre, email, asunto, mensaje, leído)
-- [ ] Migración para tabla `social_links` (red, url, activo, orden)
+- [x] Migración para tabla `social_links` (red, url, activo, orden)
+- [x] Migración para tabla `site_settings` (email, teléfono, ubicación, whatsapp_url)
 
 ---
 
@@ -63,11 +64,13 @@
 - [ ] Cambiar estado del pedido
 - [ ] Filtrar por estado
 
-### Redes sociales
-- [ ] Crear página `/admin/redes`
-- [ ] Editar URL de cada red (Instagram, Facebook, YouTube, WhatsApp)
-- [ ] Activar/desactivar cada red
-- [ ] Reordenar el listado
+### Configuración (contacto + redes) ✓ (implementado)
+- [x] Crear página `/admin/configuracion` con dos secciones
+- [x] Editar datos de contacto (email, teléfono, ubicación, URL WhatsApp)
+- [x] CRUD de redes sociales (nombre, ícono Lucide, URL)
+- [x] Activar/desactivar cada red sin eliminarla
+- [x] Datos de contacto dinámicos en /contacto
+- [x] Redes sociales dinámicas en el footer
 
 ### Testimonios
 - [ ] Crear página `/admin/testimonios`
@@ -166,8 +169,8 @@
 - [ ] Reemplazar `infoproducts` por datos desde Supabase
 - [ ] Reemplazar `testimonials` por datos desde Supabase (con control admin)
 - [ ] Reemplazar `faqs` por datos desde Supabase (con control admin)
-- [ ] Reemplazar `socialLinks` en navbar/footer por datos desde Supabase
-- [ ] Reemplazar datos de contacto (email, teléfono) por configuración editable en admin
+- [x] Reemplazar `socialLinks` en navbar/footer por datos desde Supabase
+- [x] Reemplazar datos de contacto (email, teléfono) por configuración editable en admin
 
 ---
 
