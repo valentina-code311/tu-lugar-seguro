@@ -14,6 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
+      site_settings: {
+        Row: {
+          id: boolean
+          email: string
+          phone: string
+          location: string
+          whatsapp_url: string
+          location_map_url: string | null
+        }
+        Insert: {
+          id?: boolean
+          email?: string
+          phone?: string
+          location?: string
+          whatsapp_url?: string
+          location_map_url?: string | null
+        }
+        Update: {
+          id?: boolean
+          email?: string
+          phone?: string
+          location?: string
+          whatsapp_url?: string
+          location_map_url?: string | null
+        }
+        Relationships: []
+      }
+      social_links: {
+        Row: {
+          id: string
+          name: string
+          icon: string
+          url: string
+          is_active: boolean
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          name: string
+          icon: string
+          url: string
+          is_active?: boolean
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          name?: string
+          icon?: string
+          url?: string
+          is_active?: boolean
+          sort_order?: number
+        }
+        Relationships: []
+      }
       escrito_blocks: {
         Row: {
           id: string

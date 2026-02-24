@@ -3,70 +3,108 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Phone, MapPin, MessageCircle, Send } from "lucide-react";
+import { Mail, Phone, MapPin, MessageCircle, Send, HeartHandshake } from "lucide-react";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
+
+function extractIframeSrc(raw: string): string | null {
+  const srcMatch = raw.match(/src="([^"]+)"/);
+  return srcMatch ? srcMatch[1] : (raw.startsWith("http") ? raw : null);
+}
 
 const Contact = () => {
+  const { data: settings } = useSiteSettings();
+
+  const contactItems = [
+    { icon: Mail,   label: "Email",     value: settings?.email    ?? "" },
+    { icon: Phone,  label: "Teléfono",  value: settings?.phone    ?? "" },
+    { icon: MapPin, label: "Ubicación", value: settings?.location ?? "" },
+  ];
+
+  const mapSrc = settings?.location_map_url
+    ? extractIframeSrc(settings.location_map_url)
+    : null;
+
   return (
     <Layout>
-      <section className="bg-background py-16 lg:py-20">
+      {/* Hero */}
+      <section className="bg-background py-10 md:pt-16">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-3xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">Contacto</span>
-            <h1 className="mt-3 font-display text-4xl font-bold text-foreground lg:text-5xl">Hablemos</h1>
-            <p className="mt-4 text-muted-foreground">Estoy aquí para ayudarte. Escríbeme y te responderé lo antes posible.</p>
+            <span className="flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">
+              <HeartHandshake className="h-5 w-5" />
+              Contacto
+            </span>
+            <div className="mt-6 mx-2 text-muted-foreground">
+              <p>Estoy aquí para ayudarte. Escríbeme y te responderé lo antes posible.</p>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      <section className="py-16">
+      {/* Content */}
+      <section className="bg-background pb-12">
         <div className="container mx-auto px-4">
-          <div className="mx-auto grid max-w-4xl gap-8 lg:grid-cols-5">
-            <div className="space-y-6 lg:col-span-2">
-              {[
-                { icon: Mail, label: "Email", value: "hola@psicosexvalendm.com" },
-                { icon: Phone, label: "Teléfono", value: "+57 300 123 4567" },
-                { icon: MapPin, label: "Ubicación", value: "Consulta presencial y online" },
-              ].map((item) => (
+          <div className="mx-auto grid gap-3 lg:grid-cols-5">
+
+            {/* Info lateral */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="rounded-2xl bg-card/80 p-4 shadow-lg space-y-6 lg:col-span-2"
+            >
+              <h3 className="font-display text-lg font-semibold text-primary">Encuéntrame</h3>
+
+              {contactItems.map((item) => (
                 <div key={item.label} className="flex gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-accent-foreground">
-                    <item.icon className="h-5 w-5" />
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                    <item.icon className="h-4 w-4" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-foreground">{item.label}</p>
-                    <p className="text-sm text-muted-foreground">{item.value}</p>
+                    <p className="text-xs md:text-sm font-medium text-foreground">{item.label}</p>
+                    <p className="text-xs md:text-sm text-muted-foreground">{item.value}</p>
                   </div>
                 </div>
               ))}
-              <Button asChild variant="outline" className="w-full gap-2">
-                <a href="https://wa.me/573001234567" target="_blank" rel="noopener noreferrer">
-                  <MessageCircle className="h-4 w-4" /> WhatsApp directo
-                </a>
-              </Button>
-            </div>
 
+              <a
+                href={settings?.whatsapp_url ?? "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary/10 border border-primary/20 px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-primary/20"
+              >
+                <MessageCircle className="h-4 w-4" /> WhatsApp directo
+              </a>
+            </motion.div>
+
+            {/* Formulario */}
             <motion.form
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-4 rounded-2xl border border-border bg-background p-6 shadow-soft lg:col-span-3"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="rounded-2xl bg-card/80 p-6 shadow-lg space-y-4 lg:col-span-3"
             >
+              <h3 className="font-display text-lg font-semibold text-primary">Escríbeme</h3>
+
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-1 block text-sm font-medium text-foreground">Nombre</label>
-                  <Input placeholder="Tu nombre" />
+                  <Input placeholder="Tu nombre" className="bg-background/60" />
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-foreground">Email</label>
-                  <Input type="email" placeholder="tu@email.com" />
+                  <Input type="email" placeholder="tu@email.com" className="bg-background/60" />
                 </div>
               </div>
+
               <div>
                 <label className="mb-1 block text-sm font-medium text-foreground">Asunto</label>
-                <Input placeholder="¿En qué puedo ayudarte?" />
+                <Input placeholder="¿En qué puedo ayudarte?" className="bg-background/60" />
               </div>
+
               <div>
                 <label className="mb-1 block text-sm font-medium text-foreground">Mensaje</label>
-                <Textarea placeholder="Cuéntame..." rows={5} />
+                <Textarea placeholder="Cuéntame..." rows={5} className="bg-background/60" />
               </div>
+
               <Button type="button" className="w-full gap-2" size="lg">
                 <Send className="h-4 w-4" /> Enviar mensaje
               </Button>
@@ -74,6 +112,26 @@ const Contact = () => {
           </div>
         </div>
       </section>
+
+      {/* Mapa */}
+      {mapSrc && (
+        <section className="pb-12">
+          <div className="container mx-auto px-4">
+            <div className="mx-auto max-w-5xl overflow-hidden rounded-2xl shadow-lg">
+              <iframe
+                src={mapSrc}
+                width="100%"
+                height="360"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Ubicación en el mapa"
+              />
+            </div>
+          </div>
+        </section>
+      )}
     </Layout>
   );
 };

@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Palette, Calendar, LogOut, ChevronLeft, PenLine, Stethoscope, GraduationCap, Star } from "lucide-react";
+import { LayoutDashboard, Palette, Calendar, LogOut, ChevronLeft, PenLine, Stethoscope, GraduationCap, Star, Settings2 } from "lucide-react";
 
 const adminNav = [
   { label: "Dashboard", path: "/admin", icon: LayoutDashboard },
@@ -11,6 +11,7 @@ const adminNav = [
   { label: "Encuentros", path: "/admin/encuentros", icon: GraduationCap },
   { label: "Valores", path: "/admin/valores", icon: Star },
   { label: "Agenda", path: "/admin/agenda", icon: Calendar },
+  { label: "Configuración", path: "/admin/configuracion", icon: Settings2 },
 ];
 
 const AdminLayout = () => {

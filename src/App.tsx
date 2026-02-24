@@ -20,6 +20,7 @@ import AdminValores from "./pages/admin/AdminValores";
 import AdminTalleres from "./pages/admin/AdminTalleres";
 import AdminTallerEditor from "./pages/admin/AdminTallerEditor";
 import AdminAgenda from "./pages/admin/AdminAgenda";
+import AdminConfiguracion from "./pages/admin/AdminConfiguracion";
 import Talleres from "./pages/Talleres";
 import Escritos from "./pages/Escritos";
 import EscritoDetail from "./pages/EscritoDetail";
@@ -57,6 +58,7 @@ const App = () => (
               <Route path="encuentros/nuevo" element={<AdminTallerEditor />} />
               <Route path="encuentros/:id" element={<AdminTallerEditor />} />
               <Route path="agenda" element={<AdminAgenda />} />
+              <Route path="configuracion" element={<AdminConfiguracion />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

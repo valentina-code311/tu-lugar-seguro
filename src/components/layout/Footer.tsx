@@ -1,11 +1,13 @@
 import { Instagram, Youtube, Twitter, MessageCircle, Music2, Heart, Facebook } from "lucide-react";
-import { socialLinks } from "@/data/mockData";
+import { useSocialLinks } from "@/hooks/useSiteSettings";
 
 const iconMap: Record<string, React.ElementType> = {
-  Instagram, Youtube, Twitter, MessageCircle, Music2, Facebook
+  Instagram, Youtube, Twitter, MessageCircle, Music2, Facebook,
 };
 
 const Footer = () => {
+  const { data: socialLinks } = useSocialLinks();
+
   return (
     <footer className="border-t border-border bg-background">
       <div className="container mx-auto px-4 py-8">
@@ -22,7 +24,7 @@ const Footer = () => {
           </div>
 
           <div className="flex gap-3">
-            {socialLinks.filter(s => s.active).map((social) => {
+            {(socialLinks ?? []).filter(s => s.is_active).map((social) => {
               const Icon = iconMap[social.icon] || Heart;
               return (
                 <a
