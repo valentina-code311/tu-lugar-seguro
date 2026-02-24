@@ -35,7 +35,7 @@ const AdminLayout = () => {
       <aside className="sticky top-0 flex h-screen w-64 flex-col border-r border-border bg-background">
         <div className="border-b border-border p-4">
           <h2 className="font-display text-lg font-bold text-foreground">Admin Panel</h2>
-          <p className="text-xs text-muted-foreground">Psicosexvalendm</p>
+          <p className="text-xs text-muted-foreground">Maryen Chamorro</p>
         </div>
 
         <nav className="flex-1 overflow-y-auto p-3">
