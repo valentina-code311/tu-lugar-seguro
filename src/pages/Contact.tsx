@@ -1,10 +1,13 @@
+import { useState } from "react";
 import Layout from "@/components/layout/Layout";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Phone, MapPin, MessageCircle, Send, HeartHandshake } from "lucide-react";
+import { Mail, Phone, MapPin, MessageCircle, Send, HeartHandshake, Loader2 } from "lucide-react";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
+import { useContactMessages } from "@/hooks/useContactMessages";
+import { toast } from "sonner";
 
 function extractIframeSrc(raw: string): string | null {
   const srcMatch = raw.match(/src="([^"]+)"/);
@@ -13,6 +16,14 @@ function extractIframeSrc(raw: string): string | null {
 
 const Contact = () => {
   const { data: settings } = useSiteSettings();
+  const { sendMessage, isSending } = useContactMessages();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
 
   const contactItems = [
     { icon: Mail,   label: "Email",     value: settings?.email    ?? "" },
@@ -23,6 +34,22 @@ const Contact = () => {
   const mapSrc = settings?.location_map_url
     ? extractIframeSrc(settings.location_map_url)
     : null;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.name || !formData.email || !formData.message) {
+      toast.error("Por favor completa los campos obligatorios");
+      return;
+    }
+
+    try {
+      await sendMessage(formData);
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error) {
+      // Error handled by hook
+    }
+  };
 
   return (
     <Layout>
@@ -78,6 +105,7 @@ const Contact = () => {
 
             {/* Formulario */}
             <motion.form
+              onSubmit={handleSubmit}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               className="rounded-2xl bg-card/80 p-6 shadow-lg space-y-4 lg:col-span-3"
@@ -87,26 +115,61 @@ const Contact = () => {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-1 block text-sm font-medium text-foreground">Nombre</label>
-                  <Input placeholder="Tu nombre" className="bg-background/60" />
+                  <Input 
+                    placeholder="Tu nombre" 
+                    className="bg-background/60" 
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    required
+                  />
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-foreground">Email</label>
-                  <Input type="email" placeholder="tu@email.com" className="bg-background/60" />
+                  <Input 
+                    type="email" 
+                    placeholder="tu@email.com" 
+                    className="bg-background/60" 
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    required
+                  />
                 </div>
               </div>
 
               <div>
                 <label className="mb-1 block text-sm font-medium text-foreground">Asunto</label>
-                <Input placeholder="¿En qué puedo ayudarte?" className="bg-background/60" />
+                <Input 
+                  placeholder="¿En qué puedo ayudarte?" 
+                  className="bg-background/60" 
+                  value={formData.subject}
+                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                />
               </div>
 
               <div>
                 <label className="mb-1 block text-sm font-medium text-foreground">Mensaje</label>
-                <Textarea placeholder="Cuéntame..." rows={5} className="bg-background/60" />
+                <Textarea 
+                  placeholder="Cuéntame..." 
+                  rows={5} 
+                  className="bg-background/60" 
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  required
+                />
               </div>
 
-              <Button type="button" className="w-full gap-2" size="lg">
-                <Send className="h-4 w-4" /> Enviar mensaje
+              <Button type="submit" className="w-full gap-2" size="lg" disabled={isSending}>
+                {isSending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" /> 
+                    Enviando...
+                  </>
+                ) : (
+                  <>
+                    <Send className="h-4 w-4" /> 
+                    Enviar mensaje
+                  </>
+                )}
               </Button>
             </motion.form>
           </div>
