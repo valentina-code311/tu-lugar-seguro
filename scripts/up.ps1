@@ -15,5 +15,6 @@ Get-Content conn/front.env | ForEach-Object {
 
   [Environment]::SetEnvironmentVariable($name, $value, "Process")
 }
+cd .\app\frontend\
 npm install
 npm run dev
