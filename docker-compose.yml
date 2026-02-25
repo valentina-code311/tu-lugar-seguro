@@ -2,12 +2,18 @@ services:
   c311-front:
     container_name: c311-front
     build:
-      context: .
-      dockerfile: ./docker/front.Dockerfile
+      context: app/frontend
+      dockerfile: ../../docker/front.Dockerfile
+      args:
+        - VITE_SUPABASE_PROJECT_ID
+        - VITE_SUPABASE_URL
+        - VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY
     ports:
       - "8081:80"
+    env_file:
+      - ./conn/front.env
     environment:
-      - VITE_API_URL=http://localhost:8080
+      - VITE_SUPABASE_PROJECT_ID=${VITE_SUPABASE_PROJECT_ID}
       - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
       - VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY=${VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY}
-      - SITE_URL=${SITE_URL:-http://localhost:8081}
+      - SITE_URL=http://localhost:8081
