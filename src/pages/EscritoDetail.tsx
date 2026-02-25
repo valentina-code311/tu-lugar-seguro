@@ -2,8 +2,9 @@ import { useParams, Link } from "react-router-dom";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { motion } from "framer-motion";
-import { ArrowLeft, Share2, Link2, MessageCircle, Twitter, Facebook, Loader2, BookOpen, Dot } from "lucide-react";
+import { ArrowLeft, Link2, MessageCircle, Twitter, Facebook, BookOpen, Dot } from "lucide-react";
 import { toast } from "sonner";
+import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { useEscritoBySlug, EscritoBlock } from "@/hooks/useEscritos";
@@ -252,8 +253,36 @@ export default function EscritoDetail() {
     );
   }
 
+  const pageUrl = `${window.location.origin}/escritos/${escrito.slug}`;
+  const ogImage = escrito.cover_image ?? `${window.location.origin}/favicon.png`;
+  const ogDescription = escrito.excerpt
+    ? escrito.excerpt.replace(/<[^>]+>/g, "").slice(0, 160)
+    : "Psicología con contexto, claridad, criterio y cambios reales.";
+
   return (
     <Layout>
+      <Helmet>
+        <title>{escrito.title} | Maryen Chamorro</title>
+        <meta name="description" content={ogDescription} />
+        {/* Open Graph */}
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={escrito.title} />
+        <meta property="og:description" content={ogDescription} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Maryen Chamorro" />
+        {escrito.published_at && (
+          <meta property="article:published_time" content={escrito.published_at} />
+        )}
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={escrito.title} />
+        <meta name="twitter:description" content={ogDescription} />
+        <meta name="twitter:image" content={ogImage} />
+      </Helmet>
+
       {/* Cover image */}
       {escrito.cover_image && (
         <div className="h-[40vh] min-h-[200px] w-full overflow-hidden md:h-[55vh]">
