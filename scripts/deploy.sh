@@ -29,8 +29,8 @@ DeployFrontend() {
   done < "conn/$SERVICE.env"
 
   # Move node_modules to temp if it exists
-  if [ -d "node_modules" ]; then
-    mv node_modules temp/
+  if [ -d "app/frontend/node_modules" ]; then
+    mv app/frontend/node_modules temp/
   fi
 
   # Build and tag the Docker image
@@ -38,9 +38,12 @@ DeployFrontend() {
     -f ./docker/$SERVICE.Dockerfile \
     $BUILD_ARGS \
     -t $REGION-docker.pkg.dev/$PROJECT/$BASE_NAME/$SERVICE:latest \
-    .
+    app/${SERVICE}end/
 
   DeployImage
+
+  # Convert .env to YAML
+  sed 's|=|: |g' conn/$SERVICE.env > conn/$SERVICE.yaml
 
   # Update Cloud run service
   gcloud run deploy \
@@ -51,8 +54,12 @@ DeployFrontend() {
     --region $REGION \
     --port 80 \
     --timeout 3600 \
+    --env-vars-file conn/$SERVICE.yaml \
     --allow-unauthenticated \
     --service-account $BASE_NAME-$SERVICE@$PROJECT.iam.gserviceaccount.com
+
+  # Remove the YAML file
+  rm conn/$SERVICE.yaml
 
   # Move node_modules back to app if it exists
   if [ -d "temp/node_modules" ]; then
