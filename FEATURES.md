@@ -82,6 +82,23 @@
 - [ ] CRUD de preguntas frecuentes
 - [ ] Reordenar por drag-and-drop
 
+### Pacientes / Historias Clínicas ✓ (implementado)
+- [x] Migración tabla `patients` con RLS solo admins
+- [x] Migración tabla `clinical_sessions` (secciones A–L en JSONB)
+- [x] Migración tabla `session_uploads` + bucket `session-notes`
+- [x] Backend FastAPI en `app/backend/` con 4 endpoints IA
+- [x] Agente OCR: extrae texto de imágenes de notas con Claude Vision
+- [x] Agente IA: rellena historia clínica (secciones A–L) desde texto OCR
+- [x] Agente resumen: genera resumen de preparación para próxima sesión
+- [x] Endpoint email: envía historia clínica formateada al paciente por SMTP
+- [x] Hook `usePatients` (CRUD pacientes)
+- [x] Hook `useClinicalSessions` (CRUD sesiones + uploads)
+- [x] Página `/admin/pacientes` — lista + crear pacientes
+- [x] Página `/admin/pacientes/:id` — detalle + sesiones + modal resumen IA
+- [x] Página `/admin/sesiones/:id` — editor completo historia clínica con IA
+- [x] Nav "Pacientes" en AdminLayout
+- [x] Servicio `c311-backend` en docker-compose
+
 ### Clientes
 - [ ] Crear página `/admin/clientes`
 - [ ] Listado de usuarios registrados

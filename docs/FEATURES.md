@@ -43,27 +43,6 @@
 - [ ] Gestionar disponibilidad semanal (horarios por día)
 - [ ] Gestionar fechas bloqueadas (vacaciones, festivos)
 
-### Productos
-- [ ] Crear página `/admin/productos`
-- [ ] CRUD de productos (crear, editar, eliminar)
-- [ ] Subir imagen del producto a Supabase Storage
-- [ ] Gestión de stock
-- [ ] Activar/desactivar producto sin eliminarlo
-- [ ] Gestión de categorías
-
-### Infoproductos
-- [ ] Crear página `/admin/infoproductos`
-- [ ] CRUD de infoproductos
-- [ ] Subir imagen de portada
-- [ ] Editar lista de qué incluye
-
-### Pedidos
-- [ ] Crear página `/admin/pedidos`
-- [ ] Listado de pedidos con estado (pendiente, procesando, enviado, entregado)
-- [ ] Ver detalle del pedido con productos e info de envío
-- [ ] Cambiar estado del pedido
-- [ ] Filtrar por estado
-
 ### Configuración (contacto + redes) ✓ (implementado)
 - [x] Crear página `/admin/configuracion` con dos secciones
 - [x] Editar datos de contacto (email, teléfono, ubicación, URL WhatsApp)
@@ -71,16 +50,6 @@
 - [x] Activar/desactivar cada red sin eliminarla
 - [x] Datos de contacto dinámicos en /contacto
 - [x] Redes sociales dinámicas en el footer
-
-### Testimonios
-- [ ] Crear página `/admin/testimonios`
-- [ ] CRUD de testimonios
-- [ ] Mostrar/ocultar testimonio en el sitio
-
-### FAQs
-- [ ] Crear página `/admin/faqs`
-- [ ] CRUD de preguntas frecuentes
-- [ ] Reordenar por drag-and-drop
 
 ### Clientes
 - [ ] Crear página `/admin/clientes`
