@@ -30,13 +30,20 @@
 - [ ] Ordenar escritos por drag-and-drop en el listado
 - [ ] Duplicar un escrito existente como borrador
 
-### Agenda ✓ (parcialmente implementado)
-- [ ] Vista de citas en calendario mensual (admin)
+### Agenda ✓ (implementado)
+- [x] Vista semanal estilo Google Calendar con columnas por día (desktop)
+- [x] Vista de lista por día en mobile con badge de cantidad de citas
+- [x] Navegación entre semanas con botones anterior/siguiente + "Hoy"
+- [x] Cards de cita posicionadas por hora con color según estado
+- [x] Línea de tiempo actual en el día de hoy
+- [x] Clic en slot vacío: modal para crear cita o bloquear horario
+- [x] Bloqueos de horario visibles en el grid (gris con razón opcional)
+- [x] Clic en cita: modal de detalle con notas y cambio de estado
 - [x] Cambiar estado de una cita (pendiente → confirmada → completada → cancelada)
 - [x] Ver detalle completo de cada cita
 - [x] Agregar notas internas a una cita
 - [ ] Gestionar disponibilidad semanal (horarios por día)
-- [ ] Gestionar fechas bloqueadas (vacaciones, festivos)
+- [ ] Gestionar fechas bloqueadas desde una vista dedicada
 
 ### Configuración ✓ (implementado)
 - [x] Página `/admin/configuracion` con tabs (URL `?tab=...`)
