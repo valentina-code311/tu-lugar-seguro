@@ -8,7 +8,7 @@ import { toHtml } from "@/shared/components/RichTextEditor";
 
 const About = () => {
   const { data: valores, isLoading: loadingValores } = useValores();
-  const { data: settings } = useSiteSettings();
+  const { data: settings, isLoading: loadingSettings } = useSiteSettings();
 
   return (
     <Layout>
@@ -19,20 +19,39 @@ const About = () => {
               <Sprout className="h-5 w-5" />
               Sobre mí
             </span>
-            <h2
-              className="mt-6 font-display text-center text-3xl font-semibold text-primary md:text-4xl [&_u]:underline-offset-4 [&_u]:decoration-2"
-              dangerouslySetInnerHTML={{ __html: toHtml(settings?.about_full_title ?? "") }}
-            />
+            {loadingSettings ? (
+              <div className="mt-6 flex justify-center">
+                <div className="h-10 w-2/3 animate-pulse rounded-lg bg-muted" />
+              </div>
+            ) : (
+              <h2
+                className="mt-6 font-display text-center text-3xl font-semibold text-primary md:text-4xl [&_u]:underline-offset-4 [&_u]:decoration-2"
+                dangerouslySetInnerHTML={{ __html: toHtml(settings?.about_full_title ?? "") }}
+              />
+            )}
 
-            <div className="mt-6 mx-2 grid gap-4 text-muted-foreground text-justify">
-              {settings?.about_full_paragraphs?.map((p, i) => (
-                <p
-                  key={i}
-                  dangerouslySetInnerHTML={{ __html: toHtml(p) }}
-                  className="[&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2"
-                />
-              ))}
-            </div>
+            {loadingSettings ? (
+              <div className="mt-6 mx-2 space-y-3">
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <div key={n} className="h-4 animate-pulse rounded bg-muted" style={{ width: `${85 + (n % 3) * 5}%` }} />
+                ))}
+                <div className="mt-4 space-y-3">
+                  {[1, 2, 3].map((n) => (
+                    <div key={n} className="h-4 animate-pulse rounded bg-muted" style={{ width: `${80 + (n % 4) * 5}%` }} />
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="mt-6 mx-2 grid gap-4 text-muted-foreground text-justify">
+                {settings?.about_full_paragraphs?.map((p, i) => (
+                  <p
+                    key={i}
+                    dangerouslySetInnerHTML={{ __html: toHtml(p) }}
+                    className="[&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2"
+                  />
+                ))}
+              </div>
+            )}
           </motion.div>
         </div>
       </section>

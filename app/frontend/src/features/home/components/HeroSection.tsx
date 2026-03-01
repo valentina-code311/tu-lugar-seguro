@@ -6,7 +6,7 @@ import heroBg from "@/shared/assets/hero-bg.jpg";
 import { useSiteSettings } from "@/shared/hooks/useSiteSettings";
 
 const HeroSection = () => {
-  const { data: settings } = useSiteSettings();
+  const { data: settings, isLoading } = useSiteSettings();
 
   return (
     <section className="relative min-h-[90vh] overflow-hidden">
@@ -25,16 +25,33 @@ const HeroSection = () => {
         >
           <div className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-4 py-1.5 text-sm text-primary-foreground backdrop-blur-sm">
             <span className="h-2 w-2 rounded-full bg-primary" />
-            {settings?.hero_badge}
+            {isLoading
+              ? <span className="h-4 w-32 animate-pulse rounded bg-primary-foreground/20 inline-block" />
+              : settings?.hero_badge}
           </div>
 
-          <h1 className="font-display text-4xl font-bold leading-tight text-primary-foreground md:text-5xl lg:text-6xl">
-            {settings?.hero_title}
-          </h1>
+          {isLoading ? (
+            <div className="space-y-4">
+              <div className="h-12 w-3/4 animate-pulse rounded-lg bg-primary-foreground/20" />
+              <div className="h-12 w-1/2 animate-pulse rounded-lg bg-primary-foreground/20" />
+            </div>
+          ) : (
+            <h1 className="font-display text-4xl font-bold leading-tight text-primary-foreground md:text-5xl lg:text-6xl">
+              {settings?.hero_title}
+            </h1>
+          )}
 
-          <p className="max-w-lg text-base leading-relaxed text-primary-foreground/85 md:text-lg">
-            {settings?.hero_subtitle}
-          </p>
+          {isLoading ? (
+            <div className="max-w-lg space-y-2">
+              <div className="h-5 w-full animate-pulse rounded bg-primary-foreground/20" />
+              <div className="h-5 w-4/5 animate-pulse rounded bg-primary-foreground/20" />
+              <div className="h-5 w-3/5 animate-pulse rounded bg-primary-foreground/20" />
+            </div>
+          ) : (
+            <p className="max-w-lg text-base leading-relaxed text-primary-foreground/85 md:text-lg">
+              {settings?.hero_subtitle}
+            </p>
+          )}
 
           <div className="flex flex-wrap gap-3 pt-2">
             <Button asChild size="lg" variant="hero">

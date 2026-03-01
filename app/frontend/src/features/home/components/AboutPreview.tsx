@@ -6,7 +6,7 @@ import { useSiteSettings } from "@/shared/hooks/useSiteSettings";
 import { toHtml } from "@/shared/components/RichTextEditor";
 
 const AboutPreview = () => {
-  const { data: settings } = useSiteSettings();
+  const { data: settings, isLoading } = useSiteSettings();
 
   return (
     <section className="bg-background py-10 md:py-16">
@@ -23,27 +23,49 @@ const AboutPreview = () => {
               <Sprout className="h-5 w-5" />
               Sobre mí
             </span>
-            <h2
-              className="font-display text-3xl font-semibold text-primary md:text-4xl [&_u]:underline-offset-4 [&_u]:decoration-2"
-              dangerouslySetInnerHTML={{ __html: toHtml(settings?.about_title ?? "") }}
-            />
-            <div className="space-y-4 text-muted-foreground">
-              <p
-                dangerouslySetInnerHTML={{ __html: toHtml(settings?.about_paragraph1 ?? "") }}
-                className="[&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2"
+            {isLoading ? (
+              <div className="h-10 w-3/4 animate-pulse rounded-lg bg-muted" />
+            ) : (
+              <h2
+                className="font-display text-3xl font-semibold text-primary md:text-4xl [&_u]:underline-offset-4 [&_u]:decoration-2"
+                dangerouslySetInnerHTML={{ __html: toHtml(settings?.about_title ?? "") }}
               />
-              <p
-                dangerouslySetInnerHTML={{ __html: toHtml(settings?.about_paragraph2 ?? "") }}
-                className="[&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2"
-              />
-            </div>
-            <div className="flex flex-wrap gap-3">
-              {settings?.about_tags?.map((tag) => (
-                <span key={tag} className="rounded-full bg-primary px-3 py-1 text-xs font-medium text-accent-foreground">
-                  {tag}
-                </span>
-              ))}
-            </div>
+            )}
+            {isLoading ? (
+              <div className="space-y-3">
+                <div className="h-4 w-full animate-pulse rounded bg-muted" />
+                <div className="h-4 w-5/6 animate-pulse rounded bg-muted" />
+                <div className="h-4 w-4/5 animate-pulse rounded bg-muted" />
+                <div className="mt-2 h-4 w-full animate-pulse rounded bg-muted" />
+                <div className="h-4 w-3/4 animate-pulse rounded bg-muted" />
+              </div>
+            ) : (
+              <div className="space-y-4 text-muted-foreground">
+                <p
+                  dangerouslySetInnerHTML={{ __html: toHtml(settings?.about_paragraph1 ?? "") }}
+                  className="[&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2"
+                />
+                <p
+                  dangerouslySetInnerHTML={{ __html: toHtml(settings?.about_paragraph2 ?? "") }}
+                  className="[&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2"
+                />
+              </div>
+            )}
+            {isLoading ? (
+              <div className="flex gap-3">
+                {[1, 2, 3].map((n) => (
+                  <div key={n} className="h-6 w-20 animate-pulse rounded-full bg-muted" />
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-3">
+                {settings?.about_tags?.map((tag) => (
+                  <span key={tag} className="rounded-full bg-primary px-3 py-1 text-xs font-medium text-accent-foreground">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
             <Button asChild variant="outline" className="gap-2">
               <Link to="/sobre-mi">
                 Conoce más sobre mí <ArrowRight className="h-4 w-4" />
