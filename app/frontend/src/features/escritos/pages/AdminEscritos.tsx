@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { Plus, Pencil, Trash2, Eye, FileText } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/shared/components/ui/button";
+import { Badge } from "@/shared/components/ui/badge";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,8 +14,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { useAdminEscritos, useDeleteEscrito } from "@/hooks/useEscritos";
+} from "@/shared/components/ui/alert-dialog";
+import { useAdminEscritos, useDeleteEscrito } from "@/features/escritos/hooks/useEscritos";
 
 export default function AdminEscritos() {
   const { data: escritos, isLoading } = useAdminEscritos();

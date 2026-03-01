@@ -6,19 +6,19 @@ import {
   CalendarDays, Clock, MapPin, Users, BookOpen,
   Sparkles, AlertCircle, CheckCircle2, Ticket, Sprout,
 } from "lucide-react";
-import Layout from "@/components/layout/Layout";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import Layout from "@/shared/components/layout/Layout";
+import { Button } from "@/shared/components/ui/button";
+import { Input } from "@/shared/components/ui/input";
+import { Label } from "@/shared/components/ui/label";
 import {
   Dialog, DialogContent, DialogHeader,
   DialogTitle, DialogDescription,
-} from "@/components/ui/dialog";
+} from "@/shared/components/ui/dialog";
 import {
   usePublishedTalleres, useInscribirse,
   isFutureTaller, isRegistrationOpen, tallerDateTime,
   type Taller,
-} from "@/hooks/useTalleres";
+} from "@/features/talleres/hooks/useTalleres";
 
 // ── Registration dialog ───────────────────────────────────────────────────────
 

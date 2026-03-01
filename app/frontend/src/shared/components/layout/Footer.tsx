@@ -1,5 +1,5 @@
 import { Instagram, Youtube, Twitter, MessageCircle, Music2, Heart, Facebook } from "lucide-react";
-import { useSocialLinks } from "@/hooks/useSiteSettings";
+import { useSocialLinks } from "@/shared/hooks/useSiteSettings";
 
 const iconMap: Record<string, React.ElementType> = {
   Instagram, Youtube, Twitter, MessageCircle, Music2, Facebook,

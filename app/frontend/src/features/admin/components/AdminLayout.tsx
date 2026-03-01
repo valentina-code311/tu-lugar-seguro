@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/shared/contexts/AuthContext";
 import { Link, useLocation } from "react-router-dom";
 import { LayoutDashboard, Calendar, LogOut, ChevronLeft, PenLine, GraduationCap, Settings2, Mail, Users } from "lucide-react";
 

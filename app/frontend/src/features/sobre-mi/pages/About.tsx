@@ -1,10 +1,10 @@
-import Layout from "@/components/layout/Layout";
+import Layout from "@/shared/components/layout/Layout";
 import { motion } from "framer-motion";
 import { Sprout } from "lucide-react";
-import { useValores } from "@/hooks/useValores";
-import { resolveIcon } from "@/components/admin/IconPicker";
-import { useSiteSettings } from "@/hooks/useSiteSettings";
-import { toHtml } from "@/components/admin/escritos/RichTextEditor";
+import { useValores } from "@/shared/hooks/useValores";
+import { resolveIcon } from "@/shared/components/IconPicker";
+import { useSiteSettings } from "@/shared/hooks/useSiteSettings";
+import { toHtml } from "@/shared/components/RichTextEditor";
 
 const About = () => {
   const { data: valores, isLoading: loadingValores } = useValores();

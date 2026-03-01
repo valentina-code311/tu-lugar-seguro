@@ -1,8 +1,8 @@
-import Layout from "@/components/layout/Layout";
-import HeroSection from "@/components/home/HeroSection";
-import AboutPreview from "@/components/home/AboutPreview";
-import ServicesPreview from "@/components/home/ServicesPreview";
-import WhatsAppCTA from "@/components/home/WhatsAppCTA";
+import Layout from "@/shared/components/layout/Layout";
+import HeroSection from "@/features/home/components/HeroSection";
+import AboutPreview from "@/features/home/components/AboutPreview";
+import ServicesPreview from "@/features/home/components/ServicesPreview";
+import WhatsAppCTA from "@/features/home/components/WhatsAppCTA";
 
 const Index = () => {
   return (

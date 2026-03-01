@@ -1,10 +1,10 @@
-import Layout from "@/components/layout/Layout";
+import Layout from "@/shared/components/layout/Layout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 import { Calendar, Clock, Sprout, ChevronRight } from "lucide-react";
-import { useServices, formatPrice } from "@/hooks/useServices";
-import { resolveIcon } from "@/components/admin/IconPicker";
+import { useServices, formatPrice } from "@/shared/hooks/useServices";
+import { resolveIcon } from "@/shared/components/IconPicker";
 
 const Services = () => {
   const { data: services, isLoading } = useServices();

@@ -14,14 +14,14 @@ import {
   X,
   RefreshCw,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/shared/components/ui/button";
+import { Textarea } from "@/shared/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "@/shared/components/ui/dialog";
 import { toast } from "sonner";
 import {
   useAdminAppointments,
@@ -31,7 +31,7 @@ import {
   STATUS_CONFIG,
   type Appointment,
   type AppointmentStatus,
-} from "@/hooks/useAppointments";
+} from "@/features/agenda/hooks/useAppointments";
 
 const FILTER_TABS = [
   { key: "all", label: "Todas" },

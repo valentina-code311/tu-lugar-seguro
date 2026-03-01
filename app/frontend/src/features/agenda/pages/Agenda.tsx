@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import Layout from "@/components/layout/Layout";
+import Layout from "@/shared/components/layout/Layout";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/shared/components/ui/button";
+import { Input } from "@/shared/components/ui/input";
+import { Textarea } from "@/shared/components/ui/textarea";
 import { Calendar, CalendarCheck, ChevronLeft, ChevronRight, Loader2, Sprout, MessageCircle } from "lucide-react";
-import { useServices, formatPrice } from "@/hooks/useServices";
-import { useBookAppointment, useBookedSlots, BookedSlot } from "@/hooks/useAppointments";
+import { useServices, formatPrice } from "@/shared/hooks/useServices";
+import { useBookAppointment, useBookedSlots, BookedSlot } from "@/features/agenda/hooks/useAppointments";
 
 // ── Time slot generation (30-min blocks) ─────────────────────────────────────
 

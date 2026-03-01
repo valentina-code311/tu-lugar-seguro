@@ -6,23 +6,23 @@ import {
   X, Users, Sparkles, Eye, EyeOff, Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
+import { Button } from "@/shared/components/ui/button";
+import { Input } from "@/shared/components/ui/input";
+import { Label } from "@/shared/components/ui/label";
+import { Textarea } from "@/shared/components/ui/textarea";
+import { Badge } from "@/shared/components/ui/badge";
+import { Switch } from "@/shared/components/ui/switch";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel,
   AlertDialogContent, AlertDialogDescription,
   AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+} from "@/shared/components/ui/alert-dialog";
 import {
   useAdminTaller, useSaveTaller, useDeleteTaller,
   uploadTallerImage, isFutureTaller, type TallerPayload,
   type Inscripcion,
-} from "@/hooks/useTalleres";
+} from "@/features/talleres/hooks/useTalleres";
 
 const EMPTY: Omit<TallerPayload, "event_date" | "event_time"> & {
   event_date: string;

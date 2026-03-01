@@ -1,12 +1,12 @@
 import { useState } from "react";
-import Layout from "@/components/layout/Layout";
+import Layout from "@/shared/components/layout/Layout";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/shared/components/ui/button";
+import { Input } from "@/shared/components/ui/input";
+import { Textarea } from "@/shared/components/ui/textarea";
 import { Mail, Phone, MapPin, MessageCircle, Send, HeartHandshake, Loader2 } from "lucide-react";
-import { useSiteSettings } from "@/hooks/useSiteSettings";
-import { useContactMessages } from "@/hooks/useContactMessages";
+import { useSiteSettings } from "@/shared/hooks/useSiteSettings";
+import { useContactMessages } from "@/features/contacto/hooks/useContactMessages";
 import { toast } from "sonner";
 
 function extractIframeSrc(raw: string): string | null {

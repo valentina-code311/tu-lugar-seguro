@@ -1,5 +1,5 @@
 
-import { useContactMessages } from "@/hooks/useContactMessages";
+import { useContactMessages } from "@/features/contacto/hooks/useContactMessages";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { 
@@ -11,9 +11,9 @@ import {
   Calendar,
   MessageSquare
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { Badge } from "@/shared/components/ui/badge";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,8 +24,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
+} from "@/shared/components/ui/alert-dialog";
+import { ScrollArea } from "@/shared/components/ui/scroll-area";
 
 export default function AdminMensajes() {
   const { messages, isLoading, toggleRead, deleteMessage } = useContactMessages();

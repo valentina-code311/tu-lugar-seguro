@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
-import { Tables } from "@/integrations/supabase/types";
+import { supabase } from "@/shared/integrations/supabase/client";
+import { Tables } from "@/shared/integrations/supabase/types";
 
 export type Escrito = Tables<"escritos">;
 export type EscritoBlock = Tables<"escrito_blocks">;

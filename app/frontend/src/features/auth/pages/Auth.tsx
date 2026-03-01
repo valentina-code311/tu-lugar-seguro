@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import Layout from "@/components/layout/Layout";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { supabase } from "@/shared/integrations/supabase/client";
+import Layout from "@/shared/components/layout/Layout";
+import { Button } from "@/shared/components/ui/button";
+import { Input } from "@/shared/components/ui/input";
 import { motion } from "framer-motion";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "@/shared/hooks/use-toast";
 import { Eye, EyeOff } from "lucide-react";
 
 const Auth = () => {

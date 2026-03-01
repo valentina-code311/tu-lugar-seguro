@@ -1,20 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Save, Globe, Loader2, ImageIcon, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { BlockEditor } from "@/components/admin/escritos/BlockEditor";
-import { RichTextEditor } from "@/components/admin/escritos/RichTextEditor";
+import { Button } from "@/shared/components/ui/button";
+import { Input } from "@/shared/components/ui/input";
+import { Label } from "@/shared/components/ui/label";
+import { Badge } from "@/shared/components/ui/badge";
+import { Separator } from "@/shared/components/ui/separator";
+import { BlockEditor } from "@/features/escritos/components/BlockEditor";
+import { RichTextEditor } from "@/shared/components/RichTextEditor";
 import {
   EditorBlock,
   useAdminEscrito,
   useSaveEscrito,
   uploadEscritoImage,
   toSlug,
-} from "@/hooks/useEscritos";
+} from "@/features/escritos/hooks/useEscritos";
 import { toast } from "sonner";
 
 export default function AdminEscritoEditor() {

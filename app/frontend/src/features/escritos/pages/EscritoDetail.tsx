@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Link2, MessageCircle, Twitter, Facebook, BookOpen, Dot } from "lucide-react";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
-import Layout from "@/components/layout/Layout";
-import { Button } from "@/components/ui/button";
-import { useEscritoBySlug, EscritoBlock } from "@/hooks/useEscritos";
+import Layout from "@/shared/components/layout/Layout";
+import { Button } from "@/shared/components/ui/button";
+import { useEscritoBySlug, EscritoBlock } from "@/features/escritos/hooks/useEscritos";
 
 // ── Sharing helpers ────────────────────────────────────────────────────────────
 

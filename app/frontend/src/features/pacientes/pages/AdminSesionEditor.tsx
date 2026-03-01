@@ -3,20 +3,20 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   ArrowLeft, Upload, Sparkles, Send, Save, X, Image, ChevronDown, ChevronRight,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/shared/components/ui/button";
+import { Input } from "@/shared/components/ui/input";
+import { Label } from "@/shared/components/ui/label";
+import { Textarea } from "@/shared/components/ui/textarea";
+import { Badge } from "@/shared/components/ui/badge";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select";
+} from "@/shared/components/ui/select";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
-} from "@/components/ui/dialog";
-import { useSession, useUpdateSession, useSessionUploads, useUploadSessionFile, useDeleteUpload } from "@/hooks/useClinicalSessions";
-import { backendPost } from "@/lib/backendFetch";
-import { usePatient } from "@/hooks/usePatients";
+} from "@/shared/components/ui/dialog";
+import { useSession, useUpdateSession, useSessionUploads, useUploadSessionFile, useDeleteUpload } from "@/features/pacientes/hooks/useClinicalSessions";
+import { backendPost } from "@/shared/lib/backendFetch";
+import { usePatient } from "@/features/pacientes/hooks/usePatients";
 import { toast } from "sonner";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8082";

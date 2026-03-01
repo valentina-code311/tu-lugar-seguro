@@ -1,26 +1,26 @@
 import { useState } from "react";
 import { Plus, Pencil, Trash2, GripVertical, Eye, EyeOff } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/shared/components/ui/button";
+import { Input } from "@/shared/components/ui/input";
+import { Label } from "@/shared/components/ui/label";
+import { Textarea } from "@/shared/components/ui/textarea";
+import { Badge } from "@/shared/components/ui/badge";
 import {
   Dialog, DialogContent, DialogHeader,
   DialogTitle, DialogFooter,
-} from "@/components/ui/dialog";
+} from "@/shared/components/ui/dialog";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel,
   AlertDialogContent, AlertDialogDescription,
   AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { IconPicker, resolveIcon } from "@/components/admin/IconPicker";
+} from "@/shared/components/ui/alert-dialog";
+import { IconPicker, resolveIcon } from "@/shared/components/IconPicker";
 import {
   useAdminValores, useCreateValor,
   useUpdateValor, useDeleteValor,
   type Valor,
-} from "@/hooks/useValores";
+} from "@/shared/hooks/useValores";
 
 const EMPTY: Omit<Valor, "id"> = {
   title: "",

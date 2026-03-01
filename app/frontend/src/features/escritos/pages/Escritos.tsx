@@ -3,8 +3,8 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { motion } from "framer-motion";
 import { ArrowRight, BookOpen, Sprout } from "lucide-react";
-import Layout from "@/components/layout/Layout";
-import { usePublishedEscritos } from "@/hooks/useEscritos";
+import Layout from "@/shared/components/layout/Layout";
+import { usePublishedEscritos } from "@/features/escritos/hooks/useEscritos";
 
 export default function Escritos() {
   const { data: escritos, isLoading } = usePublishedEscritos();

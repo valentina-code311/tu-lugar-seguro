@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 import { ArrowRight, Sprout } from "lucide-react";
-import { useSiteSettings } from "@/hooks/useSiteSettings";
-import { toHtml } from "@/components/admin/escritos/RichTextEditor";
+import { useSiteSettings } from "@/shared/hooks/useSiteSettings";
+import { toHtml } from "@/shared/components/RichTextEditor";
 
 const AboutPreview = () => {
   const { data: settings } = useSiteSettings();

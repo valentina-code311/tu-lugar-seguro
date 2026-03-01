@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 import { ArrowRight, Sprout } from "lucide-react";
-import { useServices, formatPrice } from "@/hooks/useServices";
-import { resolveIcon } from "@/components/admin/IconPicker";
+import { useServices, formatPrice } from "@/shared/hooks/useServices";
+import { resolveIcon } from "@/shared/components/IconPicker";
 import { useNavigate } from "react-router-dom";
 
 const ServicesPreview = () => {

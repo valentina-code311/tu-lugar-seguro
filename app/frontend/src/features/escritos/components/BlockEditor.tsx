@@ -16,12 +16,12 @@ import {
   Columns3,
   X,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { EditorBlock, BlockType, uploadEscritoImage } from "@/hooks/useEscritos";
+import { Button } from "@/shared/components/ui/button";
+import { Textarea } from "@/shared/components/ui/textarea";
+import { Input } from "@/shared/components/ui/input";
+import { EditorBlock, BlockType, uploadEscritoImage } from "@/features/escritos/hooks/useEscritos";
 import { toast } from "sonner";
-import { RichTextEditor } from "./RichTextEditor";
+import { RichTextEditor } from "@/shared/components/RichTextEditor";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 

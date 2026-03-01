@@ -7,23 +7,23 @@ import {
   MapPin, Users, Sparkles, Eye, EyeOff, Loader2,
   Mail, Phone, Download,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/shared/components/ui/button";
+import { Badge } from "@/shared/components/ui/badge";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle,
-} from "@/components/ui/dialog";
+} from "@/shared/components/ui/dialog";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel,
   AlertDialogContent, AlertDialogDescription,
   AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+} from "@/shared/components/ui/alert-dialog";
 import {
   useAdminTalleres, useDeleteTaller, useSaveTaller,
   useInscripcionesByTaller,
   isFutureTaller, tallerDateTime,
   type Taller,
-} from "@/hooks/useTalleres";
+} from "@/features/talleres/hooks/useTalleres";
 
 // ── Inscritos dialog ──────────────────────────────────────────────────────────
 

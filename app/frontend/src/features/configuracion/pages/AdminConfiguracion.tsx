@@ -1,31 +1,31 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import AdminValores from "@/pages/admin/AdminValores";
-import AdminServicios from "@/pages/admin/AdminServicios";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
+import AdminValores from "@/features/configuracion/pages/AdminValores";
+import AdminServicios from "@/features/configuracion/pages/AdminServicios";
 import { Plus, Pencil, Trash2, Eye, EyeOff, GripVertical, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/shared/components/ui/button";
+import { Input } from "@/shared/components/ui/input";
+import { Textarea } from "@/shared/components/ui/textarea";
+import { Label } from "@/shared/components/ui/label";
+import { Badge } from "@/shared/components/ui/badge";
 import {
   Dialog, DialogContent, DialogHeader,
   DialogTitle, DialogFooter,
-} from "@/components/ui/dialog";
+} from "@/shared/components/ui/dialog";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel,
   AlertDialogContent, AlertDialogDescription,
   AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { IconPicker, resolveIcon } from "@/components/admin/IconPicker";
-import { RichTextEditor } from "@/components/admin/escritos/RichTextEditor";
+} from "@/shared/components/ui/alert-dialog";
+import { IconPicker, resolveIcon } from "@/shared/components/IconPicker";
+import { RichTextEditor } from "@/shared/components/RichTextEditor";
 import {
   useSiteSettings, useUpdateSiteSettings,
   useSocialLinks, useCreateSocialLink, useUpdateSocialLink, useDeleteSocialLink,
   type SocialLink,
-} from "@/hooks/useSiteSettings";
+} from "@/shared/hooks/useSiteSettings";
 
 // ─── Contact Info Section ─────────────────────────────────────────────────────
 

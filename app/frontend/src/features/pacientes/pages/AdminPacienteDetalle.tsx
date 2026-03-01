@@ -1,28 +1,28 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Plus, Calendar, Clock, Video, MapPin, FileText, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/shared/components/ui/button";
+import { Input } from "@/shared/components/ui/input";
+import { Label } from "@/shared/components/ui/label";
+import { Textarea } from "@/shared/components/ui/textarea";
+import { Badge } from "@/shared/components/ui/badge";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog";
+} from "@/shared/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { usePatient, useUpdatePatient } from "@/hooks/usePatients";
-import { backendPost } from "@/lib/backendFetch";
-import { usePatientSessions, useCreateSession, type ClinicalSession } from "@/hooks/useClinicalSessions";
+} from "@/shared/components/ui/select";
+import { usePatient, useUpdatePatient } from "@/features/pacientes/hooks/usePatients";
+import { backendPost } from "@/shared/lib/backendFetch";
+import { usePatientSessions, useCreateSession, type ClinicalSession } from "@/features/pacientes/hooks/useClinicalSessions";
 import { toast } from "sonner";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8082";

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, ShoppingBag, User, LogOut, Shield } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/shared/components/ui/button";
+import { useAuth } from "@/shared/contexts/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "@/assets/logo-maryen.png";
-import { cn } from "@/lib/utils";
+import logo from "@/shared/assets/logo-maryen.png";
+import { cn } from "@/shared/lib/utils";
 
 const navItems = [
   { label: "Sobre mí", path: "/sobre-mi" },

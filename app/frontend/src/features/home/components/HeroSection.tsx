@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 import { Calendar, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
-import heroBg from "@/assets/hero-bg.jpg";
-import { useSiteSettings } from "@/hooks/useSiteSettings";
+import heroBg from "@/shared/assets/hero-bg.jpg";
+import { useSiteSettings } from "@/shared/hooks/useSiteSettings";
 
 const HeroSection = () => {
   const { data: settings } = useSiteSettings();
