@@ -679,7 +679,15 @@ function AboutPageSection() {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-const TABS = ["hero", "sobre-mi-inicio", "sobre-mi-pagina", "servicios", "valores", "contacto", "redes"] as const;
+const TABS = [
+  "hero",
+  "sobre-mi-inicio",
+  "sobre-mi-pagina",
+  "servicios",
+  "valores",
+  "contacto",
+  "redes"
+] as const;
 type Tab = typeof TABS[number];
 
 export default function AdminConfiguracion() {
@@ -701,7 +709,7 @@ export default function AdminConfiguracion() {
       </div>
 
       <Tabs value={activeTab} onValueChange={(v) => setTab(v as Tab)}>
-        <TabsList className="flex h-auto flex-wrap gap-1 bg-muted/50 p-1">
+        <TabsList className="flex h-auto flex-wrap gap-1 bg-card/70 p-1">
           <TabsTrigger value="hero">Hero</TabsTrigger>
           <TabsTrigger value="sobre-mi-inicio">Sobre mí — inicio</TabsTrigger>
           <TabsTrigger value="sobre-mi-pagina">Sobre mí — página</TabsTrigger>
