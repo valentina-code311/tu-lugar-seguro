@@ -54,6 +54,22 @@ export function useAllPatients() {
   });
 }
 
+export function usePatientByEmail(email: string | null | undefined) {
+  return useQuery({
+    queryKey: ["patient-by-email", email],
+    enabled: !!email,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("patients")
+        .select("*")
+        .eq("email", email!)
+        .maybeSingle();
+      if (error) throw error;
+      return data as Patient | null;
+    },
+  });
+}
+
 export function usePatient(id: string | undefined) {
   return useQuery({
     queryKey: ["patient", id],
