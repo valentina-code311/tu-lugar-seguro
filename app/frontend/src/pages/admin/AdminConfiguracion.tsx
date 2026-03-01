@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Plus, Pencil, Trash2, Eye, EyeOff, GripVertical } from "lucide-react";
+import { Plus, Pencil, Trash2, Eye, EyeOff, GripVertical, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -354,6 +354,312 @@ function SocialLinksSection() {
   );
 }
 
+// ─── Hero Content Section ──────────────────────────────────────────────────────
+
+function HeroContentSection() {
+  const { data: settings, isLoading } = useSiteSettings();
+  const updateMutation = useUpdateSiteSettings();
+
+  const [form, setForm] = useState({
+    hero_badge: "",
+    hero_title: "",
+    hero_subtitle: "",
+  });
+
+  useEffect(() => {
+    if (settings) setForm({
+      hero_badge: settings.hero_badge,
+      hero_title: settings.hero_title,
+      hero_subtitle: settings.hero_subtitle,
+    });
+  }, [settings]);
+
+  return (
+    <div className="rounded-xl border border-border bg-background p-6 shadow-soft space-y-5">
+      <div>
+        <h2 className="font-display text-lg font-bold text-foreground">Hero (portada)</h2>
+        <p className="text-sm text-muted-foreground mt-0.5">
+          Badge, título y subtítulo de la sección principal del inicio
+        </p>
+      </div>
+
+      {isLoading ? (
+        <div className="space-y-3">
+          {[1, 2, 3].map((n) => <div key={n} className="h-10 animate-pulse rounded-lg bg-muted" />)}
+        </div>
+      ) : (
+        <div className="space-y-4">
+          <div className="space-y-1.5">
+            <Label>Badge</Label>
+            <Input
+              value={form.hero_badge}
+              onChange={(e) => setForm({ ...form, hero_badge: e.target.value })}
+              placeholder="Ej: Psicología humanista y feminista"
+            />
+            <p className="text-xs text-muted-foreground">Texto pequeño que aparece sobre el título</p>
+          </div>
+
+          <div className="space-y-1.5">
+            <Label>Título principal</Label>
+            <Input
+              value={form.hero_title}
+              onChange={(e) => setForm({ ...form, hero_title: e.target.value })}
+              placeholder="Ej: Psicología que sí te cuida."
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label>Texto corto (subtítulo)</Label>
+            <Textarea
+              value={form.hero_subtitle}
+              onChange={(e) => setForm({ ...form, hero_subtitle: e.target.value })}
+              rows={3}
+              placeholder="Descripción breve que aparece bajo el título"
+            />
+          </div>
+        </div>
+      )}
+
+      <div className="flex justify-end">
+        <Button
+          onClick={() => updateMutation.mutate(form)}
+          disabled={updateMutation.isPending || isLoading}
+        >
+          {updateMutation.isPending ? "Guardando..." : "Guardar cambios"}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+// ─── About Home Section ────────────────────────────────────────────────────────
+
+function AboutHomeSection() {
+  const { data: settings, isLoading } = useSiteSettings();
+  const updateMutation = useUpdateSiteSettings();
+
+  const [form, setForm] = useState({
+    about_title: "",
+    about_paragraph1: "",
+    about_paragraph2: "",
+    about_tags: [] as string[],
+  });
+  const [newTag, setNewTag] = useState("");
+
+  useEffect(() => {
+    if (settings) setForm({
+      about_title: settings.about_title,
+      about_paragraph1: settings.about_paragraph1,
+      about_paragraph2: settings.about_paragraph2,
+      about_tags: settings.about_tags ?? [],
+    });
+  }, [settings]);
+
+  function addTag() {
+    const tag = newTag.trim();
+    if (!tag || form.about_tags.includes(tag)) return;
+    setForm({ ...form, about_tags: [...form.about_tags, tag] });
+    setNewTag("");
+  }
+
+  function removeTag(tag: string) {
+    setForm({ ...form, about_tags: form.about_tags.filter((t) => t !== tag) });
+  }
+
+  return (
+    <div className="rounded-xl border border-border bg-background p-6 shadow-soft space-y-5">
+      <div>
+        <h2 className="font-display text-lg font-bold text-foreground">Sobre mí — inicio</h2>
+        <p className="text-sm text-muted-foreground mt-0.5">
+          Sección "Sobre mí" de la página principal
+        </p>
+      </div>
+
+      {isLoading ? (
+        <div className="space-y-3">
+          {[1, 2, 3, 4].map((n) => <div key={n} className="h-10 animate-pulse rounded-lg bg-muted" />)}
+        </div>
+      ) : (
+        <div className="space-y-4">
+          <div className="space-y-1.5">
+            <Label>Título</Label>
+            <Input
+              value={form.about_title}
+              onChange={(e) => setForm({ ...form, about_title: e.target.value })}
+              placeholder="Ej: Soy Maryen Chamorro, hago psicología con criterio..."
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label>Primer párrafo</Label>
+            <Textarea
+              value={form.about_paragraph1}
+              onChange={(e) => setForm({ ...form, about_paragraph1: e.target.value })}
+              rows={4}
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label>Segundo párrafo</Label>
+            <Textarea
+              value={form.about_paragraph2}
+              onChange={(e) => setForm({ ...form, about_paragraph2: e.target.value })}
+              rows={4}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Etiquetas</Label>
+            <div className="flex flex-wrap gap-2">
+              {form.about_tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-medium text-accent-foreground"
+                >
+                  {tag}
+                  <button
+                    type="button"
+                    onClick={() => removeTag(tag)}
+                    className="ml-0.5 rounded-full hover:opacity-70"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </span>
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <Input
+                value={newTag}
+                onChange={(e) => setNewTag(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
+                placeholder="Nueva etiqueta..."
+                className="max-w-xs"
+              />
+              <Button type="button" variant="outline" onClick={addTag} disabled={!newTag.trim()}>
+                <Plus className="h-4 w-4" />
+                Agregar
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="flex justify-end">
+        <Button
+          onClick={() => updateMutation.mutate(form)}
+          disabled={updateMutation.isPending || isLoading}
+        >
+          {updateMutation.isPending ? "Guardando..." : "Guardar cambios"}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+// ─── About Full Page Section ───────────────────────────────────────────────────
+
+function AboutPageSection() {
+  const { data: settings, isLoading } = useSiteSettings();
+  const updateMutation = useUpdateSiteSettings();
+
+  const [form, setForm] = useState({
+    about_full_title: "",
+    about_full_paragraphs: [] as string[],
+  });
+
+  useEffect(() => {
+    if (settings) setForm({
+      about_full_title: settings.about_full_title,
+      about_full_paragraphs: settings.about_full_paragraphs ?? [],
+    });
+  }, [settings]);
+
+  function updateParagraph(index: number, value: string) {
+    const updated = [...form.about_full_paragraphs];
+    updated[index] = value;
+    setForm({ ...form, about_full_paragraphs: updated });
+  }
+
+  function addParagraph() {
+    setForm({ ...form, about_full_paragraphs: [...form.about_full_paragraphs, ""] });
+  }
+
+  function removeParagraph(index: number) {
+    setForm({
+      ...form,
+      about_full_paragraphs: form.about_full_paragraphs.filter((_, i) => i !== index),
+    });
+  }
+
+  return (
+    <div className="rounded-xl border border-border bg-background p-6 shadow-soft space-y-5">
+      <div>
+        <h2 className="font-display text-lg font-bold text-foreground">Sobre mí — página completa</h2>
+        <p className="text-sm text-muted-foreground mt-0.5">
+          Título y párrafos de la página <code className="font-mono">/sobre-mi</code>
+        </p>
+      </div>
+
+      {isLoading ? (
+        <div className="space-y-3">
+          {[1, 2, 3].map((n) => <div key={n} className="h-20 animate-pulse rounded-lg bg-muted" />)}
+        </div>
+      ) : (
+        <div className="space-y-4">
+          <div className="space-y-1.5">
+            <Label>Título</Label>
+            <Input
+              value={form.about_full_title}
+              onChange={(e) => setForm({ ...form, about_full_title: e.target.value })}
+              placeholder="Ej: Soy Maryen Chamorro..."
+            />
+          </div>
+
+          <div className="space-y-3">
+            <Label>Párrafos</Label>
+            {form.about_full_paragraphs.map((p, i) => (
+              <div key={i} className="flex gap-2">
+                <div className="flex-shrink-0 flex items-start pt-2">
+                  <span className="text-xs font-medium text-muted-foreground w-5">{i + 1}.</span>
+                </div>
+                <Textarea
+                  value={p}
+                  onChange={(e) => updateParagraph(i, e.target.value)}
+                  rows={3}
+                  className="flex-1"
+                  placeholder={`Párrafo ${i + 1}...`}
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="flex-shrink-0 text-destructive hover:text-destructive mt-0.5"
+                  onClick={() => removeParagraph(i)}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+            <Button type="button" variant="outline" onClick={addParagraph} className="gap-2">
+              <Plus className="h-4 w-4" />
+              Agregar párrafo
+            </Button>
+          </div>
+        </div>
+      )}
+
+      <div className="flex justify-end">
+        <Button
+          onClick={() => updateMutation.mutate(form)}
+          disabled={updateMutation.isPending || isLoading}
+        >
+          {updateMutation.isPending ? "Guardando..." : "Guardar cambios"}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function AdminConfiguracion() {
@@ -362,10 +668,13 @@ export default function AdminConfiguracion() {
       <div>
         <h1 className="font-display text-2xl font-bold text-foreground">Configuración</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Datos de contacto y redes sociales del sitio
+          Contenido editable, contacto y redes sociales del sitio
         </p>
       </div>
 
+      <HeroContentSection />
+      <AboutHomeSection />
+      <AboutPageSection />
       <ContactInfoSection />
       <SocialLinksSection />
     </div>

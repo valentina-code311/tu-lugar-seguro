@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar, ShoppingBag, BookOpen } from "lucide-react";
+import { Calendar, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import heroBg from "@/assets/hero-bg.jpg";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 const HeroSection = () => {
+  const { data: settings } = useSiteSettings();
+
   return (
     <section className="relative min-h-[90vh] overflow-hidden">
       <div
@@ -22,15 +25,15 @@ const HeroSection = () => {
         >
           <div className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-4 py-1.5 text-sm text-primary-foreground backdrop-blur-sm">
             <span className="h-2 w-2 rounded-full bg-primary" />
-            Psicología humanista y feminista
+            {settings?.hero_badge}
           </div>
 
           <h1 className="font-display text-4xl font-bold leading-tight text-primary-foreground md:text-5xl lg:text-6xl">
-            Psicología que <span className="italic">sí te cuida.</span>
+            {settings?.hero_title}
           </h1>
 
           <p className="max-w-lg text-base leading-relaxed text-primary-foreground/85 md:text-lg">
-            Acompaño a jóvenes y personas LGBTIQ+ desde un enfoque humanista y feminista para ver, nombrar y cambiar patrones sin compararte.
+            {settings?.hero_subtitle}
           </p>
 
           <div className="flex flex-wrap gap-3 pt-2">

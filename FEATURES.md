@@ -64,13 +64,16 @@
 - [ ] Cambiar estado del pedido
 - [ ] Filtrar por estado
 
-### Configuración (contacto + redes) ✓ (implementado)
+### Configuración (contacto + redes + contenido) ✓ (implementado)
 - [x] Crear página `/admin/configuracion` con dos secciones
 - [x] Editar datos de contacto (email, teléfono, ubicación, URL WhatsApp)
 - [x] CRUD de redes sociales (nombre, ícono Lucide, URL)
 - [x] Activar/desactivar cada red sin eliminarla
 - [x] Datos de contacto dinámicos en /contacto
 - [x] Redes sociales dinámicas en el footer
+- [x] Editar hero: badge, título y subtítulo de la portada
+- [x] Editar "Sobre mí" del inicio: título, 2 párrafos y etiquetas (con add/remove)
+- [x] Editar página /sobre-mi: título y lista dinámica de párrafos (add/remove)
 
 ### Testimonios
 - [ ] Crear página `/admin/testimonios`

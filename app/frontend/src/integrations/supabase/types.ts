@@ -22,6 +22,15 @@ export type Database = {
           location: string
           whatsapp_url: string
           location_map_url: string | null
+          hero_badge: string
+          hero_title: string
+          hero_subtitle: string
+          about_title: string
+          about_paragraph1: string
+          about_paragraph2: string
+          about_tags: string[]
+          about_full_title: string
+          about_full_paragraphs: string[]
         }
         Insert: {
           id?: boolean
@@ -30,6 +39,15 @@ export type Database = {
           location?: string
           whatsapp_url?: string
           location_map_url?: string | null
+          hero_badge?: string
+          hero_title?: string
+          hero_subtitle?: string
+          about_title?: string
+          about_paragraph1?: string
+          about_paragraph2?: string
+          about_tags?: string[]
+          about_full_title?: string
+          about_full_paragraphs?: string[]
         }
         Update: {
           id?: boolean
@@ -38,6 +56,15 @@ export type Database = {
           location?: string
           whatsapp_url?: string
           location_map_url?: string | null
+          hero_badge?: string
+          hero_title?: string
+          hero_subtitle?: string
+          about_title?: string
+          about_paragraph1?: string
+          about_paragraph2?: string
+          about_tags?: string[]
+          about_full_title?: string
+          about_full_paragraphs?: string[]
         }
         Relationships: []
       }

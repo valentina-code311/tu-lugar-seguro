@@ -3,9 +3,11 @@ import { motion } from "framer-motion";
 import { Sprout } from "lucide-react";
 import { useValores } from "@/hooks/useValores";
 import { resolveIcon } from "@/components/admin/IconPicker";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 const About = () => {
   const { data: valores, isLoading: loadingValores } = useValores();
+  const { data: settings } = useSiteSettings();
 
   return (
     <Layout>
@@ -16,40 +18,14 @@ const About = () => {
               <Sprout className="h-5 w-5" />
               Sobre mí
             </span>
-            <h2 className="mt-6 font-display text-center text-3xl font-semibold text-primary md:text-4xl">
-              Soy{" "}
-              <span className="italic text-primary/70 underline">Maryen Chamorro</span>,
-              hago psicología con criterio, contexto y cambio real
+            <h2 className=”mt-6 font-display text-center text-3xl font-semibold text-primary md:text-4xl”>
+              {settings?.about_full_title}
             </h2>
 
-            <div className="mt-6 mx-2 grid gap-4 text-muted-foreground text-justify">
-              <p>
-                Mi misión es sostener un espacio seguro y sin juicio donde puedas comprender lo que te pasa con claridad,
-                y transformar lo que se repite en tu vida sin compararte con el proceso de nadie.
-              </p>
-              <p>
-                Trabajo desde un enfoque humanista porque creo que tu historia merece ser escuchada completa: lo que sientes,
-                lo que piensas, tu cuerpo, tus vínculos y tus recursos, no me interesa “arreglarte”, sino ayudarte a entenderte y recuperar agencia.
-              </p>
-              <p>
-                Mi mirada es feminista  y psicosocial porque el malestar no ocurre en el vacío: mandatos de género, roles,
-                heteronorma, violencia, desigualdad y contextos familiares y culturales influyen en cómo aprendemos a amar,
-                a poner límites, a callar o a sostener cargas, aquí el contexto importa, y se trabaja.
-              </p>
-              <p>
-                Mi forma de acompañar es práctica y directa, sin perder la calidez, uso un método sencillo para aterrizar el proceso:
-                Ver → Nombrar → Elegir → Practicar.
-              </p>
-              <p>
-                Primero observamos patrones bien sean emocionales, relacionales o de pensamiento, después los nombramos con honestidad,
-                elegimos que es lo que hay que cambiar y lo practicamos con herramientas concretas para tu día a día,
-                en vez de prometer soluciones rápidas, construimos cambios sostenibles con una comunicación más clara,
-                límites que cuidan, decisiones conscientes y una relación amable contigo mismo.
-              </p>
-              <p>
-                Si estás buscando terapia donde puedas hablar con libertad, sentirte respetad@ y encontrar dirección —sin moralidad,
-                sin etiquetas innecesarias y sin presión por “estar bien” rápido— este es tu lugar.
-              </p>
+            <div className=”mt-6 mx-2 grid gap-4 text-muted-foreground text-justify”>
+              {settings?.about_full_paragraphs?.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
             </div>
           </motion.div>
         </div>

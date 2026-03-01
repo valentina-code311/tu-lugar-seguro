@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import { Sprout } from 'lucide-react'
+import { ArrowRight, Sprout } from "lucide-react";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 const AboutPreview = () => {
+  const { data: settings } = useSiteSettings();
+
   return (
     <section className="bg-background py-10 md:py-16">
       <div className="container mx-auto">
@@ -21,23 +23,14 @@ const AboutPreview = () => {
               Sobre mí
             </span>
             <h2 className="font-display text-3xl font-semibold text-primary md:text-4xl">
-              Soy{" "}
-              <span className="italic text-primary/70 underline">Maryen Chamorro</span>,
-              hago psicología con criterio, contexto y cambio real.
+              {settings?.about_title}
             </h2>
             <div className="space-y-4 text-muted-foreground">
-              <p>
-                Psicóloga con más de 5 años de experiencia acompañando procesos desde un enfoque humanista, feminista y psicosocial.
-                Trabajo bienestar emocional, autoestima, límites y relaciones, integrando tu historia personal con el contexto social
-                que también moldea lo que sentimos, pensamos y sostenemos.
-              </p>
-              <p>
-                Aquí no vengo a juzgarte ni a decirte qué hacer. Construimos un espacio seguro para comprender tus patrones,
-                nombrarlos con claridad y tomar decisiones más conscientes, con herramientas prácticas para la vida diaria.
-              </p>
+              <p>{settings?.about_paragraph1}</p>
+              <p>{settings?.about_paragraph2}</p>
             </div>
             <div className="flex flex-wrap gap-3">
-              {["Psicología Humanista", "Perspectiva Feminista", "Talleres Psicoeducativos"].map((tag) => (
+              {settings?.about_tags?.map((tag) => (
                 <span key={tag} className="rounded-full bg-primary px-3 py-1 text-xs font-medium text-accent-foreground">
                   {tag}
                 </span>
