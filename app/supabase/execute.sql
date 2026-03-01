@@ -1,0 +1,8 @@
+-- ==============================================================
+-- execute.sql — Staging area para SQL pendiente de ejecutar
+-- ==============================================================
+-- Uso: pegar el contenido en el SQL Editor de Supabase y ejecutar.
+-- Después de ejecutar, limpiar este archivo (dejar solo el encabezado).
+--
+-- Estado actual: vacío (sin cambios pendientes)
+-- ==============================================================

@@ -18,18 +18,10 @@ CREATE TABLE IF NOT EXISTS public.patients (
   updated_at       TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
--- Auto-update updated_at
-CREATE OR REPLACE FUNCTION public.set_updated_at()
-RETURNS TRIGGER LANGUAGE plpgsql AS $$
-BEGIN
-  NEW.updated_at = now();
-  RETURN NEW;
-END;
-$$;
-
+-- Auto-update updated_at (reuses update_updated_at_column from auth_roles migration)
 CREATE TRIGGER patients_updated_at
   BEFORE UPDATE ON public.patients
-  FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
 
 -- RLS: solo admins
 ALTER TABLE public.patients ENABLE ROW LEVEL SECURITY;

@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS public.clinical_sessions (
 
 CREATE TRIGGER clinical_sessions_updated_at
   BEFORE UPDATE ON public.clinical_sessions
-  FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
 
 -- RLS: solo admins
 ALTER TABLE public.clinical_sessions ENABLE ROW LEVEL SECURITY;

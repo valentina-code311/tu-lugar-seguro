@@ -53,7 +53,7 @@ CREATE TRIGGER update_escritos_updated_at
 CREATE TABLE public.escrito_blocks (
   id          UUID    NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
   escrito_id  UUID    NOT NULL REFERENCES public.escritos(id) ON DELETE CASCADE,
-  type        TEXT    NOT NULL CHECK (type IN ('paragraph', 'heading', 'quote', 'image')),
+  type        TEXT    NOT NULL CHECK (type IN ('paragraph', 'heading', 'quote', 'image', 'separator', 'video', 'table')),
   content     TEXT,
   image_url   TEXT,
   sort_order  INTEGER NOT NULL DEFAULT 0,
@@ -78,3 +78,30 @@ CREATE POLICY "Admin can manage escrito blocks" ON public.escrito_blocks
 
 -- Index for fast block retrieval ordered by position
 CREATE INDEX escrito_blocks_escrito_id_sort ON public.escrito_blocks (escrito_id, sort_order);
+
+-- ----------------------------------------
+-- Trigger: manage published_at automatically
+-- ----------------------------------------
+CREATE OR REPLACE FUNCTION public.set_escrito_published_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF TG_OP = 'INSERT' THEN
+    IF NEW.status = 'published' AND NEW.published_at IS NULL THEN
+      NEW.published_at = NOW();
+    END IF;
+  ELSIF TG_OP = 'UPDATE' THEN
+    IF NEW.status = 'published' THEN
+      IF OLD.published_at IS NULL OR OLD.status <> 'published' THEN
+        NEW.published_at = NOW();
+      END IF;
+    ELSIF NEW.status = 'draft' THEN
+      NEW.published_at = NULL;
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_escritos_published_at
+  BEFORE INSERT OR UPDATE ON public.escritos
+  FOR EACH ROW EXECUTE FUNCTION public.set_escrito_published_at();
