@@ -7,11 +7,6 @@
 - [x] Migración para tabla `contact_messages` (nombre, email, asunto, mensaje, leído)
 - [x] Migración para tabla `social_links` (red, url, activo, orden)
 - [x] Migración para tabla `site_settings` (email, teléfono, ubicación, whatsapp_url, hero_*, about_*)
-- [ ] Migración para tabla `products` (nombre, descripción, precio, stock, categoría, imagen, activo)
-- [ ] Migración para tabla `infoproducts` (título, descripción, precio, contenido, imagen, activo)
-- [ ] Migración para tabla `orders` (pedidos de tienda: usuario, productos, estado, total, dirección)
-- [ ] Migración para tabla `testimonials` (texto, autor, rating, visible)
-- [ ] Migración para tabla `faqs` (pregunta, respuesta, orden, visible)
 
 ---
 
@@ -43,27 +38,6 @@
 - [ ] Gestionar disponibilidad semanal (horarios por día)
 - [ ] Gestionar fechas bloqueadas (vacaciones, festivos)
 
-### Productos
-- [ ] Crear página `/admin/productos`
-- [ ] CRUD de productos (crear, editar, eliminar)
-- [ ] Subir imagen del producto a Supabase Storage
-- [ ] Gestión de stock
-- [ ] Activar/desactivar producto sin eliminarlo
-- [ ] Gestión de categorías
-
-### Infoproductos
-- [ ] Crear página `/admin/infoproductos`
-- [ ] CRUD de infoproductos
-- [ ] Subir imagen de portada
-- [ ] Editar lista de qué incluye
-
-### Pedidos
-- [ ] Crear página `/admin/pedidos`
-- [ ] Listado de pedidos con estado (pendiente, procesando, enviado, entregado)
-- [ ] Ver detalle del pedido con productos e info de envío
-- [ ] Cambiar estado del pedido
-- [ ] Filtrar por estado
-
 ### Configuración ✓ (implementado)
 - [x] Página `/admin/configuracion` con tabs (URL `?tab=...`)
 - [x] Editar datos de contacto (email, teléfono, ubicación, URL WhatsApp)
@@ -76,16 +50,6 @@
 - [x] Rich text en títulos y párrafos (negrita, cursiva, subrayado, enlaces)
 - [x] Servicios y Valores integrados como tabs en /admin/configuracion
 - [x] Rutas /admin/servicios y /admin/valores redirigen a configuracion?tab=...
-
-### Testimonios
-- [ ] Crear página `/admin/testimonios`
-- [ ] CRUD de testimonios
-- [ ] Mostrar/ocultar testimonio en el sitio
-
-### FAQs
-- [ ] Crear página `/admin/faqs`
-- [ ] CRUD de preguntas frecuentes
-- [ ] Reordenar por drag-and-drop
 
 ### Pacientes / Historias Clínicas ✓ (implementado)
 - [x] Migración tabla `patients` con RLS solo admins
@@ -109,11 +73,6 @@
 - [ ] Crear página `/admin/mensajes`: listado, ver mensaje, marcar como leído
 - [ ] Enviar email de notificación a la admin cuando llega un mensaje
 
-### Clientes
-- [ ] Crear página `/admin/clientes`
-- [ ] Listado de usuarios registrados
-- [ ] Ver historial de citas por cliente
-
 ---
 
 ## Páginas públicas
@@ -126,20 +85,6 @@
 - [x] Deshabilitar horarios ocupados por citas existentes (consulta via RPC segura)
 - [x] Enviar formulario de reserva a Supabase (appointments) — botón confirmar funcional
 - [ ] Email de confirmación automático al cliente tras reservar
-
-### Tienda
-- [ ] Conectar productos desde Supabase (en vez de mockData)
-- [ ] Página de detalle de producto (`/tienda/:slug`)
-- [ ] Carrito de compras (contexto o estado global)
-- [ ] Checkout con datos de envío
-- [ ] Integración pasarela de pago (Wompi o MercadoPago)
-- [ ] Email de confirmación de pedido al cliente
-
-### Infoproductos
-- [ ] Conectar infoproductos desde Supabase (en vez de mockData)
-- [ ] Página de detalle de infoproducto (`/infoproductos/:slug`)
-- [ ] Integración pasarela de pago para compra digital
-- [ ] Entrega automática por email del archivo/acceso tras el pago
 
 ### Valores (Sobre mí) ✓ (implementado)
 - [x] Migración tabla `valores` con seed de datos iniciales
@@ -168,25 +113,6 @@
 - [ ] Enviar email de confirmación automático al cliente tras inscribirse
 - [ ] Poder adjuntar un carrusel de imágenes al taller
 
-### Portal del cliente (autenticado)
-- [ ] Crear sección `/mi-portal` visible solo para usuarios logueados
-- [ ] Ver mis citas (historial + próximas)
-- [ ] Ver mis compras y acceder a infoproductos comprados
-- [ ] Editar perfil (nombre, foto)
-- [ ] Recuperación de contraseña por email
-
----
-
-## Datos estáticos a migrar desde mockData
-
-- [x] Reemplazar `services` en el sitio público por datos desde Supabase
-- [ ] Reemplazar `products` / `productCategories` por datos desde Supabase
-- [ ] Reemplazar `infoproducts` por datos desde Supabase
-- [ ] Reemplazar `testimonials` por datos desde Supabase (con control admin)
-- [ ] Reemplazar `faqs` por datos desde Supabase (con control admin)
-- [x] Reemplazar `socialLinks` en navbar/footer por datos desde Supabase
-- [x] Reemplazar datos de contacto (email, teléfono) por configuración editable en admin
-
 ---
 
 ## SEO y rendimiento
@@ -201,11 +127,11 @@
 
 ## UX / Mejoras de interfaz
 
-- [ ] Skeleton loaders en listados mientras carga la data
+- [x] Skeleton loaders en Hero y secciones "Sobre mí" mientras carga configuración desde Supabase
+- [ ] Skeleton loaders en listados mientras carga la data (escritos, talleres, pacientes)
 - [ ] Página 404 con link a inicio
-- [ ] Toggle de dark mode visible en el navbar
 - [ ] Toast de confirmación al reservar cita
-- [ ] Imagen placeholder cuando un escrito/producto no tiene portada
+- [ ] Imagen placeholder cuando un escrito no tiene portada
 - [ ] Paginación o infinite scroll en listados largos
 
 ---
