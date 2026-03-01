@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sprout } from "lucide-react";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
+import { toHtml } from "@/components/admin/escritos/RichTextEditor";
 
 const AboutPreview = () => {
   const { data: settings } = useSiteSettings();
@@ -22,12 +23,19 @@ const AboutPreview = () => {
               <Sprout className="h-5 w-5" />
               Sobre mí
             </span>
-            <h2 className="font-display text-3xl font-semibold text-primary md:text-4xl">
-              {settings?.about_title}
-            </h2>
+            <h2
+              className="font-display text-3xl font-semibold text-primary md:text-4xl [&_u]:underline-offset-4 [&_u]:decoration-2"
+              dangerouslySetInnerHTML={{ __html: toHtml(settings?.about_title ?? "") }}
+            />
             <div className="space-y-4 text-muted-foreground">
-              <p>{settings?.about_paragraph1}</p>
-              <p>{settings?.about_paragraph2}</p>
+              <p
+                dangerouslySetInnerHTML={{ __html: toHtml(settings?.about_paragraph1 ?? "") }}
+                className="[&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2"
+              />
+              <p
+                dangerouslySetInnerHTML={{ __html: toHtml(settings?.about_paragraph2 ?? "") }}
+                className="[&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2"
+              />
             </div>
             <div className="flex flex-wrap gap-3">
               {settings?.about_tags?.map((tag) => (

@@ -45,6 +45,8 @@ interface RichTextEditorProps {
   placeholder?: string;
   /** Extra classes applied to the contentEditable div */
   editorClassName?: string;
+  /** When true, prevents Enter key (use for single-line title editors) */
+  singleLine?: boolean;
 }
 
 export function RichTextEditor({
@@ -52,6 +54,7 @@ export function RichTextEditor({
   onChange,
   placeholder = "Escribe aquí...",
   editorClassName,
+  singleLine = false,
 }: RichTextEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
 
@@ -107,9 +110,14 @@ export function RichTextEditor({
         onInput={() => {
           if (editorRef.current) onChange(editorRef.current.innerHTML);
         }}
+        onKeyDown={(e) => {
+          if (singleLine && e.key === "Enter") e.preventDefault();
+        }}
         className={
           editorClassName ??
-          "min-h-[120px] text-base leading-relaxed outline-none [&:empty]:before:text-muted-foreground/50 [&:empty]:before:content-[attr(data-placeholder)] [&_a]:text-primary [&_a]:underline"
+          (singleLine
+            ? "min-h-[36px] text-base font-medium leading-snug outline-none [&:empty]:before:text-muted-foreground/50 [&:empty]:before:content-[attr(data-placeholder)]"
+            : "min-h-[120px] text-base leading-relaxed outline-none [&:empty]:before:text-muted-foreground/50 [&:empty]:before:content-[attr(data-placeholder)] [&_a]:text-primary [&_a]:underline")
         }
         data-placeholder={placeholder}
       />

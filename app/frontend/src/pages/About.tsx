@@ -4,6 +4,7 @@ import { Sprout } from "lucide-react";
 import { useValores } from "@/hooks/useValores";
 import { resolveIcon } from "@/components/admin/IconPicker";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
+import { toHtml } from "@/components/admin/escritos/RichTextEditor";
 
 const About = () => {
   const { data: valores, isLoading: loadingValores } = useValores();
@@ -18,13 +19,18 @@ const About = () => {
               <Sprout className="h-5 w-5" />
               Sobre mí
             </span>
-            <h2 className=”mt-6 font-display text-center text-3xl font-semibold text-primary md:text-4xl”>
-              {settings?.about_full_title}
-            </h2>
+            <h2
+              className="mt-6 font-display text-center text-3xl font-semibold text-primary md:text-4xl [&_u]:underline-offset-4 [&_u]:decoration-2"
+              dangerouslySetInnerHTML={{ __html: toHtml(settings?.about_full_title ?? "") }}
+            />
 
-            <div className=”mt-6 mx-2 grid gap-4 text-muted-foreground text-justify”>
+            <div className="mt-6 mx-2 grid gap-4 text-muted-foreground text-justify">
               {settings?.about_full_paragraphs?.map((p, i) => (
-                <p key={i}>{p}</p>
+                <p
+                  key={i}
+                  dangerouslySetInnerHTML={{ __html: toHtml(p) }}
+                  className="[&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2"
+                />
               ))}
             </div>
           </motion.div>

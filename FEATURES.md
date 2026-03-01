@@ -72,8 +72,14 @@
 - [x] Datos de contacto dinámicos en /contacto
 - [x] Redes sociales dinámicas en el footer
 - [x] Editar hero: badge, título y subtítulo de la portada
-- [x] Editar "Sobre mí" del inicio: título, 2 párrafos y etiquetas (con add/remove)
-- [x] Editar página /sobre-mi: título y lista dinámica de párrafos (add/remove)
+- [x] Editar "Sobre mí" del inicio: título (con rich text), 2 párrafos (rich text) y etiquetas
+- [x] Editar página /sobre-mi: título (rich text) y lista dinámica de párrafos (rich text)
+- [x] Títulos de "sobre mí" con rich text (negrita, cursiva, subrayado)
+- [x] Párrafos de "sobre mí" con rich text igual que escritos (negrita, cursiva, subrayado, enlaces)
+- [x] Página /admin/configuracion con tabs, tab activa reflejada en URL (?tab=...)
+- [x] Servicios y Valores integrados como tabs en /admin/configuracion (ya no son páginas separadas)
+- [x] Rutas /admin/servicios y /admin/valores redirigen a configuracion?tab=...
+- [x] ThemePreview eliminado del sidebar y su ruta redirige a /admin
 
 ### Testimonios
 - [ ] Crear página `/admin/testimonios`
