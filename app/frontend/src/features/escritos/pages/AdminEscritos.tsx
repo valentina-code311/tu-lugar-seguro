@@ -59,7 +59,7 @@ export default function AdminEscritos() {
           {escritos.map((escrito) => (
             <div
               key={escrito.id}
-              className="flex items-center gap-4 rounded-xl border border-border bg-background p-4 shadow-soft"
+              className="flex items-center gap-4 rounded-xl border border-border bg-card p-4 shadow-soft"
             >
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-foreground truncate">

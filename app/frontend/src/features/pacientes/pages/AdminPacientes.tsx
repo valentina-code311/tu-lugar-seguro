@@ -100,7 +100,7 @@ export default function AdminPacientes() {
           {patients?.map((patient) => (
             <div
               key={patient.id}
-              className="flex items-center gap-4 rounded-xl border border-border bg-background p-4 shadow-sm cursor-pointer hover:bg-muted/30 transition-colors"
+              className="flex items-center gap-4 rounded-xl border border-border bg-card p-4 shadow-soft cursor-pointer hover:shadow-card hover:border-primary/20 transition-shadow transition-colors"
               onClick={() => navigate(`/admin/pacientes/${patient.id}`)}
             >
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary font-semibold text-sm">

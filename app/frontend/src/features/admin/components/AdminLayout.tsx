@@ -21,29 +21,34 @@ function NavItems({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <>
       <nav className="flex-1 overflow-y-auto p-3">
-        <div className="space-y-1">
-          {adminNav.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              onClick={onNavigate}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${location.pathname === item.path ||
-                (item.path !== "/admin" && location.pathname.startsWith(item.path))
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:bg-primary hover:text-accent-foreground"
+        <div className="space-y-0.5">
+          {adminNav.map((item) => {
+            const isActive =
+              location.pathname === item.path ||
+              (item.path !== "/admin" && location.pathname.startsWith(item.path));
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                onClick={onNavigate}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                  isActive
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 }`}
-            >
-              <item.icon className="h-4 w-4" />
-              {item.label}
-            </Link>
-          ))}
+              >
+                <item.icon className={`h-4 w-4 ${isActive ? "text-primary" : ""}`} />
+                {item.label}
+              </Link>
+            );
+          })}
         </div>
       </nav>
-      <div className="border-t border-border p-3 space-y-2">
+      <div className="border-t border-border p-3 space-y-0.5">
         <Link
           to="/"
           onClick={onNavigate}
-          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-primary hover:text-accent-foreground"
+          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         >
           <ChevronLeft className="h-4 w-4" />
           Volver al sitio
@@ -83,18 +88,18 @@ const AdminLayout = () => {
   if (!isAdmin) return <Navigate to="/" replace />;
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-background">
       {/* Desktop sidebar */}
-      <aside className="hidden md:sticky md:top-0 md:flex md:h-screen md:w-64 md:flex-col border-r border-border bg-background">
-        <div className="border-b border-border p-4">
+      <aside className="hidden md:sticky md:top-0 md:flex md:h-screen md:w-64 md:flex-col border-r border-border bg-card shadow-soft">
+        <div className="border-b border-border px-5 py-4">
           <h2 className="font-display text-lg font-bold text-foreground">Admin Panel</h2>
-          <p className="text-xs text-muted-foreground">Maryen Chamorro</p>
+          <p className="text-xs text-muted-foreground mt-0.5">Maryen Chamorro</p>
         </div>
         <NavItems />
       </aside>
 
       {/* Mobile top bar */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-30 flex items-center gap-3 border-b border-border bg-background px-4 py-3">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-30 flex items-center gap-3 border-b border-border bg-card px-4 py-3 shadow-soft">
         <Button
           variant="ghost"
           size="icon"
@@ -109,17 +114,17 @@ const AdminLayout = () => {
 
       {/* Mobile drawer */}
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent side="left" className="w-64 p-0 flex flex-col">
-          <SheetHeader className="border-b border-border p-4 text-left">
+        <SheetContent side="left" className="w-64 p-0 flex flex-col bg-card">
+          <SheetHeader className="border-b border-border px-5 py-4 text-left">
             <SheetTitle className="font-display text-lg font-bold">Admin Panel</SheetTitle>
-            <p className="text-xs text-muted-foreground">Maryen Chamorro</p>
+            <p className="text-xs text-muted-foreground mt-0.5">Maryen Chamorro</p>
           </SheetHeader>
           <NavItems onNavigate={() => setMobileOpen(false)} />
         </SheetContent>
       </Sheet>
 
       {/* Content */}
-      <main className="flex-1 overflow-y-auto bg-background p-6 pt-[68px] md:pt-6 lg:p-8">
+      <main className="flex-1 overflow-y-auto p-6 pt-[68px] md:pt-6 lg:p-8">
         <Outlet />
       </main>
     </div>

@@ -193,7 +193,7 @@ export default function AdminTallerEditor() {
         {/* Main form */}
         <div className="space-y-5">
           {/* Básico */}
-          <div className="rounded-xl border border-border bg-background p-5 space-y-4">
+          <div className="rounded-xl border border-border bg-card p-5 space-y-4">
             <h2 className="font-semibold text-foreground">Información general</h2>
 
             <div className="space-y-1.5">
@@ -302,7 +302,7 @@ export default function AdminTallerEditor() {
         {/* Sidebar */}
         <div className="space-y-5">
           {/* Image */}
-          <div className="rounded-xl border border-border bg-background p-4 space-y-3">
+          <div className="rounded-xl border border-border bg-card p-4 space-y-3">
             <Label>Imagen de referencia</Label>
             <input
               ref={imgInputRef}
@@ -352,7 +352,7 @@ export default function AdminTallerEditor() {
 
           {/* Inscripciones */}
           {!isNew && (
-            <div className="rounded-xl border border-border bg-background p-4 space-y-3">
+            <div className="rounded-xl border border-border bg-card p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <Label>Inscripciones</Label>
                 <Badge variant="secondary">{inscripciones.length}</Badge>

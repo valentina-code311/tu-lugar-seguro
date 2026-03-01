@@ -27,9 +27,9 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8082";
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="rounded-xl border border-border bg-background overflow-hidden">
+    <div className="rounded-xl border border-border bg-card overflow-hidden">
       <button
-        className="flex w-full items-center justify-between px-5 py-3.5 text-left hover:bg-muted/30 transition-colors"
+        className="flex w-full items-center justify-between px-5 py-3.5 text-left hover:bg-muted/50 transition-colors"
         onClick={() => setOpen((o) => !o)}
       >
         <span className="font-medium text-sm text-foreground">{title}</span>
@@ -277,7 +277,7 @@ export default function AdminSesionEditor() {
       </div>
 
       {/* Session metadata */}
-      <div className="rounded-xl border border-border bg-background p-5">
+      <div className="rounded-xl border border-border bg-card p-5">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           <Field label="Fecha">
             <Input
@@ -322,7 +322,7 @@ export default function AdminSesionEditor() {
       </div>
 
       {/* Uploads section */}
-      <div className="rounded-xl border border-border bg-background p-5 space-y-4">
+      <div className="rounded-xl border border-border bg-card p-5 space-y-4">
         <h2 className="font-medium text-sm text-foreground">Notas de la sesión</h2>
 
         {/* Drop zone */}

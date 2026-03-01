@@ -15,7 +15,7 @@ const AdminDashboard = () => {
           { label: "Pedidos", value: "0", color: "bg-success" },
           { label: "Citas", value: "0", color: "bg-info" },
         ].map((stat) => (
-          <div key={stat.label} className="rounded-2xl border border-border bg-background p-6 shadow-soft">
+          <div key={stat.label} className="rounded-2xl border border-border bg-card p-6 shadow-soft">
             <p className="text-sm text-muted-foreground">{stat.label}</p>
             <p className="mt-2 font-display text-3xl font-bold text-foreground">{stat.value}</p>
           </div>

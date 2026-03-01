@@ -173,7 +173,7 @@ export default function AdminPacienteDetalle() {
       </div>
 
       {/* Patient info card */}
-      <div className="rounded-xl border border-border bg-background p-6">
+      <div className="rounded-xl border border-border bg-card p-6">
         {editMode ? (
           <div className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

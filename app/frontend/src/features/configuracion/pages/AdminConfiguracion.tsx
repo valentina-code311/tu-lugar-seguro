@@ -50,7 +50,7 @@ function ContactInfoSection() {
   }
 
   return (
-    <div className="rounded-xl border border-border bg-background p-6 shadow-soft space-y-5">
+    <div className="rounded-xl border border-border bg-card p-6 shadow-soft space-y-5">
       <div>
         <h2 className="font-display text-lg font-bold text-foreground">Datos de contacto</h2>
         <p className="text-sm text-muted-foreground mt-0.5">
@@ -186,7 +186,7 @@ function SocialLinksSection() {
   const isPending = createMutation.isPending || updateMutation.isPending;
 
   return (
-    <div className="rounded-xl border border-border bg-background p-6 shadow-soft space-y-5">
+    <div className="rounded-xl border border-border bg-card p-6 shadow-soft space-y-5">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="font-display text-lg font-bold text-foreground">Redes sociales</h2>
@@ -215,7 +215,7 @@ function SocialLinksSection() {
             return (
               <div
                 key={link.id}
-                className="flex items-center gap-4 rounded-xl border border-border bg-background p-4"
+                className="flex items-center gap-4 rounded-xl border border-border bg-card p-4"
               >
                 <GripVertical className="h-4 w-4 shrink-0 text-muted-foreground/40" />
 
@@ -380,7 +380,7 @@ function HeroContentSection() {
   }, [settings]);
 
   return (
-    <div className="rounded-xl border border-border bg-background p-6 shadow-soft space-y-5">
+    <div className="rounded-xl border border-border bg-card p-6 shadow-soft space-y-5">
       <div>
         <h2 className="font-display text-lg font-bold text-foreground">Hero (portada)</h2>
         <p className="text-sm text-muted-foreground mt-0.5">
@@ -472,7 +472,7 @@ function AboutHomeSection() {
   }
 
   return (
-    <div className="rounded-xl border border-border bg-background p-6 shadow-soft space-y-5">
+    <div className="rounded-xl border border-border bg-card p-6 shadow-soft space-y-5">
       <div>
         <h2 className="font-display text-lg font-bold text-foreground">Sobre mí — inicio</h2>
         <p className="text-sm text-muted-foreground mt-0.5">
@@ -488,7 +488,7 @@ function AboutHomeSection() {
         <div className="space-y-4">
           <div className="space-y-1.5">
             <Label>Título</Label>
-            <div className="rounded-md border border-input bg-background px-3 py-2">
+            <div className="rounded-md border border-input bg-card px-3 py-2">
               <RichTextEditor
                 singleLine
                 content={form.about_title}
@@ -501,7 +501,7 @@ function AboutHomeSection() {
 
           <div className="space-y-1.5">
             <Label>Primer párrafo</Label>
-            <div className="rounded-md border border-input bg-background px-3 py-2">
+            <div className="rounded-md border border-input bg-card px-3 py-2">
               <RichTextEditor
                 content={form.about_paragraph1}
                 onChange={(html) => setForm({ ...form, about_paragraph1: html })}
@@ -512,7 +512,7 @@ function AboutHomeSection() {
 
           <div className="space-y-1.5">
             <Label>Segundo párrafo</Label>
-            <div className="rounded-md border border-input bg-background px-3 py-2">
+            <div className="rounded-md border border-input bg-card px-3 py-2">
               <RichTextEditor
                 content={form.about_paragraph2}
                 onChange={(html) => setForm({ ...form, about_paragraph2: html })}
@@ -605,7 +605,7 @@ function AboutPageSection() {
   }
 
   return (
-    <div className="rounded-xl border border-border bg-background p-6 shadow-soft space-y-5">
+    <div className="rounded-xl border border-border bg-card p-6 shadow-soft space-y-5">
       <div>
         <h2 className="font-display text-lg font-bold text-foreground">Sobre mí — página completa</h2>
         <p className="text-sm text-muted-foreground mt-0.5">
@@ -621,7 +621,7 @@ function AboutPageSection() {
         <div className="space-y-4">
           <div className="space-y-1.5">
             <Label>Título</Label>
-            <div className="rounded-md border border-input bg-background px-3 py-2">
+            <div className="rounded-md border border-input bg-card px-3 py-2">
               <RichTextEditor
                 singleLine
                 content={form.about_full_title}
@@ -639,7 +639,7 @@ function AboutPageSection() {
                 <div className="flex-shrink-0 flex items-start pt-2">
                   <span className="text-xs font-medium text-muted-foreground w-5">{i + 1}.</span>
                 </div>
-                <div className="flex-1 rounded-md border border-input bg-background px-3 py-2">
+                <div className="flex-1 rounded-md border border-input bg-card px-3 py-2">
                   <RichTextEditor
                     content={p}
                     onChange={(html) => updateParagraph(i, html)}
