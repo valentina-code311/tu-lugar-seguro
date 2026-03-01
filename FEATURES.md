@@ -2,25 +2,25 @@
 
 ## Base de datos
 
-- [x] Aplicar las 3 migraciones en Supabase (`supabase db push` o manual en SQL Editor)
+- [x] Aplicar las migraciones en Supabase
 - [x] Crear usuario admin e insertar en `user_roles`
+- [x] Migración para tabla `contact_messages` (nombre, email, asunto, mensaje, leído)
+- [x] Migración para tabla `social_links` (red, url, activo, orden)
+- [x] Migración para tabla `site_settings` (email, teléfono, ubicación, whatsapp_url, hero_*, about_*)
 - [ ] Migración para tabla `products` (nombre, descripción, precio, stock, categoría, imagen, activo)
 - [ ] Migración para tabla `infoproducts` (título, descripción, precio, contenido, imagen, activo)
 - [ ] Migración para tabla `orders` (pedidos de tienda: usuario, productos, estado, total, dirección)
 - [ ] Migración para tabla `testimonials` (texto, autor, rating, visible)
 - [ ] Migración para tabla `faqs` (pregunta, respuesta, orden, visible)
-- [ ] Migración para tabla `contact_messages` (nombre, email, asunto, mensaje, leído)
-- [x] Migración para tabla `social_links` (red, url, activo, orden)
-- [x] Migración para tabla `site_settings` (email, teléfono, ubicación, whatsapp_url)
 
 ---
 
 ## Panel admin
 
 ### Dashboard
-- [ ] Conectar contadores reales (citas hoy, pedidos pendientes, escritos publicados, mensajes sin leer)
+- [ ] Conectar contadores reales (citas hoy, escritos publicados, mensajes sin leer)
 - [ ] Gráfico de citas por semana/mes
-- [ ] Accesos directos a acciones frecuentes (nueva cita, nuevo escrito, ver pedidos)
+- [ ] Accesos directos a acciones frecuentes (nueva cita, nuevo escrito)
 
 ### Escritos ✓ (implementado)
 - [x] Rich text en párrafos (negrita, cursiva, subrayado, enlaces inline) con toolbar de formato
@@ -28,7 +28,7 @@
 - [x] Bloque separador estilo Medium (· · ·) para dividir secciones
 - [x] Bloque de video YouTube (embed con URL)
 - [x] Bloque de tabla (filas y columnas editables, visualización estilizada)
-- [x] Fix: constraint de tipo en escrito_blocks ampliada para nuevos bloques (migración)
+- [x] Fix: constraint de tipo en escrito_blocks ampliada para nuevos bloques
 - [x] Fix: guardado de escritos usa INSERT/UPDATE en lugar de upsert (evita conflicto de slug)
 - [x] Fix: published_at gestionado por trigger SQL (se preserva al re-editar un publicado)
 - [ ] Preview del escrito antes de publicar
@@ -64,22 +64,18 @@
 - [ ] Cambiar estado del pedido
 - [ ] Filtrar por estado
 
-### Configuración (contacto + redes + contenido) ✓ (implementado)
-- [x] Crear página `/admin/configuracion` con dos secciones
+### Configuración ✓ (implementado)
+- [x] Página `/admin/configuracion` con tabs (URL `?tab=...`)
 - [x] Editar datos de contacto (email, teléfono, ubicación, URL WhatsApp)
-- [x] CRUD de redes sociales (nombre, ícono Lucide, URL)
-- [x] Activar/desactivar cada red sin eliminarla
+- [x] CRUD de redes sociales (nombre, ícono Lucide, URL, activar/desactivar)
 - [x] Datos de contacto dinámicos en /contacto
 - [x] Redes sociales dinámicas en el footer
 - [x] Editar hero: badge, título y subtítulo de la portada
-- [x] Editar "Sobre mí" del inicio: título (con rich text), 2 párrafos (rich text) y etiquetas
+- [x] Editar "Sobre mí" del inicio: título (rich text), 2 párrafos (rich text) y etiquetas
 - [x] Editar página /sobre-mi: título (rich text) y lista dinámica de párrafos (rich text)
-- [x] Títulos de "sobre mí" con rich text (negrita, cursiva, subrayado)
-- [x] Párrafos de "sobre mí" con rich text igual que escritos (negrita, cursiva, subrayado, enlaces)
-- [x] Página /admin/configuracion con tabs, tab activa reflejada en URL (?tab=...)
-- [x] Servicios y Valores integrados como tabs en /admin/configuracion (ya no son páginas separadas)
+- [x] Rich text en títulos y párrafos (negrita, cursiva, subrayado, enlaces)
+- [x] Servicios y Valores integrados como tabs en /admin/configuracion
 - [x] Rutas /admin/servicios y /admin/valores redirigen a configuracion?tab=...
-- [x] ThemePreview eliminado del sidebar y su ruta redirige a /admin
 
 ### Testimonios
 - [ ] Crear página `/admin/testimonios`
@@ -108,17 +104,15 @@
 - [x] Nav "Pacientes" en AdminLayout
 - [x] Servicio `c311-backend` en docker-compose
 
+### Contacto / Mensajes
+- [ ] Conectar el formulario para guardar mensajes en Supabase
+- [ ] Crear página `/admin/mensajes`: listado, ver mensaje, marcar como leído
+- [ ] Enviar email de notificación a la admin cuando llega un mensaje
+
 ### Clientes
 - [ ] Crear página `/admin/clientes`
 - [ ] Listado de usuarios registrados
 - [ ] Ver historial de citas por cliente
-- [ ] Ver historial de pedidos por cliente
-
-### Contacto
-- [ ] Crear página `/admin/mensajes`
-- [ ] Listado de mensajes recibidos (leído/no leído)
-- [ ] Ver mensaje completo
-- [ ] Marcar como leído
 
 ---
 
@@ -150,11 +144,9 @@
 ### Valores (Sobre mí) ✓ (implementado)
 - [x] Migración tabla `valores` con seed de datos iniciales
 - [x] Sección "Mis Valores" en /sobre-mi conectada a Supabase
-- [x] Admin /admin/valores: CRUD con selector de ícono Lucide, título y descripción
-- [x] Activar/desactivar valor sin eliminarlo
+- [x] CRUD en tab de Configuración (selector ícono Lucide, título, descripción, activar/desactivar)
 
 ### Servicios ✓ (implementado)
-- [x] Crear página `/admin/servicios`
 - [x] CRUD de servicios (crear, editar, eliminar)
 - [x] Selección de ícono desde librería Lucide (picker visual)
 - [x] Activar/desactivar servicio sin eliminarlo
@@ -173,19 +165,16 @@
 - [x] Campo "experiencia vivida" editable post-evento
 - [x] Imagen de referencia con upload a Supabase Storage
 - [x] Vista de inscripciones en el editor admin
-- [ ] Enviar email de confirmación automático al cliente tras reservar
-- [ ] Enviar email de notificación a la admin cuando llega un mensaje
+- [ ] Enviar email de confirmación automático al cliente tras inscribirse
 - [ ] Poder adjuntar un carrusel de imágenes al taller
 
 ### Portal del cliente (autenticado)
 - [ ] Crear sección `/mi-portal` visible solo para usuarios logueados
 - [ ] Ver mis citas (historial + próximas)
-- [ ] Ver mis compras
-- [ ] Acceder a mis infoproductos comprados
+- [ ] Ver mis compras y acceder a infoproductos comprados
 - [ ] Editar perfil (nombre, foto)
 - [ ] Recuperación de contraseña por email
-/talleres
-/encuentros
+
 ---
 
 ## Datos estáticos a migrar desde mockData
@@ -205,7 +194,7 @@
 - [ ] Meta tags dinámicos por página (`<title>`, `description`)
 - [ ] Open Graph tags para escritos (título, imagen de portada, excerpt)
 - [ ] Sitemap automático con escritos publicados
-- [ ] Lazy loading en imágenes de tienda e infoproductos
+- [ ] Lazy loading en imágenes
 - [ ] Code splitting por ruta para reducir el bundle inicial
 
 ---
@@ -216,7 +205,34 @@
 - [ ] Página 404 con link a inicio
 - [ ] Toggle de dark mode visible en el navbar
 - [ ] Toast de confirmación al reservar cita
-- [ ] Responsive del panel admin en móvil (sidebar colapsable)
 - [ ] Imagen placeholder cuando un escrito/producto no tiene portada
-- [ ] Paginación o infinite scroll en listados largos (escritos, productos)
-- [ ] Breadcrumbs en páginas de detalle
+- [ ] Paginación o infinite scroll en listados largos
+
+---
+
+## Refactorización Técnica
+
+### Frontend — Arquitectura FSD
+- [ ] Reestructurar src/ en shared/ y features/ (Feature-Sliced Design)
+- [ ] shared/: assets, components/ui, components/layout, contexts, hooks compartidos, integrations, lib
+- [ ] features/: escritos, talleres, agenda, pacientes, contacto, configuracion, home, sobre-mi, servicios, auth, admin
+- [ ] Actualizar components.json para apuntar a shared/components/ui/
+- [ ] Verificar build y dev server sin errores tras el movimiento
+
+### Admin — Responsividad y Consistencia Visual (mobile-first)
+- [ ] Sidebar: hamburger + drawer en mobile (Sheet de shadcn)
+- [ ] AdminEscritos: reemplazar `<table>` con card layout responsive
+- [ ] Dialogs: `grid-cols-1 sm:grid-cols-2` en formularios de admin
+- [ ] AdminSesionEditor: metadata en `grid-cols-2 md:grid-cols-4`
+- [ ] AdminPacienteDetalle + AdminSesionEditor: agregar breadcrumbs
+- [ ] Estandarizar h1 admin a `text-2xl font-display font-bold`
+- [ ] Estandarizar bordes: `rounded-xl` para cards de listado, `rounded-2xl` para cards destacadas
+- [ ] Estandarizar shadow: `shadow-soft` en cards de listado
+- [ ] AdminTalleres: thumbnail responsive
+- [ ] Touch targets: botones icon mínimo 44×44px en mobile
+
+### Base de Datos — Limpieza de Migraciones
+- [ ] Fusionar 20260220000000_fix_escritos.sql → 20260217120000_escritos.sql
+- [ ] Fusionar 20260228000000_site_settings_content.sql → 20260223000000_site_settings.sql
+- [ ] Eliminar función duplicada set_updated_at() de 20260225000000_patients.sql
+- [ ] Generar supabase/execute.sql como staging area para SQL pendiente de ejecutar manualmente
