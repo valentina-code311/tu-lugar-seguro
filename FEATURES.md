@@ -212,27 +212,25 @@
 
 ## Refactorización Técnica
 
-### Frontend — Arquitectura FSD
-- [ ] Reestructurar src/ en shared/ y features/ (Feature-Sliced Design)
-- [ ] shared/: assets, components/ui, components/layout, contexts, hooks compartidos, integrations, lib
-- [ ] features/: escritos, talleres, agenda, pacientes, contacto, configuracion, home, sobre-mi, servicios, auth, admin
-- [ ] Actualizar components.json para apuntar a shared/components/ui/
-- [ ] Verificar build y dev server sin errores tras el movimiento
+### Frontend — Arquitectura FSD ✓ (implementado)
+- [x] Reestructurar src/ en shared/ y features/ (Feature-Sliced Design)
+- [x] shared/: assets, components/ui, components/layout, contexts, hooks compartidos, integrations, lib
+- [x] features/: escritos, talleres, agenda, pacientes, contacto, configuracion, home, sobre-mi, servicios, auth, admin
+- [x] Actualizar components.json para apuntar a shared/components/ui/
+- [x] Verificar build y dev server sin errores tras el movimiento
 
-### Admin — Responsividad y Consistencia Visual (mobile-first)
-- [ ] Sidebar: hamburger + drawer en mobile (Sheet de shadcn)
-- [ ] AdminEscritos: reemplazar `<table>` con card layout responsive
-- [ ] Dialogs: `grid-cols-1 sm:grid-cols-2` en formularios de admin
-- [ ] AdminSesionEditor: metadata en `grid-cols-2 md:grid-cols-4`
-- [ ] AdminPacienteDetalle + AdminSesionEditor: agregar breadcrumbs
-- [ ] Estandarizar h1 admin a `text-2xl font-display font-bold`
-- [ ] Estandarizar bordes: `rounded-xl` para cards de listado, `rounded-2xl` para cards destacadas
-- [ ] Estandarizar shadow: `shadow-soft` en cards de listado
-- [ ] AdminTalleres: thumbnail responsive
-- [ ] Touch targets: botones icon mínimo 44×44px en mobile
+### Admin — Responsividad y Consistencia Visual (mobile-first) ✓ (implementado)
+- [x] Sidebar: hamburger + drawer en mobile (Sheet de shadcn)
+- [x] AdminEscritos: reemplazar `<table>` con card layout responsive
+- [x] Dialogs: `grid-cols-1 sm:grid-cols-2` en formularios de admin
+- [x] AdminSesionEditor: metadata en `grid-cols-2 md:grid-cols-4`
+- [x] AdminPacienteDetalle + AdminSesionEditor: agregar breadcrumbs
+- [x] Estandarizar h1 admin a `text-2xl font-display font-bold`
+- [x] AdminTalleres: thumbnail responsive
+- [x] Touch targets: botones icon mínimo 44×44px en mobile
 
-### Base de Datos — Limpieza de Migraciones
-- [ ] Fusionar 20260220000000_fix_escritos.sql → 20260217120000_escritos.sql
-- [ ] Fusionar 20260228000000_site_settings_content.sql → 20260223000000_site_settings.sql
-- [ ] Eliminar función duplicada set_updated_at() de 20260225000000_patients.sql
-- [ ] Generar supabase/execute.sql como staging area para SQL pendiente de ejecutar manualmente
+### Base de Datos — Limpieza de Migraciones ✓ (implementado)
+- [x] Fusionar 20260220000000_fix_escritos.sql → 20260217120000_escritos.sql
+- [x] Fusionar 20260228000000_site_settings_content.sql → 20260223000000_site_settings.sql
+- [x] Eliminar función duplicada set_updated_at() de 20260225000000_patients.sql
+- [x] Generar supabase/execute.sql como staging area para SQL pendiente de ejecutar manualmente
