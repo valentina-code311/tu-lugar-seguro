@@ -3,7 +3,7 @@ import { format, isToday } from "date-fns";
 import { es } from "date-fns/locale";
 import type { Appointment, BlockedDate, AppointmentStatus } from "@/features/agenda/hooks/useAppointments";
 
-const HOUR_HEIGHT = 64; // px per hour
+const HOUR_HEIGHT = 48; // px per hour
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
 
 const STATUS_CARD: Record<AppointmentStatus, { card: string; border: string }> = {

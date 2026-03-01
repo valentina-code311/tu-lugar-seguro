@@ -5,15 +5,15 @@ import { motion } from "framer-motion";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
-import { Calendar, CalendarCheck, ChevronLeft, ChevronRight, Loader2, Sprout, MessageCircle } from "lucide-react";
+import { Calendar, CalendarCheck, ChevronLeft, ChevronRight, Loader2, Sprout } from "lucide-react";
 import { useServices, formatPrice } from "@/shared/hooks/useServices";
 import { useBookAppointment, useBookedSlots, BookedSlot } from "@/features/agenda/hooks/useAppointments";
 
 // ── Time slot generation (30-min blocks) ─────────────────────────────────────
 
 interface TimeSlot {
-  display: string; // "9:00 AM"
-  time24: string;  // "09:00:00"
+  display: string; // "8:00 AM"
+  time24: string;  // "08:00:00"
 }
 
 const TIME_SLOTS: TimeSlot[] = (() => {
@@ -28,13 +28,13 @@ const TIME_SLOTS: TimeSlot[] = (() => {
     });
   }
 
-  // Morning: 9:00 – 11:30
-  for (let h = 9; h <= 11; h++) {
+  // Morning: 8:00 – 11:30
+  for (let h = 8; h <= 11; h++) {
     pushSlot(h, 0);
     pushSlot(h, 30);
   }
-  // Afternoon: 14:00 – 16:30
-  for (let h = 14; h <= 16; h++) {
+  // Afternoon: 14:00 – 17:30
+  for (let h = 14; h <= 17; h++) {
     pushSlot(h, 0);
     pushSlot(h, 30);
   }

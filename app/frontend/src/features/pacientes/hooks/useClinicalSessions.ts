@@ -7,6 +7,7 @@ import { supabase } from "@/shared/integrations/supabase/client";
 export interface ClinicalSession {
   id: string;
   patient_id: string;
+  appointment_id: string | null;
   session_date: string | null;
   session_time: string | null;
   modality: "online" | "presencial" | null;

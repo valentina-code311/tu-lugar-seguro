@@ -9,6 +9,7 @@ export type AppointmentStatus = "pending" | "confirmed" | "cancelled" | "complet
 export interface Appointment {
   id: string;
   service_id: string;
+  patient_id: string | null;
   appointment_date: string;
   start_time: string;
   end_time: string;
@@ -24,6 +25,11 @@ export interface Appointment {
   created_at: string;
   updated_at: string;
   services: { name: string; duration_minutes: number; price: number } | null;
+  patients: { full_name: string } | null;
+}
+
+export interface AppointmentWithSession extends Appointment {
+  clinical_sessions: { id: string; session_number: number | null; status: string }[] | null;
 }
 
 // ── Public booking ────────────────────────────────────────────────────────────
@@ -81,7 +87,7 @@ export function useAdminAppointmentsByWeek(from: string, to: string) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("appointments")
-        .select("*, services(name, duration_minutes, price)")
+        .select("*, services(name, duration_minutes, price), patients(full_name)")
         .gte("appointment_date", from)
         .lte("appointment_date", to)
         .order("appointment_date")
@@ -175,7 +181,7 @@ export function useAdminAppointments(filter: "all" | AppointmentStatus = "all") 
     queryFn: async () => {
       let query = supabase
         .from("appointments")
-        .select("*, services(name, duration_minutes, price)")
+        .select("*, services(name, duration_minutes, price), patients(full_name)")
         .order("appointment_date", { ascending: true })
         .order("start_time", { ascending: true });
 
@@ -201,7 +207,7 @@ export function useUpdateAppointment() {
         .from("appointments")
         .update({ ...payload, updated_at: new Date().toISOString() })
         .eq("id", id)
-        .select("*, services(name, duration_minutes, price)")
+        .select("*, services(name, duration_minutes, price), patients(full_name)")
         .single();
       if (error) throw error;
       return data as Appointment;
@@ -210,6 +216,44 @@ export function useUpdateAppointment() {
       qc.invalidateQueries({ queryKey: ["admin", "appointments"] });
     },
     onError: (err: Error) => toast.error(err.message),
+  });
+}
+
+export function useAssignPatientToAppointment() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ appointmentId, patientId }: { appointmentId: string; patientId: string | null }) => {
+      const { data, error } = await supabase
+        .from("appointments")
+        .update({ patient_id: patientId, updated_at: new Date().toISOString() })
+        .eq("id", appointmentId)
+        .select("*, services(name, duration_minutes, price), patients(full_name)")
+        .single();
+      if (error) throw error;
+      return data as Appointment;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin", "appointments"] });
+      toast.success("Paciente asignado");
+    },
+    onError: (err: Error) => toast.error(err.message),
+  });
+}
+
+export function usePatientAppointments(patientId: string | undefined) {
+  return useQuery({
+    queryKey: ["patient-appointments", patientId],
+    enabled: !!patientId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("appointments")
+        .select("*, services(name, duration_minutes, price), clinical_sessions(id, session_number, status)")
+        .eq("patient_id", patientId!)
+        .order("appointment_date", { ascending: false })
+        .order("start_time", { ascending: false });
+      if (error) throw error;
+      return data as AppointmentWithSession[];
+    },
   });
 }
 

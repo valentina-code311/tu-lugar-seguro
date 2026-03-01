@@ -24,6 +24,7 @@ import {
 import { usePatient, useUpdatePatient } from "@/features/pacientes/hooks/usePatients";
 import { backendPost } from "@/shared/lib/backendFetch";
 import { usePatientSessions, useCreateSession, type ClinicalSession } from "@/features/pacientes/hooks/useClinicalSessions";
+import { usePatientAppointments, formatTime, STATUS_CONFIG } from "@/features/agenda/hooks/useAppointments";
 import { toast } from "sonner";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8082";
@@ -34,6 +35,7 @@ export default function AdminPacienteDetalle() {
 
   const { data: patient, isLoading: loadingPatient } = usePatient(id);
   const { data: sessions, isLoading: loadingSessions } = usePatientSessions(id);
+  const { data: appointments = [], isLoading: loadingAppointments } = usePatientAppointments(id);
   const updateMutation = useUpdatePatient();
   const createSession = useCreateSession();
 
@@ -90,6 +92,21 @@ export default function AdminPacienteDetalle() {
       status: "draft",
     });
     setNewSessionOpen(false);
+    navigate(`/admin/sesiones/${newSession.id}`);
+  }
+
+  async function handleCreateSessionFromAppointment(appointmentId: string, date: string | null, time: string | null, modality: "online" | "presencial" | null) {
+    if (!id) return;
+    const nextNumber = (sessions?.length || 0) + 1;
+    const newSession = await createSession.mutateAsync({
+      patient_id: id,
+      appointment_id: appointmentId,
+      session_date: date ?? new Date().toISOString().split("T")[0],
+      session_time: time ?? "09:00",
+      modality: modality ?? "online",
+      session_number: nextNumber,
+      status: "draft",
+    });
     navigate(`/admin/sesiones/${newSession.id}`);
   }
 
@@ -239,6 +256,54 @@ export default function AdminPacienteDetalle() {
               </div>
             )}
           </dl>
+        )}
+      </div>
+
+      {/* Linked appointments */}
+      <div>
+        <h2 className="font-display text-lg font-semibold text-foreground mb-4">
+          Citas vinculadas ({appointments.length})
+        </h2>
+        {loadingAppointments && (
+          <div className="space-y-2">
+            {[1, 2].map((n) => <div key={n} className="h-14 animate-pulse rounded-lg bg-muted" />)}
+          </div>
+        )}
+        {!loadingAppointments && appointments.length === 0 && (
+          <p className="text-sm text-muted-foreground py-4">No hay citas asignadas a este paciente.</p>
+        )}
+        {!loadingAppointments && appointments.length > 0 && (
+          <div className="space-y-2">
+            {appointments.map((appt) => {
+              const session = appt.clinical_sessions?.[0];
+              return (
+                <div key={appt.id} className="flex items-center gap-4 rounded-lg border border-border bg-background p-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-sm font-medium text-foreground">{appt.appointment_date}</span>
+                      <span className="text-xs text-muted-foreground">{formatTime(appt.start_time)} – {formatTime(appt.end_time)}</span>
+                      <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${STATUS_CONFIG[appt.status].badgeClass}`}>
+                        {STATUS_CONFIG[appt.status].label}
+                      </span>
+                      <span className="text-xs text-muted-foreground">{appt.modality === "online" ? "Online" : "Presencial"}</span>
+                    </div>
+                    {appt.services && (
+                      <p className="text-xs text-muted-foreground mt-0.5">{appt.services.name}</p>
+                    )}
+                  </div>
+                  {session ? (
+                    <Button size="sm" variant="outline" onClick={() => navigate(`/admin/sesiones/${session.id}`)}>
+                      Ver sesión {session.session_number}
+                    </Button>
+                  ) : (
+                    <Button size="sm" variant="outline" onClick={() => handleCreateSessionFromAppointment(appt.id, appt.appointment_date, appt.start_time, appt.modality)} disabled={createSession.isPending}>
+                      Crear sesión
+                    </Button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         )}
       </div>
 

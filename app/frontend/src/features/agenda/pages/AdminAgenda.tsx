@@ -35,7 +35,7 @@ const AdminAgenda = () => {
   const goToToday = () => setCurrentWeekStart(startOfWeek(new Date(), WEEK_START));
 
   return (
-    <div className="flex flex-col gap-4" style={{ height: "calc(100vh - 6rem)" }}>
+    <div className="flex flex-col gap-4">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -74,7 +74,7 @@ const AdminAgenda = () => {
       </motion.div>
 
       {/* Desktop: week grid */}
-      <div className="hidden md:block min-h-0 w-full">
+      <div className="hidden md:block w-full">
         <WeekGrid
           weekDays={weekDays}
           appointments={appointments}

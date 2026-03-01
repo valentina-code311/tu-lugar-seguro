@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { Calendar, Mail, Phone, MessageSquare, Clock, MapPin, FileText, Check, X, RefreshCw, UserRound, ArrowRight } from "lucide-react";
+import { Calendar, Mail, Phone, MessageSquare, Clock, MapPin, FileText, Check, X, RefreshCw, UserRound, ArrowRight, Link2 } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
 import { toast } from "sonner";
-import { useUpdateAppointment, formatAppointmentDate, formatTime, STATUS_CONFIG, type Appointment, type AppointmentStatus } from "@/features/agenda/hooks/useAppointments";
-import { usePatientByEmail, useCreatePatient } from "@/features/pacientes/hooks/usePatients";
+import { useUpdateAppointment, useAssignPatientToAppointment, formatAppointmentDate, formatTime, STATUS_CONFIG, type Appointment, type AppointmentStatus } from "@/features/agenda/hooks/useAppointments";
+import { useAllPatients, useCreatePatient } from "@/features/pacientes/hooks/usePatients";
 
 interface Props {
   appointment: Appointment | null;
@@ -18,11 +19,19 @@ interface Props {
 export function AppointmentDetailModal({ appointment, onClose }: Props) {
   const navigate = useNavigate();
   const [notes, setNotes] = useState("");
-  const updateMutation = useUpdateAppointment();
-  const { data: patient, isLoading: loadingPatient } = usePatientByEmail(appointment?.client_email);
-  const createPatient = useCreatePatient();
+  const [selectedPatientId, setSelectedPatientId] = useState<string>("");
+  const [assigning, setAssigning] = useState(false);
 
-  const handleOpen = () => setNotes(appointment?.admin_notes ?? "");
+  const updateMutation = useUpdateAppointment();
+  const assignMutation = useAssignPatientToAppointment();
+  const createPatient = useCreatePatient();
+  const { data: allPatients = [] } = useAllPatients();
+
+  const handleOpen = () => {
+    setNotes(appointment?.admin_notes ?? "");
+    setSelectedPatientId("");
+    setAssigning(false);
+  };
 
   const handleStatusChange = async (status: AppointmentStatus) => {
     if (!appointment) return;
@@ -37,12 +46,19 @@ export function AppointmentDetailModal({ appointment, onClose }: Props) {
     toast.success("Notas guardadas");
   };
 
-  const handleGoToPatient = (patientId: string) => {
-    onClose();
-    navigate(`/admin/pacientes/${patientId}`);
+  const handleAssign = async () => {
+    if (!appointment || !selectedPatientId) return;
+    await assignMutation.mutateAsync({ appointmentId: appointment.id, patientId: selectedPatientId });
+    setAssigning(false);
+    setSelectedPatientId("");
   };
 
-  const handleCreatePatient = async () => {
+  const handleUnassign = async () => {
+    if (!appointment) return;
+    await assignMutation.mutateAsync({ appointmentId: appointment.id, patientId: null });
+  };
+
+  const handleCreateAndAssign = async () => {
     if (!appointment) return;
     const newPatient = await createPatient.mutateAsync({
       full_name: appointment.client_name,
@@ -51,8 +67,14 @@ export function AppointmentDetailModal({ appointment, onClose }: Props) {
       pronouns: appointment.client_pronouns ?? undefined,
       is_active: true,
     });
+    await assignMutation.mutateAsync({ appointmentId: appointment.id, patientId: newPatient.id });
     onClose();
     navigate(`/admin/pacientes/${newPatient.id}`);
+  };
+
+  const handleGoToPatient = (patientId: string) => {
+    onClose();
+    navigate(`/admin/pacientes/${patientId}`);
   };
 
   return (
@@ -143,29 +165,71 @@ export function AppointmentDetailModal({ appointment, onClose }: Props) {
               <div className="space-y-3 border-t border-border pt-4">
                 <p className="flex items-center gap-2 text-sm font-medium text-foreground">
                   <UserRound className="h-4 w-4" />
-                  Historia clínica
+                  Paciente vinculado
                 </p>
-                {loadingPatient ? (
-                  <div className="h-14 animate-pulse rounded-xl bg-muted" />
-                ) : patient ? (
-                  <div className="flex items-center justify-between rounded-xl border border-border bg-card px-4 py-3">
-                    <div>
-                      <p className="text-sm font-medium text-foreground">{patient.full_name}</p>
-                      <p className="text-xs text-muted-foreground">Paciente registrado</p>
+
+                {appointment.patient_id && appointment.patients ? (
+                  <div className="rounded-xl border border-border bg-card px-4 py-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-foreground">{appointment.patients.full_name}</p>
+                        <p className="text-xs text-muted-foreground">Paciente asignado</p>
+                      </div>
+                      <Button size="sm" onClick={() => handleGoToPatient(appointment.patient_id!)}>
+                        Ver historial <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                      </Button>
                     </div>
-                    <Button size="sm" onClick={() => handleGoToPatient(patient.id)}>
-                      Ver historial <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-                    </Button>
+                    {!assigning && (
+                      <button onClick={() => setAssigning(true)} className="mt-2 text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline">
+                        Cambiar paciente
+                      </button>
+                    )}
                   </div>
                 ) : (
                   <div className="rounded-xl border border-dashed border-border bg-muted/30 px-4 py-3 space-y-2">
-                    <p className="text-sm text-muted-foreground">
-                      No hay paciente registrado con este correo.
-                    </p>
-                    <Button size="sm" variant="outline" onClick={handleCreatePatient} disabled={createPatient.isPending}>
-                      {createPatient.isPending ? "Creando..." : "+ Crear paciente desde esta cita"}
-                    </Button>
+                    <p className="text-sm text-muted-foreground">No hay paciente asignado a esta cita.</p>
                   </div>
+                )}
+
+                {/* Patient selector (shown when unassigned or changing) */}
+                {(!appointment.patient_id || assigning) && (
+                  <div className="space-y-2">
+                    <div className="flex gap-2">
+                      <Select value={selectedPatientId} onValueChange={setSelectedPatientId}>
+                        <SelectTrigger className="flex-1">
+                          <SelectValue placeholder="Seleccionar paciente existente..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {allPatients.map((p) => (
+                            <SelectItem key={p.id} value={p.id}>{p.full_name}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Button size="sm" onClick={handleAssign} disabled={!selectedPatientId || assignMutation.isPending}>
+                        <Link2 className="h-4 w-4 mr-1" />
+                        Asignar
+                      </Button>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 border-t border-border" />
+                      <span className="text-xs text-muted-foreground">o</span>
+                      <div className="flex-1 border-t border-border" />
+                    </div>
+                    <Button size="sm" variant="outline" className="w-full" onClick={handleCreateAndAssign} disabled={createPatient.isPending || assignMutation.isPending}>
+                      {createPatient.isPending || assignMutation.isPending ? "Creando..." : "+ Crear paciente desde esta cita"}
+                    </Button>
+                    {assigning && (
+                      <button onClick={() => setAssigning(false)} className="text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline">
+                        Cancelar
+                      </button>
+                    )}
+                  </div>
+                )}
+
+                {appointment.patient_id && !assigning && (
+                  <button onClick={handleUnassign} className="text-xs text-destructive underline-offset-2 hover:underline" disabled={assignMutation.isPending}>
+                    Desasignar paciente
+                  </button>
                 )}
               </div>
 

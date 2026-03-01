@@ -124,7 +124,7 @@ const AdminLayout = () => {
       </Sheet>
 
       {/* Content */}
-      <main className="flex-1 overflow-y-auto p-6 pt-[68px] md:pt-6 lg:p-8">
+      <main className="flex-1 overflow-y-auto px-4 py-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
         <Outlet />
       </main>
     </div>
