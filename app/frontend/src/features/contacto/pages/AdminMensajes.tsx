@@ -37,7 +37,7 @@ export default function AdminMensajes() {
   return (
     <div className="space-y-6 p-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl font-bold">Mensajes de Contacto</h1>
+        <h1 className="font-display text-2xl font-bold text-foreground">Mensajes de Contacto</h1>
         <Badge variant="outline" className="px-3 py-1">
           {messages?.filter(m => !m.is_read).length} nuevos
         </Badge>

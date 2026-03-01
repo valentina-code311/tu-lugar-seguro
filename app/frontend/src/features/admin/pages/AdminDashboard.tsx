@@ -4,7 +4,7 @@ const AdminDashboard = () => {
   return (
     <div>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="font-display text-3xl font-bold text-foreground">Dashboard</h1>
+        <h1 className="font-display text-2xl font-bold text-foreground">Dashboard</h1>
         <p className="mt-2 text-muted-foreground">Bienvenida al panel de administración.</p>
       </motion.div>
 

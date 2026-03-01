@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/shared/contexts/AuthContext";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Calendar, LogOut, ChevronLeft, PenLine, GraduationCap, Settings2, Mail, Users } from "lucide-react";
+import { LayoutDashboard, Calendar, LogOut, ChevronLeft, PenLine, GraduationCap, Settings2, Mail, Users, Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/shared/components/ui/sheet";
+import { Button } from "@/shared/components/ui/button";
 
 const adminNav = [
   { label: "Dashboard", path: "/admin", icon: LayoutDashboard },
@@ -13,9 +16,60 @@ const adminNav = [
   { label: "Configuración", path: "/admin/configuracion", icon: Settings2 },
 ];
 
-const AdminLayout = () => {
-  const { user, isAdmin, isLoading, signOut } = useAuth();
+function NavItems({ onNavigate }: { onNavigate?: () => void }) {
   const location = useLocation();
+  return (
+    <>
+      <nav className="flex-1 overflow-y-auto p-3">
+        <div className="space-y-1">
+          {adminNav.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              onClick={onNavigate}
+              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${location.pathname === item.path ||
+                (item.path !== "/admin" && location.pathname.startsWith(item.path))
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:bg-primary hover:text-accent-foreground"
+                }`}
+            >
+              <item.icon className="h-4 w-4" />
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      </nav>
+      <div className="border-t border-border p-3 space-y-2">
+        <Link
+          to="/"
+          onClick={onNavigate}
+          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-primary hover:text-accent-foreground"
+        >
+          <ChevronLeft className="h-4 w-4" />
+          Volver al sitio
+        </Link>
+        <SignOutButton />
+      </div>
+    </>
+  );
+}
+
+function SignOutButton() {
+  const { signOut } = useAuth();
+  return (
+    <button
+      onClick={signOut}
+      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+    >
+      <LogOut className="h-4 w-4" />
+      Cerrar sesión
+    </button>
+  );
+}
+
+const AdminLayout = () => {
+  const { user, isAdmin, isLoading } = useAuth();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -30,52 +84,42 @@ const AdminLayout = () => {
 
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar */}
-      <aside className="sticky top-0 flex h-screen w-64 flex-col border-r border-border bg-background">
+      {/* Desktop sidebar */}
+      <aside className="hidden md:sticky md:top-0 md:flex md:h-screen md:w-64 md:flex-col border-r border-border bg-background">
         <div className="border-b border-border p-4">
           <h2 className="font-display text-lg font-bold text-foreground">Admin Panel</h2>
           <p className="text-xs text-muted-foreground">Maryen Chamorro</p>
         </div>
-
-        <nav className="flex-1 overflow-y-auto p-3">
-          <div className="space-y-1">
-            {adminNav.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${location.pathname === item.path ||
-                  (item.path !== "/admin" && location.pathname.startsWith(item.path))
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-primary hover:text-accent-foreground"
-                  }`}
-              >
-                <item.icon className="h-4 w-4" />
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        </nav>
-
-        <div className="border-t border-border p-3 space-y-2">
-          <Link
-            to="/"
-            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-primary hover:text-accent-foreground"
-          >
-            <ChevronLeft className="h-4 w-4" />
-            Volver al sitio
-          </Link>
-          <button
-            onClick={signOut}
-            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
-          >
-            <LogOut className="h-4 w-4" />
-            Cerrar sesión
-          </button>
-        </div>
+        <NavItems />
       </aside>
 
+      {/* Mobile top bar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-30 flex items-center gap-3 border-b border-border bg-background px-4 py-3">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="min-h-[44px] min-w-[44px]"
+          onClick={() => setMobileOpen(true)}
+          aria-label="Abrir menú"
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
+        <h2 className="font-display text-base font-bold text-foreground">Admin Panel</h2>
+      </div>
+
+      {/* Mobile drawer */}
+      <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+        <SheetContent side="left" className="w-64 p-0 flex flex-col">
+          <SheetHeader className="border-b border-border p-4 text-left">
+            <SheetTitle className="font-display text-lg font-bold">Admin Panel</SheetTitle>
+            <p className="text-xs text-muted-foreground">Maryen Chamorro</p>
+          </SheetHeader>
+          <NavItems onNavigate={() => setMobileOpen(false)} />
+        </SheetContent>
+      </Sheet>
+
       {/* Content */}
-      <main className="flex-1 overflow-y-auto bg-background p-6 lg:p-8">
+      <main className="flex-1 overflow-y-auto bg-background p-6 pt-[68px] md:pt-6 lg:p-8">
         <Outlet />
       </main>
     </div>

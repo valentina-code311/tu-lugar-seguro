@@ -144,6 +144,7 @@ export default function AdminPacientes() {
                   variant="ghost"
                   size="icon"
                   title={patient.is_active ? "Archivar" : "Reactivar"}
+                  className="min-h-[44px] min-w-[44px]"
                   onClick={() => toggleActive(patient)}
                 >
                   {patient.is_active
@@ -154,6 +155,7 @@ export default function AdminPacientes() {
                   variant="ghost"
                   size="icon"
                   title="Ver detalle"
+                  className="min-h-[44px] min-w-[44px]"
                   onClick={() => navigate(`/admin/pacientes/${patient.id}`)}
                 >
                   <Pencil className="h-4 w-4" />
@@ -181,7 +183,7 @@ export default function AdminPacientes() {
           </DialogHeader>
 
           <div className="space-y-4 py-2">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="col-span-2 space-y-1.5">
                 <Label>Nombre completo *</Label>
                 <Input

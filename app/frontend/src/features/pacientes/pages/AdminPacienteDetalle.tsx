@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Plus, Calendar, Clock, Video, MapPin, FileText, Sparkles } from "lucide-react";
+import { Breadcrumb } from "@/shared/components/Breadcrumb";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
@@ -147,10 +148,14 @@ export default function AdminPacienteDetalle() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/admin/pacientes")}>
+        <Button variant="ghost" size="icon" className="min-h-[44px] min-w-[44px] shrink-0" onClick={() => navigate("/admin/pacientes")}>
           <ArrowLeft className="h-4 w-4" />
         </Button>
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
+          <Breadcrumb items={[
+            { label: "Pacientes", to: "/admin/pacientes" },
+            { label: patient.full_name },
+          ]} />
           <h1 className="font-display text-2xl font-bold text-foreground">{patient.full_name}</h1>
           {patient.preferred_name && patient.preferred_name !== patient.full_name && (
             <p className="text-sm text-muted-foreground">Conocido/a como: {patient.preferred_name}</p>
@@ -171,7 +176,7 @@ export default function AdminPacienteDetalle() {
       <div className="rounded-xl border border-border bg-background p-6">
         {editMode ? (
           <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
                 ["full_name", "Nombre completo"],
                 ["preferred_name", "Nombre preferido"],

@@ -173,7 +173,7 @@ const AdminAgenda = () => {
   return (
     <div>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="font-display text-3xl font-bold text-foreground">Agenda</h1>
+        <h1 className="font-display text-2xl font-bold text-foreground">Agenda</h1>
         <p className="mt-1 text-muted-foreground">Gestiona las citas agendadas por tus clientes.</p>
       </motion.div>
 

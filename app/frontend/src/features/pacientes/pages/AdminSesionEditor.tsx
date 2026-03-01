@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   ArrowLeft, Upload, Sparkles, Send, Save, X, Image, ChevronDown, ChevronRight,
 } from "lucide-react";
+import { Breadcrumb } from "@/shared/components/Breadcrumb";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
@@ -238,14 +239,22 @@ export default function AdminSesionEditor() {
         <Button
           variant="ghost"
           size="icon"
+          className="min-h-[44px] min-w-[44px] shrink-0"
           onClick={() => session.patient_id && navigate(`/admin/pacientes/${session.patient_id}`)}
         >
           <ArrowLeft className="h-4 w-4" />
         </Button>
-        <div className="flex-1">
-          <h1 className="font-display text-xl font-bold text-foreground">
+        <div className="flex-1 min-w-0">
+          {patient && (
+            <Breadcrumb items={[
+              { label: "Pacientes", to: "/admin/pacientes" },
+              { label: patient.full_name, to: `/admin/pacientes/${session.patient_id}` },
+              { label: `Sesión ${form.session_number as number || "?"}` },
+            ]} />
+          )}
+          <h1 className="font-display text-2xl font-bold text-foreground">
             Sesión {form.session_number as number || "?"}
-            {patient && <span className="text-muted-foreground font-normal ml-2">— {patient.full_name}</span>}
+            {patient && <span className="text-muted-foreground font-normal ml-2 text-lg">— {patient.full_name}</span>}
           </h1>
         </div>
         <div className="flex items-center gap-2">

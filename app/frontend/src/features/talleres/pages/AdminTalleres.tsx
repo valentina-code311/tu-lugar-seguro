@@ -150,9 +150,9 @@ export default function AdminTalleres() {
       <div className="flex items-start gap-4 rounded-xl border border-border bg-background p-4 shadow-soft">
         {/* Thumbnail */}
         {t.image_url ? (
-          <img src={t.image_url} alt={t.title} className="h-20 w-32 shrink-0 rounded-lg object-cover" />
+          <img src={t.image_url} alt={t.title} className="hidden sm:block h-20 w-24 sm:w-32 shrink-0 rounded-lg object-cover" />
         ) : (
-          <div className="flex h-20 w-32 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+          <div className="hidden sm:flex h-20 w-24 sm:w-32 shrink-0 items-center justify-center rounded-lg bg-primary/10">
             <Users className="h-8 w-8 text-primary/30" />
           </div>
         )}
