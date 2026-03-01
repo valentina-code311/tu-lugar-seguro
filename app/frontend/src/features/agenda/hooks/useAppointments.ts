@@ -75,6 +75,100 @@ export function useBookAppointment() {
 
 // ── Admin queries ─────────────────────────────────────────────────────────────
 
+export function useAdminAppointmentsByWeek(from: string, to: string) {
+  return useQuery({
+    queryKey: ["admin", "appointments", "week", from],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("appointments")
+        .select("*, services(name, duration_minutes, price)")
+        .gte("appointment_date", from)
+        .lte("appointment_date", to)
+        .order("appointment_date")
+        .order("start_time");
+      if (error) throw error;
+      return data as Appointment[];
+    },
+  });
+}
+
+export interface BlockedDate {
+  id: string;
+  blocked_date: string;
+  start_time: string | null;
+  end_time: string | null;
+  reason: string | null;
+}
+
+export function useAdminBlockedDatesByWeek(from: string, to: string) {
+  return useQuery({
+    queryKey: ["admin", "blocked-dates", "week", from],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("blocked_dates")
+        .select("id, blocked_date, start_time, end_time, reason")
+        .gte("blocked_date", from)
+        .lte("blocked_date", to);
+      if (error) throw error;
+      return data as BlockedDate[];
+    },
+  });
+}
+
+interface AdminCreatePayload {
+  service_id: string;
+  appointment_date: string;
+  start_time: string;
+  end_time: string;
+  client_name: string;
+  client_email: string;
+  client_phone?: string;
+  client_message?: string;
+  modality: "online" | "presencial";
+}
+
+export function useAdminCreateAppointment() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: AdminCreatePayload) => {
+      const { data, error } = await supabase
+        .from("appointments")
+        .insert({ ...payload, consent_accepted: true })
+        .select("*, services(name, duration_minutes, price)")
+        .single();
+      if (error) throw error;
+      return data as Appointment;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin", "appointments"] });
+      toast.success("Cita creada");
+    },
+    onError: (err: Error) => toast.error(err.message),
+  });
+}
+
+interface BlockSlotPayload {
+  blocked_date: string;
+  start_time?: string;
+  end_time?: string;
+  reason?: string;
+}
+
+export function useAdminBlockSlot() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: BlockSlotPayload) => {
+      const { error } = await supabase.from("blocked_dates").insert(payload);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin", "blocked-dates"] });
+      toast.success("Horario bloqueado");
+    },
+    onError: (err: Error) => toast.error(err.message),
+  });
+}
+
 export function useAdminAppointments(filter: "all" | AppointmentStatus = "all") {
   return useQuery({
     queryKey: ["admin", "appointments", filter],
