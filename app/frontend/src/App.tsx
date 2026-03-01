@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
@@ -13,11 +13,8 @@ import Contact from "./pages/Contact";
 import Auth from "./pages/Auth";
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import ThemePreview from "./pages/admin/ThemePreview";
 import AdminEscritos from "./pages/admin/AdminEscritos";
 import AdminEscritoEditor from "./pages/admin/AdminEscritoEditor";
-import AdminServicios from "./pages/admin/AdminServicios";
-import AdminValores from "./pages/admin/AdminValores";
 import AdminTalleres from "./pages/admin/AdminTalleres";
 import AdminTallerEditor from "./pages/admin/AdminTallerEditor";
 import AdminAgenda from "./pages/admin/AdminAgenda";
@@ -54,12 +51,12 @@ const App = () => (
             {/* Admin routes */}
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
-              <Route path="theme" element={<ThemePreview />} />
+              <Route path="theme" element={<Navigate to="/admin" replace />} />
               <Route path="escritos" element={<AdminEscritos />} />
               <Route path="escritos/nuevo" element={<AdminEscritoEditor />} />
               <Route path="escritos/:id" element={<AdminEscritoEditor />} />
-              <Route path="servicios" element={<AdminServicios />} />
-              <Route path="valores" element={<AdminValores />} />
+              <Route path="servicios" element={<Navigate to="/admin/configuracion?tab=servicios" replace />} />
+              <Route path="valores" element={<Navigate to="/admin/configuracion?tab=valores" replace />} />
               <Route path="encuentros" element={<AdminTalleres />} />
               <Route path="encuentros/nuevo" element={<AdminTallerEditor />} />
               <Route path="encuentros/:id" element={<AdminTallerEditor />} />

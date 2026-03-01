@@ -1,15 +1,12 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Palette, Calendar, LogOut, ChevronLeft, PenLine, Stethoscope, GraduationCap, Star, Settings2, Mail, Users } from "lucide-react";
+import { LayoutDashboard, Calendar, LogOut, ChevronLeft, PenLine, GraduationCap, Settings2, Mail, Users } from "lucide-react";
 
 const adminNav = [
   { label: "Dashboard", path: "/admin", icon: LayoutDashboard },
-  { label: "Theme Preview", path: "/admin/theme", icon: Palette },
   { label: "Escritos", path: "/admin/escritos", icon: PenLine },
-  { label: "Servicios", path: "/admin/servicios", icon: Stethoscope },
   { label: "Encuentros", path: "/admin/encuentros", icon: GraduationCap },
-  { label: "Valores", path: "/admin/valores", icon: Star },
   { label: "Agenda", path: "/admin/agenda", icon: Calendar },
   { label: "Pacientes", path: "/admin/pacientes", icon: Users },
   { label: "Mensajes", path: "/admin/mensajes", icon: Mail },

@@ -66,7 +66,7 @@ export function useUpdateSiteSettings() {
     mutationFn: async (payload: Partial<SiteSettings>) => {
       const { data, error } = await supabase
         .from("site_settings")
-        .upsert({ id: true, ...payload })
+        .upsert({ id: true, ...SETTINGS_DEFAULTS, ...payload })
         .select()
         .single();
       if (error) throw error;

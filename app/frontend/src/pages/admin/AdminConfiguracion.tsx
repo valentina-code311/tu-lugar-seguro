@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import AdminValores from "@/pages/admin/AdminValores";
+import AdminServicios from "@/pages/admin/AdminServicios";
 import { Plus, Pencil, Trash2, Eye, EyeOff, GripVertical, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +20,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { IconPicker, resolveIcon } from "@/components/admin/IconPicker";
+import { RichTextEditor } from "@/components/admin/escritos/RichTextEditor";
 import {
   useSiteSettings, useUpdateSiteSettings,
   useSocialLinks, useCreateSocialLink, useUpdateSocialLink, useDeleteSocialLink,
@@ -483,29 +488,37 @@ function AboutHomeSection() {
         <div className="space-y-4">
           <div className="space-y-1.5">
             <Label>Título</Label>
-            <Input
-              value={form.about_title}
-              onChange={(e) => setForm({ ...form, about_title: e.target.value })}
-              placeholder="Ej: Soy Maryen Chamorro, hago psicología con criterio..."
-            />
+            <div className="rounded-md border border-input bg-background px-3 py-2">
+              <RichTextEditor
+                singleLine
+                content={form.about_title}
+                onChange={(html) => setForm({ ...form, about_title: html })}
+                placeholder="Ej: Soy Maryen Chamorro, hago psicología con criterio..."
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">Selecciona texto para aplicar subrayado, cursiva o negrita</p>
           </div>
 
           <div className="space-y-1.5">
             <Label>Primer párrafo</Label>
-            <Textarea
-              value={form.about_paragraph1}
-              onChange={(e) => setForm({ ...form, about_paragraph1: e.target.value })}
-              rows={4}
-            />
+            <div className="rounded-md border border-input bg-background px-3 py-2">
+              <RichTextEditor
+                content={form.about_paragraph1}
+                onChange={(html) => setForm({ ...form, about_paragraph1: html })}
+                placeholder="Primer párrafo..."
+              />
+            </div>
           </div>
 
           <div className="space-y-1.5">
             <Label>Segundo párrafo</Label>
-            <Textarea
-              value={form.about_paragraph2}
-              onChange={(e) => setForm({ ...form, about_paragraph2: e.target.value })}
-              rows={4}
-            />
+            <div className="rounded-md border border-input bg-background px-3 py-2">
+              <RichTextEditor
+                content={form.about_paragraph2}
+                onChange={(html) => setForm({ ...form, about_paragraph2: html })}
+                placeholder="Segundo párrafo..."
+              />
+            </div>
           </div>
 
           <div className="space-y-2">
@@ -608,11 +621,15 @@ function AboutPageSection() {
         <div className="space-y-4">
           <div className="space-y-1.5">
             <Label>Título</Label>
-            <Input
-              value={form.about_full_title}
-              onChange={(e) => setForm({ ...form, about_full_title: e.target.value })}
-              placeholder="Ej: Soy Maryen Chamorro..."
-            />
+            <div className="rounded-md border border-input bg-background px-3 py-2">
+              <RichTextEditor
+                singleLine
+                content={form.about_full_title}
+                onChange={(html) => setForm({ ...form, about_full_title: html })}
+                placeholder="Ej: Soy Maryen Chamorro..."
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">Selecciona texto para aplicar subrayado, cursiva o negrita</p>
           </div>
 
           <div className="space-y-3">
@@ -622,13 +639,13 @@ function AboutPageSection() {
                 <div className="flex-shrink-0 flex items-start pt-2">
                   <span className="text-xs font-medium text-muted-foreground w-5">{i + 1}.</span>
                 </div>
-                <Textarea
-                  value={p}
-                  onChange={(e) => updateParagraph(i, e.target.value)}
-                  rows={3}
-                  className="flex-1"
-                  placeholder={`Párrafo ${i + 1}...`}
-                />
+                <div className="flex-1 rounded-md border border-input bg-background px-3 py-2">
+                  <RichTextEditor
+                    content={p}
+                    onChange={(html) => updateParagraph(i, html)}
+                    placeholder={`Párrafo ${i + 1}...`}
+                  />
+                </div>
                 <Button
                   type="button"
                   variant="ghost"
@@ -662,7 +679,18 @@ function AboutPageSection() {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
+const TABS = ["hero", "sobre-mi-inicio", "sobre-mi-pagina", "servicios", "valores", "contacto", "redes"] as const;
+type Tab = typeof TABS[number];
+
 export default function AdminConfiguracion() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const rawTab = searchParams.get("tab") as Tab | null;
+  const activeTab: Tab = TABS.includes(rawTab as Tab) ? (rawTab as Tab) : "hero";
+
+  function setTab(tab: Tab) {
+    setSearchParams({ tab }, { replace: true });
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -672,11 +700,45 @@ export default function AdminConfiguracion() {
         </p>
       </div>
 
-      <HeroContentSection />
-      <AboutHomeSection />
-      <AboutPageSection />
-      <ContactInfoSection />
-      <SocialLinksSection />
+      <Tabs value={activeTab} onValueChange={(v) => setTab(v as Tab)}>
+        <TabsList className="flex h-auto flex-wrap gap-1 bg-muted/50 p-1">
+          <TabsTrigger value="hero">Hero</TabsTrigger>
+          <TabsTrigger value="sobre-mi-inicio">Sobre mí — inicio</TabsTrigger>
+          <TabsTrigger value="sobre-mi-pagina">Sobre mí — página</TabsTrigger>
+          <TabsTrigger value="servicios">Servicios</TabsTrigger>
+          <TabsTrigger value="valores">Valores</TabsTrigger>
+          <TabsTrigger value="contacto">Contacto</TabsTrigger>
+          <TabsTrigger value="redes">Redes sociales</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="hero" className="mt-4">
+          <HeroContentSection />
+        </TabsContent>
+
+        <TabsContent value="sobre-mi-inicio" className="mt-4">
+          <AboutHomeSection />
+        </TabsContent>
+
+        <TabsContent value="sobre-mi-pagina" className="mt-4">
+          <AboutPageSection />
+        </TabsContent>
+
+        <TabsContent value="servicios" className="mt-4">
+          <AdminServicios />
+        </TabsContent>
+
+        <TabsContent value="valores" className="mt-4">
+          <AdminValores />
+        </TabsContent>
+
+        <TabsContent value="contacto" className="mt-4">
+          <ContactInfoSection />
+        </TabsContent>
+
+        <TabsContent value="redes" className="mt-4">
+          <SocialLinksSection />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
