@@ -118,6 +118,23 @@ export function useUpdateSession() {
   });
 }
 
+export function useDeleteSession() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, patientId }: { id: string; patientId: string }) => {
+      const { error } = await supabase.from("clinical_sessions").delete().eq("id", id);
+      if (error) throw error;
+      return patientId;
+    },
+    onSuccess: (patientId) => {
+      qc.invalidateQueries({ queryKey: ["sessions", patientId] });
+      qc.invalidateQueries({ queryKey: ["patient-appointments"] });
+      toast.success("Sesión eliminada");
+    },
+    onError: (err: Error) => toast.error(err.message),
+  });
+}
+
 // ── Upload Queries ─────────────────────────────────────────────────────────────
 
 export function useSessionUploads(sessionId: string | undefined) {

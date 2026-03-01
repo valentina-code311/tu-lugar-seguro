@@ -1,29 +1,18 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Plus, Calendar, Clock, Video, MapPin, FileText, Sparkles } from "lucide-react";
+import { ArrowLeft, Plus, Calendar, Clock, Video, MapPin, FileText, Sparkles, Trash2 } from "lucide-react";
 import { Breadcrumb } from "@/shared/components/Breadcrumb";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { Badge } from "@/shared/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/shared/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
-import { usePatient, useUpdatePatient } from "@/features/pacientes/hooks/usePatients";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/shared/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/shared/components/ui/alert-dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
+import { usePatient, useUpdatePatient, useDeletePatient } from "@/features/pacientes/hooks/usePatients";
 import { backendPost } from "@/shared/lib/backendFetch";
-import { usePatientSessions, useCreateSession, type ClinicalSession } from "@/features/pacientes/hooks/useClinicalSessions";
+import { usePatientSessions, useCreateSession, useDeleteSession, type ClinicalSession } from "@/features/pacientes/hooks/useClinicalSessions";
 import { usePatientAppointments, formatTime, STATUS_CONFIG } from "@/features/agenda/hooks/useAppointments";
 import { toast } from "sonner";
 
@@ -37,7 +26,9 @@ export default function AdminPacienteDetalle() {
   const { data: sessions, isLoading: loadingSessions } = usePatientSessions(id);
   const { data: appointments = [], isLoading: loadingAppointments } = usePatientAppointments(id);
   const updateMutation = useUpdatePatient();
+  const deletePatient = useDeletePatient();
   const createSession = useCreateSession();
+  const deleteSession = useDeleteSession();
 
   const [editMode, setEditMode] = useState(false);
   const [editForm, setEditForm] = useState<Record<string, string>>({});
@@ -108,6 +99,17 @@ export default function AdminPacienteDetalle() {
       status: "draft",
     });
     navigate(`/admin/sesiones/${newSession.id}`);
+  }
+
+  async function handleDeletePatient() {
+    if (!id) return;
+    await deletePatient.mutateAsync(id);
+    navigate("/admin/pacientes");
+  }
+
+  async function handleDeleteSession(sessionId: string) {
+    if (!id) return;
+    await deleteSession.mutateAsync({ id: sessionId, patientId: id });
   }
 
   async function handleSummary() {
@@ -187,6 +189,27 @@ export default function AdminPacienteDetalle() {
             Editar datos
           </Button>
         )}
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="ghost" size="icon" className="min-h-[44px] min-w-[44px] text-destructive hover:text-destructive hover:bg-destructive/10">
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>¿Eliminar paciente?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Se eliminará el registro de <strong>{patient.full_name}</strong> y todas sus sesiones clínicas. Esta acción no se puede deshacer.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogAction onClick={handleDeletePatient} className="bg-destructive text-destructive-foreground hover:bg-destructive/90" disabled={deletePatient.isPending}>
+                {deletePatient.isPending ? "Eliminando..." : "Eliminar"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
 
       {/* Patient info card */}
@@ -340,9 +363,7 @@ export default function AdminPacienteDetalle() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="font-medium text-sm">
-                      Sesión {session.session_number}
-                    </span>
+                    <span className="font-medium text-sm">Sesión {session.session_number}</span>
                     {statusBadge(session.status)}
                   </div>
                   <div className="flex items-center gap-3 text-xs text-muted-foreground mt-0.5">
@@ -360,15 +381,34 @@ export default function AdminPacienteDetalle() {
                     )}
                     {session.modality && (
                       <span className="flex items-center gap-1">
-                        {session.modality === "online"
-                          ? <Video className="h-3 w-3" />
-                          : <MapPin className="h-3 w-3" />}
+                        {session.modality === "online" ? <Video className="h-3 w-3" /> : <MapPin className="h-3 w-3" />}
                         {session.modality}
                       </span>
                     )}
                   </div>
                 </div>
                 <FileText className="h-4 w-4 text-muted-foreground" />
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="ghost" size="icon" className="min-h-[44px] min-w-[44px] shrink-0 text-muted-foreground hover:text-destructive" onClick={(e) => e.stopPropagation()}>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>¿Eliminar sesión {session.session_number}?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Se eliminará esta sesión y todos sus archivos adjuntos. Esta acción no se puede deshacer.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                      <AlertDialogAction onClick={() => handleDeleteSession(session.id)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90" disabled={deleteSession.isPending}>
+                        {deleteSession.isPending ? "Eliminando..." : "Eliminar"}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             ))}
 
